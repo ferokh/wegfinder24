@@ -136,6 +136,3 @@ public class Eingabe extends AppCompatActivity {
         return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
     }
 }
-//hallo
-//hallo Till
-//gutentag
