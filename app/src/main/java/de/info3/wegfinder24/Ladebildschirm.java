@@ -6,21 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-public class MainActivity extends AppCompatActivity {
+public class Ladebildschirm {
+    public final int LOAD_TIME = 1500;
 
-    public final int LOAD_TIME = 750;
-
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ladebildschirm);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, Eingabe.class);
+                Intent intent = new Intent(Ladebildschirm.this, Eingabe.class);
                 startActivity(intent);
             }
-        },LOAD_TIME);
-    }
+        }, LOAD_TIME);
+    }*/
 }

@@ -6,4 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".Eingabe">
 
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="600dp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="60dp"/>
+        <EditText
+            android:id="@+id/start"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:hint="Start"/>
+
+        <Button
+            android:id="@+id/gps"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:hint="GPS"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="60dp"/>
+        <EditText
+            android:id="@+id/ziel"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:hint="Ziel"/>
+
+        <Button
+            android:id="@+id/pfeil"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:hint="Pfeil"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
