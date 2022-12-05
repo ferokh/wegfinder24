@@ -11,22 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
-    <ImageView
+    <TextView
         android:id="@+id/hkalogo"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_gravity="center"
+        android:text="HKA - keine Hochschule für Technik oder Wirtschaft"
+        android:gravity="center"
         />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <ImageView
+    <TextView
         android:id="@+id/wegfinder24"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
+        android:text="WEGFINDER 24"
+        android:gravity="center"
         />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
