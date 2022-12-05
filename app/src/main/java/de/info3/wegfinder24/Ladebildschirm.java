@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-public class Ladebildschirm {
-    public final int LOAD_TIME = 1500;
 
-    /*@Override
+
+public class Ladebildschirm extends AppCompatActivity {
+    public final int LOAD_TIME = 1500;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ladebildschirm);
@@ -21,5 +22,5 @@ public class Ladebildschirm {
                 startActivity(intent);
             }
         }, LOAD_TIME);
-    }*/
+    }
 }
