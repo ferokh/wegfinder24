@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
+import android.widget.Button;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 
 public class Eingabe extends AppCompatActivity {
 
+    Button btnOpenGoogleMaps = this.findViewById(R.id.gps);
+
     private MapView mapView;
 
     private LocationManager locationManager;
@@ -33,6 +38,15 @@ public class Eingabe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eingabe);
+
+        btnOpenGoogleMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Eingabe.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         // Aufgabe 1
         String[] permissions = {
