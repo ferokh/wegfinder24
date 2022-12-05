@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Variante">
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="600dp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/Fahrad"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:background="@color/purple_200"
+            android:gravity="center"
+            android:hint="Fahrad"/>
+        <TextView
+            android:id="@+id/Auto"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:hint="Auto"
+            android:background="@color/purple_200"
+            android:gravity="center"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/Fuss"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:background="@color/purple_200"
+            android:gravity="center"
+            android:hint="Fußbus"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Start: Adresse\n Ziel:Adresse"
+        android:gravity="center_horizontal"/>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
