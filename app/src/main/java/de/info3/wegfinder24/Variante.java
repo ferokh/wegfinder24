@@ -68,7 +68,7 @@ public class Variante extends AppCompatActivity {
 
         XYTileSource mapServer = new XYTileSource("MapServer", 8, 20, 256, ".png", new String[]{"https://www.mapserver.dev/styles/default/"});
 
-        this.mapView = this.findViewById(R.id.mapView);
+        this.mapView = this.findViewById(R.id.Karte);
         this.mapView.setTileSource(mapServer);
 
         GeoPoint startPoint = new GeoPoint(49.0069, 8.4037);

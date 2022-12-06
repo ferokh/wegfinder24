@@ -9,7 +9,7 @@ import android.os.Handler;
 
 
 public class Ladebildschirm extends AppCompatActivity {
-    public final int LOAD_TIME = 1500; //wie lange soll der Ladescreen angezeigt werden
+    public final int LOAD_TIME = 1500; //wie lange soll der Ladebildschirm angezeigt werden
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,7 @@ public class Ladebildschirm extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Ladebildschirm.this, Eingabe.class); //der Ladebildschirm
+                Intent intent = new Intent(Ladebildschirm.this, Eingabe.class); //nach dem Ladebildschirm wird automatisch die Eingabe Activity gestartet
                 startActivity(intent);
             }
         }, LOAD_TIME);

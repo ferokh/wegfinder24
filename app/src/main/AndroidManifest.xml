@@ -8,8 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="ACCESS_FINE_LOCATIO"/>
+    <uses-permission android:name="ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="ACCESS_FINE_LOCATIO" />
 
     <application
         android:allowBackup="true"
@@ -22,12 +22,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wegfinder24">
 
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" /><![CDATA[
+            android:value="YOUR_API_KEY" />
 
-        />
-        ]]>
         <activity
             android:name=".Variante"
             android:exported="false">
@@ -39,9 +48,9 @@
             android:name=".Eingabe"
             android:exported="true"
             android:theme="@style/Theme.Design.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -52,8 +61,7 @@
         <activity
             android:name=".Ladebildschirm"
             android:exported="false"
-            android:theme="@style/Theme.Design.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.NoActionBar"></activity>
     </application>
 
 </manifest>

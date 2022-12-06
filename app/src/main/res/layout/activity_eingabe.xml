@@ -7,11 +7,14 @@
     android:orientation="vertical"
     tools:context=".Eingabe">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp">
     <com.google.android.gms.maps.MapView
         android:id="@+id/Karte"
         android:layout_width="match_parent"
         android:layout_height="600dp" />
-
+    </FrameLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

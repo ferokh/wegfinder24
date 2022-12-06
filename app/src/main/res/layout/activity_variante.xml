@@ -7,17 +7,15 @@
     android:orientation="vertical"
     tools:context=".Variante">
 
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="600dp" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/Fahrad"
@@ -48,7 +46,6 @@
         android:layout_height="60dp"
         android:hint="Start: Adresse\n Ziel:Adresse"
         android:gravity="center_horizontal"/>
-
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

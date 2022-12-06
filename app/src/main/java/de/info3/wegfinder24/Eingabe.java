@@ -34,18 +34,18 @@ import java.util.ArrayList;
 
 public class Eingabe extends AppCompatActivity implements OnMapReadyCallback {
 
-    Button btnOpenGoogleMaps = this.findViewById(R.id.gps);
+    Button btnOpenGoogleMaps = this.findViewById(R.id.gps); //der Button mit GPS drinnen
 
     MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.Karte);
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        LatLng position = new LatLng(49.000000, 8.500000);
-        googleMap.addMarker(new MarkerOptions().position(position));
+        LatLng position = new LatLng(49.000000, 8.500000); //Startposition auf der Karte
+        googleMap.addMarker(new MarkerOptions().position(position)); //Marker auf die Position
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
     }
 
-    mapFragment.getMapAsync(this);
+    //mapFragment.getMapAsync(this);
 
 
     /*private MapView mapView;
