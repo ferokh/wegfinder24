@@ -33,7 +33,7 @@ public class VarianteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eingabe);
+        setContentView(R.layout.activity_variante);
 
         //Kartenserver von Herr Knopf
         String[] permissions = {

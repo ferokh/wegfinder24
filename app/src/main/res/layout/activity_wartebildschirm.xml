@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alternative"
+    android:orientation="vertical"
+    tools:context=".WartebildschirmActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:text="Bitte Warten"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/btnweiter"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Weiter"
+        android:background="@color/black">
+
+    </Button>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -51,12 +51,10 @@ public class EingabeActivity extends AppCompatActivity {
         btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EingabeActivity.this, VarianteActivity.class);
+                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
                 startActivity(intent);
             }
         });
-
-
 
         //Kartenserver von Herr Knopf
         String[] permissions = {
@@ -162,5 +160,11 @@ public class EingabeActivity extends AppCompatActivity {
     {
         String authorizationString = String.format("%s:%s", username, password);
         return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mapView.onPause();
     }
 }
