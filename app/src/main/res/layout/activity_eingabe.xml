@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="570dp" />
     <TextView
-        android:id="@+id/StartEingabe"
+        android:id="@+id/StartEnter"
         android:layout_below="@id/mapView"
         android:layout_width="match_parent"
         android:layout_alignParentEnd="true"
@@ -33,11 +33,11 @@
         android:textSize="25dp"/>
 
     <ImageButton
-        android:id="@+id/btngps"
+        android:id="@+id/btnGPS"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_below="@id/mapView"
-        android:layout_alignRight="@id/StartEingabe"
+        android:layout_alignRight="@id/StartEnter"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
@@ -47,8 +47,8 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/ZielEingabe"
-        android:layout_below="@id/StartEingabe"
+        android:id="@+id/DestinationEnter"
+        android:layout_below="@id/StartEnter"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
@@ -62,11 +62,11 @@
         android:textSize="25dp"/>
 
     <ImageButton
-        android:id="@+id/btnarrow"
+        android:id="@+id/btnArrow"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/StartEingabe"
-        android:layout_alignRight="@id/ZielEingabe"
+        android:layout_below="@id/StartEnter"
+        android:layout_alignRight="@id/DestinationEnter"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"

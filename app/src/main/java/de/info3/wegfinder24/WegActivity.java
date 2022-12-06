@@ -27,7 +27,7 @@ import org.osmdroid.views.MapView;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class VarianteActivity extends AppCompatActivity {
+public class WegActivity extends AppCompatActivity {
 
     private MapView mapView;
 
@@ -37,33 +37,34 @@ public class VarianteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_variante);
+        setContentView(R.layout.activity_weg);
 
-        Button btnBike =this.findViewById(R.id.btnBike);
-        Button btnCar =this.findViewById(R.id.btnCar);
-        Button btnWalk =this.findViewById(R.id.btnWalk);
-        Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
+        Button btnWeg1 =this.findViewById(R.id.btnWay1);
+        Button btnWeg2 =this.findViewById(R.id.btnWay2);
+        Button btnWeg3 =this.findViewById(R.id.btnWay3);
+        Button btnBacktoEingabe = this.findViewById(R.id.btnbacktoEingabe);
+        ImageButton ibtnBacktoVariante =this.findViewById(R.id.ibtnbacktoVariante);
 
-        btnBike.setOnClickListener(new View.OnClickListener(){
+        btnWeg1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VarianteActivity.this, WegActivity.class);
+                Intent intent = new Intent(WegActivity.this, WegActivity.class);
                 startActivity(intent);
             }
         });
 
-        btnCar.setOnClickListener(new View.OnClickListener(){
+        btnWeg2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VarianteActivity.this, WegActivity.class);
+                Intent intent = new Intent(WegActivity.this, WegActivity.class);
                 startActivity(intent);
             }
         });
 
-        btnWalk.setOnClickListener(new View.OnClickListener(){
+        btnWeg3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VarianteActivity.this, WegActivity.class);
+                Intent intent = new Intent(WegActivity.this, WegActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,10 +72,19 @@ public class VarianteActivity extends AppCompatActivity {
         btnBacktoEingabe.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VarianteActivity.this, EingabeActivity.class);
+                Intent intent = new Intent(WegActivity.this, EingabeActivity.class);
                 startActivity(intent);
             }
         });
+
+        ibtnBacktoVariante.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WegActivity.this, VarianteActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         //Kartenserver von Herr Knopf
         String[] permissions = {

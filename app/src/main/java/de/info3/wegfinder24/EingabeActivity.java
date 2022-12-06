@@ -44,7 +44,7 @@ public class EingabeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eingabe);
         //über den ArrowButton die Variate Activity öffnen
-        ImageButton btnOpenVariante =this.findViewById(R.id.btnarrow);
+        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
 
         //TODO: Layout überarbeiten, das Blau ist bisschen krass und die Form abändern könnte helfen
         //TODO: Beim drücken des Knopfes wird die gleiche Activity wieder gestrartet. Wie das sein kann, keine Ahnung

@@ -8,27 +8,28 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:background="@color/primary"
-    tools:context=".VarianteActivity">
+    tools:context=".WegActivity">
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="380dp"
         android:layout_height="570dp" />
 
-    <!--Fahrrad-->
+    <!--Weg1-->
     <TextView
-        android:id="@+id/tvBike"
+        android:id="@+id/tvWay1"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
         android:layout_marginTop="5dp"
         android:background="@color/bike"
-        android:hint="Fahrrad"
+        android:textColor="@color/black"
+        android:hint="Weg 1"
         android:gravity="center"
         android:textSize="25dp">
     </TextView>
     <Button
-        android:id="@+id/btnBike"
+        android:id="@+id/btnWay1"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
@@ -38,57 +39,59 @@
 
     <!--Auto-->
     <TextView
-        android:id="@+id/tvCar"
+        android:id="@+id/tvWay2"
         android:layout_width="130dp"
         android:layout_height="60dp"
         android:layout_margin="5dp"
         android:layout_below="@+id/mapView"
-        android:layout_toRightOf="@id/tvBike"
+        android:layout_toRightOf="@id/tvWay1"
         android:layout_marginTop="5dp"
-        android:background="@color/car"
-        android:hint="Auto"
+        android:background="@color/bike"
+        android:textColor="@color/black"
+        android:hint="Weg 2"
         android:gravity="center"
         android:textSize="25dp">
     </TextView>
     <Button
-        android:id="@+id/btnCar"
+        android:id="@+id/btnWay2"
         android:layout_width="125dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
-        android:layout_toRightOf="@id/tvBike"
+        android:layout_toRightOf="@id/tvWay1"
         android:layout_margin="5dp"
         android:background="@color/Transparent">
     </Button>
 
     <!--zuFuß-->
     <TextView
-        android:id="@+id/tvWalk"
+        android:id="@+id/tvWay3"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
-        android:layout_toRightOf="@id/tvCar"
+        android:layout_toRightOf="@id/tvWay2"
         android:layout_marginTop="5dp"
-        android:background="@color/walk"
-        android:hint="zu Fuß"
+        android:background="@color/bike"
+        android:textColor="@color/black"
+        android:hint="Weg 3"
         android:gravity="center"
         android:textSize="25dp">
     </TextView>
     <Button
-        android:id="@+id/btnWalk"
+        android:id="@+id/btnWay3"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
-        android:layout_toRightOf="@id/tvCar"
+        android:layout_toRightOf="@id/tvWay2"
         android:layout_marginTop="5dp"
         android:background="@color/Transparent">
     </Button>
 
     <TextView
-        android:id="@+id/tvStartDestinationVar"
+        android:id="@+id/tvStartDestinationWay"
         android:layout_width="400dp"
         android:layout_height="60dp"
         android:text="Start Adresse \n Ziel Adresse"
-        android:layout_below="@id/tvBike"
+        android:layout_below="@id/tvWay1"
         android:layout_marginTop="5dp"
         android:gravity="center_vertical"
         android:background="@color/white"
@@ -98,14 +101,23 @@
 
     <Button
         android:id="@+id/btnbacktoEingabe"
-        android:layout_width="match_parent"
+        android:layout_width="290dp"
         android:layout_height="60dp"
-        android:layout_margin="5dp"
-        android:layout_below="@id/tvBike"
-        android:background="@color/Transparent"
-        >
+        android:layout_below="@id/tvWay1"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/Transparent">
     </Button>
 
-
+    <ImageButton
+        android:id="@+id/ibtnbacktoVariante"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@id/tvWay3"
+        android:layout_toRightOf="@id/btnbacktoEingabe"
+        android:src="@drawable/ic_baseline_arrow_back_40">
+    </ImageButton>
 
 </RelativeLayout>
