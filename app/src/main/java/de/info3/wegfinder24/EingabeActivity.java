@@ -1,19 +1,34 @@
 package de.info3.wegfinder24;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.location.LocationComponent;
+import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
+import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import com.mapbox.mapboxsdk.location.modes.RenderMode;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.Style;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
@@ -21,20 +36,18 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapController;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class EingabeActivity extends AppCompatActivity {
 
-    private MapView mapView;
-
-
+    public final static String MAPBOX_TOKEN="pk.eyJ1IjoiYnJ1ZWNrdGkiLCJhIjoiY2xiYzBjNHI4MGI2NTNvcGV3OWI5aTJjciJ9.-ZRC7YTlnbSefuqY1u0TZg";
 
     private LocationManager locationManager;
-
-
+    MapView mapView;
+    MapboxMap map;
 
 
 
@@ -42,129 +55,90 @@ public class EingabeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this, MAPBOX_TOKEN);
         setContentView(R.layout.activity_eingabe);
+        initView();
+        initPermissions();
         //über den ArrowButton die Variate Activity öffnen
-        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
+        ImageButton btnOpenVariante = this.findViewById(R.id.btnArrow);
+    }
+    protected void initView(){
+        mapView=findViewById(R.id.map);
+    }
 
-        //TODO: Layout überarbeiten, das Blau ist bisschen krass und die Form abändern könnte helfen
-        //TODO: Beim drücken des Knopfes wird die gleiche Activity wieder gestrartet. Wie das sein kann, keine Ahnung
-        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                startActivity(intent);
+    protected void initPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            updateLocation();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             }
-        });
-
-        //Kartenserver von Herr Knopf
-        String[] permissions = {
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
-        };
-
-        Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen
-            @Override
-            public void onGranted() {//wenn alles okay ist wird die Karte angezeigt
-                setupMapView();
-                String string = "Karte sofort erstellt";
-                Log.d("Karte",string);
-            }
-
-            @Override
-            public void onDenied(Context context, ArrayList<String> deniedPermissions) { //Wenn Berechtigung nicht okay ist, wird die Karte nicht angezeigt
-                super.onDenied(context, deniedPermissions);
-
-                if (deniedPermissions.size() == 1)
-                {
-                    String permission = deniedPermissions.get(0);
-                    if (permission.equals(Manifest.permission.MANAGE_EXTERNAL_STORAGE)) //darf auf den Speicher zugegriffen werden
-                    {
-                        setupMapView();
-                        String string = "Karte nicht sofort erstellt";
-                        Log.d("Karte", string);
-                    }
-                }
-            }
-        });
-
-        //Zugriff auf den Kartenserver der von Herr Knopf bereitgestellt wird
-        String authorizationString = this.getMapServerAuthorizationString("ws2223@hka", "LeevwBfDi#2027"); //username und passwort
-        Configuration.getInstance().getAdditionalHttpRequestProperties().put("Authorization", authorizationString);
-
-        XYTileSource mapServer = new XYTileSource("MapServer", 8, 20, 256, ".png", new String[]{"https://www.mapserver.dev/styles/default/"});
-
-        this.mapView = this.findViewById(R.id.mapView);
-        this.mapView.setTileSource(mapServer);
-
-        GeoPoint startPoint = new GeoPoint(49.0069, 8.4037); //Standard Startpunkt
-
-        IMapController mapController = mapView.getController();
-        mapController.setZoom(14.0); //Anfangswert Zoom
-        mapController.setCenter(startPoint); //Wo ist die Mitte der Karte zu Beginn
-
+        }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        this.mapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        this.mapView.onPause();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+            updateLocation();
+        }
     }
 
     @SuppressLint("MissingPermission")
-    private void setupMapView()
-    {
-        //Abfrage GPS - Koordinaten des Handys
-        LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(android.location.Location location) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-
-                GeoPoint startPoint = new GeoPoint(latitude, longitude);
-
-                IMapController mapController = mapView.getController();
-                mapController.setCenter(startPoint);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-        this.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-
+    protected void updateLocation(){
+        mapView.getMapAsync(this::onMapReady);
     }
 
-    private String getMapServerAuthorizationString(String username, String password)
-    {
-        String authorizationString = String.format("%s:%s", username, password);
-        return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+    protected void onMapReady(MapboxMap map) {
+        this.map=map;
+        map.setStyle(Style.SATELLITE_STREETS,this::onStyleReady);
+    }
+
+    @SuppressLint("MissingPermission")
+    protected void onStyleReady(Style style) {
+       LocationComponent locationComponent= map.getLocationComponent();
+       locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(this, style).build());
+       locationComponent.setLocationComponentEnabled(true);
+       locationComponent.setCameraMode(CameraMode.TRACKING);
+       locationComponent.zoomWhileTracking(10,3000);
+       locationComponent.setRenderMode(RenderMode.COMPASS);
+       locationComponent.tiltWhileTracking(45);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.mapView.onPause();
+    protected void onStart(){
+        super.onStart();
+        mapView.onStart();
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        mapView.onResume();
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mapView.onPause();
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        mapView.onStop();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onLowMemory(){
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
 }

@@ -12,12 +12,16 @@
 
 
     <org.osmdroid.views.MapView
-        android:id="@+id/mapView"
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="570dp" />
+        android:layout_height="570dp"
+
+        />
+
+
     <TextView
         android:id="@+id/StartEnter"
-        android:layout_below="@id/mapView"
+        android:layout_below="@id/map"
         android:layout_width="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -36,7 +40,7 @@
         android:id="@+id/btnGPS"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/mapView"
+        android:layout_below="@id/map"
         android:layout_alignRight="@id/StartEnter"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
