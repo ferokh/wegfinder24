@@ -1,5 +1,6 @@
 package de.info3.wegfinder24;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -13,6 +14,12 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
@@ -25,11 +32,23 @@ import org.osmdroid.views.MapView;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class Eingabe extends AppCompatActivity {
+public class Eingabe extends AppCompatActivity implements OnMapReadyCallback {
 
     Button btnOpenGoogleMaps = this.findViewById(R.id.gps);
 
-    private MapView mapView;
+    MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.Karte);
+
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+        LatLng position = new LatLng(49.000000, 8.500000);
+        googleMap.addMarker(new MarkerOptions().position(position));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+    }
+
+    mapFragment.getMapAsync(this);
+
+
+    /*private MapView mapView;
 
     private LocationManager locationManager;
 
@@ -148,5 +167,5 @@ public class Eingabe extends AppCompatActivity {
     {
         String authorizationString = String.format("%s:%s", username, password);
         return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
-    }
+    }*/
 }
