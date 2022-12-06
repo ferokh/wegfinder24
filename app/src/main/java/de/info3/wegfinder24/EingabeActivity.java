@@ -26,7 +26,7 @@ import org.osmdroid.views.MapView;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class Eingabe extends AppCompatActivity {
+public class EingabeActivity extends AppCompatActivity {
 
     private MapView mapView;
 
@@ -34,24 +34,29 @@ public class Eingabe extends AppCompatActivity {
 
     private LocationManager locationManager;
 
+
+
+
+
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //über den ArrowButton die Varianten Activity öffnen
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_eingabe);
+        //über den ArrowButton die Variate Activity öffnen
         ImageButton btnOpenVariante =this.findViewById(R.id.btnarrow);
 
-        btnOpenVariante.setOnClickListener(new View.OnClickListener() {
+        //TODO: Layout überarbeiten, das Blau ist bisschen krass und die Form abändern könnte helfen
+        //TODO: Beim drücken des Knopfes wird die gleiche Activity wieder gestrartet. Wie das sein kann, keine Ahnung
+        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Eingabe.this, Variante.class);
+                Intent intent = new Intent(EingabeActivity.this, VarianteActivity.class);
                 startActivity(intent);
             }
         });
 
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eingabe);
 
         //Kartenserver von Herr Knopf
         String[] permissions = {

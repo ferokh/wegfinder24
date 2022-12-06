@@ -23,7 +23,7 @@ import org.osmdroid.views.MapView;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class Variante extends AppCompatActivity {
+public class VarianteActivity extends AppCompatActivity {
 
     private MapView mapView;
 

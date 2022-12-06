@@ -8,25 +8,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_25dark"
-    tools:context=".Eingabe">
+    tools:context=".EingabeActivity">
 
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="580dp"/>
-    <EditText
+        android:layout_height="570dp" />
+    <TextView
         android:id="@+id/StartEingabe"
         android:layout_below="@id/mapView"
         android:layout_width="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_height="60dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:background="@color/white"
 
         android:hint="Startpunkt wählen"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="25dp"/>
@@ -35,14 +36,17 @@
         android:id="@+id/btngps"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:background="@color/alternative"
         android:layout_below="@id/mapView"
         android:layout_alignRight="@id/StartEingabe"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/alternative"
         android:src="@drawable/ic_baseline_gps_fixed_40"
-        />
+        tools:ignore="SpeakableTextPresentCheck" />
 
-    <EditText
+    <TextView
         android:id="@+id/ZielEingabe"
         android:layout_below="@id/StartEingabe"
         android:layout_width="match_parent"
@@ -52,7 +56,7 @@
         android:background="@color/white"
 
         android:hint="Zielpunkt wählen"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="25dp"/>
@@ -61,12 +65,15 @@
         android:id="@+id/btnarrow"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:background="@color/alternative"
         android:layout_below="@id/StartEingabe"
         android:layout_alignRight="@id/ZielEingabe"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/alternative"
         android:src="@drawable/ic_baseline_arrow_forward_40"
-        />
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </RelativeLayout>

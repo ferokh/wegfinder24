@@ -8,7 +8,7 @@ import android.os.Handler;
 
 
 
-public class Ladebildschirm extends AppCompatActivity {
+public class LadebildschirmActivity extends AppCompatActivity {
     public final int LOAD_TIME = 1500; //wie lange soll der Startbildschirm angezeigt werden
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class Ladebildschirm extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Ladebildschirm.this, Eingabe.class); //nach der oben angegebenen Zeit wird die Activity Eingabe gestartet
+                Intent intent = new Intent(LadebildschirmActivity.this, EingabeActivity.class); //nach der oben angegebenen Zeit wird die Activity EingabeActivity gestartet
                 startActivity(intent);
             }
         }, LOAD_TIME);
