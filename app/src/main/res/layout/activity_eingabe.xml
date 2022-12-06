@@ -1,58 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/primary_25dark"
     tools:context=".Eingabe">
 
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="600dp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_height="580dp"/>
+    <EditText
+        android:id="@+id/StartEingabe"
+        android:layout_below="@id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="60dp"/>
-        <EditText
-            android:id="@+id/start"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:hint="Start"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_height="60dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
 
-        <Button
-            android:id="@+id/gps"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:hint="GPS"/>
+        android:hint="Startpunkt wählen"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="25dp"/>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <ImageButton
+        android:id="@+id/btngps"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="@color/alternative"
+        android:layout_below="@id/mapView"
+        android:layout_alignRight="@id/StartEingabe"
+        android:src="@drawable/ic_baseline_gps_fixed_40"
+        />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <EditText
+        android:id="@+id/ZielEingabe"
+        android:layout_below="@id/StartEingabe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="60dp"/>
-        <EditText
-            android:id="@+id/ziel"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:hint="Ziel"/>
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
 
-        <Button
-            android:id="@+id/pfeil"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:hint="Pfeil"/>
+        android:hint="Zielpunkt wählen"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="25dp"/>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <ImageButton
+        android:id="@+id/btnarrow"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="@color/alternative"
+        android:layout_below="@id/StartEingabe"
+        android:layout_alignRight="@id/ZielEingabe"
+        android:src="@drawable/ic_baseline_arrow_forward_40"
+        />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>

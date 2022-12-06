@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -27,11 +30,26 @@ public class Eingabe extends AppCompatActivity {
 
     private MapView mapView;
 
+
+
     private LocationManager locationManager;
 
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //über den ArrowButton die Varianten Activity öffnen
+        ImageButton btnOpenVariante =this.findViewById(R.id.btnarrow);
+
+        btnOpenVariante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Eingabe.this, Variante.class);
+                startActivity(intent);
+            }
+        });
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eingabe);
 

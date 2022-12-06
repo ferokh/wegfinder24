@@ -20,25 +20,25 @@
         android:layout_marginBottom="5dp">
 
         <TextView
-            android:id="@+id/Fahrad"
+            android:id="@+id/Fahrrad"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:background="@color/purple_200"
+            android:background="@color/primary"
             android:gravity="center"
-            android:hint="Fahrad"/>
+            android:hint="Fahrrad"/>
         <TextView
             android:id="@+id/Auto"
             android:layout_width="120dp"
             android:layout_height="60dp"
             android:hint="Auto"
-            android:background="@color/purple_200"
+            android:background="@color/primary"
             android:gravity="center"
             android:layout_margin="10dp"/>
         <TextView
             android:id="@+id/Fuss"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:background="@color/purple_200"
+            android:background="@color/primary"
             android:gravity="center"
             android:hint="Fußbus"/>
 
