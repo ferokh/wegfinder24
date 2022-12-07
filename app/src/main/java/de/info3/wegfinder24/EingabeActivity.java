@@ -61,6 +61,14 @@ public class EingabeActivity extends AppCompatActivity {
         initPermissions();
         //über den ArrowButton die Variate Activity öffnen
         ImageButton btnOpenVariante = this.findViewById(R.id.btnArrow);
+
+        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     protected void initView(){
         mapView=findViewById(R.id.map);
