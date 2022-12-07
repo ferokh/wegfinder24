@@ -72,14 +72,14 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         requestQueue.add(stringRequest);        */
-/*
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.openrouteservice.org/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         OpenrouteService service = retrofit.create(OpenrouteService.class);
-*/
+
         //Call<Result> resultCall = service.listDepartures();
 
 
