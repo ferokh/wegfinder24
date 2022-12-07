@@ -37,7 +37,6 @@ public class EingabeActivity extends AppCompatActivity {
 
 
 
-
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
