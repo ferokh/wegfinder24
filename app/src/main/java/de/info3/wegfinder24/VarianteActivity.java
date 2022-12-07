@@ -120,7 +120,7 @@ public class VarianteActivity extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(49.0069, 8.4037);//Standard Startpunkt
 
         IMapController mapController = mapView.getController();
-        mapController.setZoom(14.0);//Anfangswert Zoom
+        mapController.setZoom(17.0);//Anfangswert Zoom
         mapController.setCenter(startPoint);//Wo ist die Mitte der Karte zu Beginn
 
     }
