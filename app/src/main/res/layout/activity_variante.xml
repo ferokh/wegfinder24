@@ -7,7 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:background="@color/primary"
+    android:background="@color/black"
     tools:context=".VarianteActivity">
 
     <org.osmdroid.views.MapView
