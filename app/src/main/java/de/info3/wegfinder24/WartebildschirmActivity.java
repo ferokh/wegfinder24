@@ -6,29 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-
-import com.android.volley.Cache;
-import com.android.volley.Network;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.StringRequest;
-
-import javax.xml.transform.Result;
 
 import de.info3.wegfinder24.newtwork.OpenrouteService;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 
@@ -82,7 +66,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
         //Call<Result> resultCall = service.listDepartures();
 
-
+/*
         Client client = ClientBuilder.newClient();
         Entity<String> payload = Entity.json({"coordinates": [[8.681495,49.41461],[8.686507,49.41943],[8.687872,49.420318]]});
         Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car/geojson")
@@ -95,12 +79,31 @@ public class WartebildschirmActivity extends AppCompatActivity {
         System.out.println("status: " + response.getStatus());
         System.out.println("headers: " + response.getHeaders());
         System.out.println("body:" + response.readEntity(String.class));
+*/
 
 
+
+
+        Button btnBerechnen =this.findViewById(R.id.btnBerechnen);
+        btnBerechnen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                /*Client client = ClientBuilder.newClient();
+                Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada&start=8.681495,49.41461&end=8.687872,49.420318")
+                        .request(MediaType.TEXT_PLAIN_TYPE)
+                        .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
+                        .get();
+
+                System.out.println("status: " + response.getStatus());
+                System.out.println("headers: " + response.getHeaders());
+                System.out.println("body:" + response.readEntity(String.class));*/ //Get Diretions Service
+
+
+            }
+        });
 
         // Button Button Button
         Button btnOpenVariante =this.findViewById(R.id.btnweiter);
-
         btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
