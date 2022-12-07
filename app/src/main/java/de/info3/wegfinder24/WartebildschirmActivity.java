@@ -4,17 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import de.info3.wegfinder24.newtwork.Result;
 import de.info3.wegfinder24.newtwork.OpenrouteService;
+import java.util.ArrayList;
+
+import de.info3.wegfinder24.newtwork.OpenrouteService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
+//import javax.xml.transform.Result;
 
 public class WartebildschirmActivity extends AppCompatActivity {
 
@@ -24,6 +32,16 @@ public class WartebildschirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wartebildschirm);
+        // Button Button Button
+        Button btnOpenVariante =this.findViewById(R.id.btnweiter);
+        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
+                startActivity(intent);
+            }
+        });
+
         /*
         // Instantiate the cache
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
@@ -57,16 +75,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         requestQueue.add(stringRequest);        */
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.openrouteservice.org/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        OpenrouteService service = retrofit.create(OpenrouteService.class);
-
-        //Call<Result> resultCall = service.listDepartures();
-
-/*
+        /*
         Client client = ClientBuilder.newClient();
         Entity<String> payload = Entity.json({"coordinates": [[8.681495,49.41461],[8.686507,49.41943],[8.687872,49.420318]]});
         Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car/geojson")
@@ -81,9 +90,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         System.out.println("body:" + response.readEntity(String.class));
 */
 
-
-
-
         Button btnBerechnen =this.findViewById(R.id.btnBerechnen);
         btnBerechnen.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -97,20 +103,31 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 System.out.println("status: " + response.getStatus());
                 System.out.println("headers: " + response.getHeaders());
                 System.out.println("body:" + response.readEntity(String.class));*/ //Get Diretions Service
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://api.openrouteservice.org/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
 
+                OpenrouteService service = retrofit.create(OpenrouteService.class);
 
+                Call<Result> resultCall = service.listAuto1();
+
+                resultCall.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        Result result = response.body();
+                        Log.i("DepartureActivity", String.valueOf(result.getfeaturesList().size()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        Log.d("DepartureActivity", "Anfragefehler");
+                    }
+                });
             }
         });
 
-        // Button Button Button
-        Button btnOpenVariante =this.findViewById(R.id.btnweiter);
-        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
 
 
