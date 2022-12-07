@@ -55,6 +55,7 @@ public class EingabeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Mapbox.getInstance(this, MAPBOX_TOKEN);
         setContentView(R.layout.activity_eingabe);
         initView();
@@ -70,8 +71,10 @@ public class EingabeActivity extends AppCompatActivity {
             }
         });
     }
+
+
     protected void initView(){
-        mapView=findViewById(R.id.map);
+        mapView=(MapView) findViewById(R.id.map);
     }
 
     protected void initPermissions() {
