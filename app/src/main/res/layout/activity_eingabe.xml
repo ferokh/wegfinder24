@@ -14,7 +14,7 @@
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="570dp" />
+        android:layout_height="400dp" />
     <TextView
         android:id="@+id/StartEnter"
         android:layout_below="@id/mapView"

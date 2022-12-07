@@ -20,6 +20,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Wegfinder24">
+        <service
+            android:name=".OpenrouteService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".WegActivity"
             android:exported="false"
