@@ -1,5 +1,6 @@
 package de.info3.wegfinder24;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.mapbox.mapboxsdk.Mapbox;
@@ -95,6 +96,7 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
     });
     }
 
+    @SuppressLint("MissingPermission")
     public void enaleCommponent(@NonNull Style loadedMapstyle) {
         try {
             if (PermissionsManager.areLocationPermissionsGranted(this)) {
