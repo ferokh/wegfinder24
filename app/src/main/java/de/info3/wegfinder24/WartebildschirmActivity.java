@@ -32,8 +32,12 @@ public class WartebildschirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wartebildschirm);
-        // Button Button Button
+
+        // Button
+
         Button btnOpenVariante =this.findViewById(R.id.btnweiter);
+        Button btnBerechnen =this.findViewById(R.id.btnBerechnen);
+
         btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -42,6 +46,46 @@ public class WartebildschirmActivity extends AppCompatActivity {
             }
         });
 
+        btnBerechnen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                /*Client client = ClientBuilder.newClient();
+                Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada&start=8.681495,49.41461&end=8.687872,49.420318")
+                        .request(MediaType.TEXT_PLAIN_TYPE)
+                        .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
+                        .get();
+
+                System.out.println("status: " + response.getStatus());
+                System.out.println("headers: " + response.getHeaders());
+                System.out.println("body:" + response.readEntity(String.class));*/ //Get Diretions Service
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://api.openrouteservice.org/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                OpenrouteService service = retrofit.create(OpenrouteService.class);
+
+                Call<Result> resultCall = service.listAuto1();
+
+                resultCall.enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        Result result = response.body();
+                        Log.d("FeaturesList","Anfrage ging durch");
+                        //Log.i("DepartureActivity", String.valueOf(result.getfeaturesList().size()));
+                        //Log.d("Name"+' ' +i, result.getDepartureList().get(i).getServingLine().getName());
+                        //Log.d("Dauer",result.getfeaturesList().get(0).getzero().getproperties().getsummary().getduration());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        Log.d("DepartureActivity", "Anfragefehler");
+                    }
+                });
+                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
+                startActivity(intent);
+            }
+        });
         /*
         // Instantiate the cache
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
@@ -90,42 +134,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
         System.out.println("body:" + response.readEntity(String.class));
 */
 
-        Button btnBerechnen =this.findViewById(R.id.btnBerechnen);
-        btnBerechnen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                /*Client client = ClientBuilder.newClient();
-                Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada&start=8.681495,49.41461&end=8.687872,49.420318")
-                        .request(MediaType.TEXT_PLAIN_TYPE)
-                        .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
-                        .get();
 
-                System.out.println("status: " + response.getStatus());
-                System.out.println("headers: " + response.getHeaders());
-                System.out.println("body:" + response.readEntity(String.class));*/ //Get Diretions Service
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://api.openrouteservice.org/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                OpenrouteService service = retrofit.create(OpenrouteService.class);
-
-                Call<Result> resultCall = service.listAuto1();
-
-                resultCall.enqueue(new Callback<Result>() {
-                    @Override
-                    public void onResponse(Call<Result> call, Response<Result> response) {
-                        Result result = response.body();
-                        Log.i("DepartureActivity", String.valueOf(result.getfeaturesList().size()));
-                    }
-
-                    @Override
-                    public void onFailure(Call<Result> call, Throwable t) {
-                        Log.d("DepartureActivity", "Anfragefehler");
-                    }
-                });
-            }
-        });
 
 
 

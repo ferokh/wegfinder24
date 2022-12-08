@@ -6,9 +6,6 @@ public class F_N_P_Summary {
     @SerializedName("distance")
     private String distance;
 
-    @SerializedName("duration")
-    private String duration;
-
     public String getdistance() {
         return this.distance;
     }
@@ -16,6 +13,10 @@ public class F_N_P_Summary {
     public void setdistance(String distance) {
         this.distance = distance;
     }
+
+
+    @SerializedName("duration")
+    private String duration;
 
     public String getduration() {
         return this.duration;
