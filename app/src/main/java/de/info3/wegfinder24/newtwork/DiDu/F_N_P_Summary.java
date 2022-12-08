@@ -3,26 +3,26 @@ package de.info3.wegfinder24.newtwork.DiDu;
 import com.google.gson.annotations.SerializedName;
 
 public class F_N_P_Summary {
-    @SerializedName("distance")
-    private String distance;
-
-    public String getdistance() {
-        return this.distance;
-    }
-
-    public void setdistance(String distance) {
-        this.distance = distance;
-    }
+    /*@SerializedName("distance")
+    private Double distance;
+    public Double getdistance() {return this.distance;}
+    public void setdistance(Double distance) {this.distance = distance;}
 
 
     @SerializedName("duration")
-    private String duration;
+    private Double duration;
+    public Double getduration() {return this.duration;}
+    public void setduration(Double duration) {this.duration = duration;}
+    */
 
-    public String getduration() {
-        return this.duration;
-    }
+    @SerializedName("distance")
+    private Double distance;
+    public Double getDistance() {return distance;}
+    public void setDistance(Double distance) {this.distance = distance;}
 
-    public void setduration(String duration) {
-        this.duration = duration;
-    }
+    @SerializedName("duration")
+    private Double duration;
+    public Double getDuration() {return duration;}
+    public void setDuration(Double duration) {this.duration = duration;}
+
 }

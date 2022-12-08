@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -43,6 +44,14 @@ public class VarianteActivity extends AppCompatActivity {
         Button btnCar =this.findViewById(R.id.btnCar);
         Button btnWalk =this.findViewById(R.id.btnWalk);
         Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
+
+
+        /*TextView lblMessage = this.findViewById(R.id.lblMessage);
+        Intent intent = this.getIntent();
+        if (intent != null) {
+            String message = intent.getStringExtra("Message");
+            lblMessage.setText(message);
+        }*/
 
         btnBike.setOnClickListener(new View.OnClickListener(){
             @Override

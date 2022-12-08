@@ -71,19 +71,29 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Result> call, Response<Result> response) {
                         Result result = response.body();
+                        //int i = 0;
                         Log.d("FeaturesList","Anfrage ging durch");
                         //Log.i("DepartureActivity", String.valueOf(result.getfeaturesList().size()));
                         //Log.d("Name"+' ' +i, result.getDepartureList().get(i).getServingLine().getName());
                         //Log.d("Dauer",result.getfeaturesList().get(0).getzero().getproperties().getsummary().getduration());
+                        //TODO:de.info3.wegfinder24.newtwork.F_Null.getproperties()' on a null object reference kommt als Fehlermeldung
+                        //Log.d("Dauer", result.getfeaturesList().get(0).getzero().getproperties().getsummary().getduration().toString());
+                        //Log.d("Dauer",result.getFeatures().get(0).getProperties().getSummary().getDuration().toString());
+                        //Double Dauer = result.getFeatures().get(0).getProperties().getSummary().getDuration();
+                        Double Dauer = result.getFeatures().get(0).getProperties().getSummary().getDuration();
+                        Log.d("Dauer", Double.toString(Dauer));
+                        //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
+                        //intent.putExtra("Message",Dauer);
+                        //startActivity(intent);
                     }
 
                     @Override
                     public void onFailure(Call<Result> call, Throwable t) {
-                        Log.d("DepartureActivity", "Anfragefehler");
+                        Log.d("WartebildschirmActivity", "Anfragefehler");
+                        //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
+                        //startActivity(intent);
                     }
                 });
-                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-                startActivity(intent);
             }
         });
         /*

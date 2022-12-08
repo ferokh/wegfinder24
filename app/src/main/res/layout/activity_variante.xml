@@ -95,6 +95,16 @@
         android:textColor="@color/black"
         android:textSize="25dp">
     </TextView>
+    <!--<TextView
+        android:id="@+id/lblMessage"
+        android:layout_width="400dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/tvBike"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:textSize="25dp"/>-->
 
     <Button
         android:id="@+id/btnbacktoEingabe"
