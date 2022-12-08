@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdate;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -79,7 +80,7 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
             @Override
             public void onClick(View view) {
                 CameraPosition cameraPosition=new CameraPosition.Builder().target(new LatLng(locationComponent.getLastKnownLocation().getLatitude(),locationComponent.getLastKnownLocation().getLongitude())).zoom(12).build();
-                mapboxMap.setCameraPosition(cameraPosition);
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),500);
             }
         });
 
@@ -96,12 +97,11 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
     });
     }
 
-    @SuppressLint("MissingPermission")
-    public void enaleCommponent(@NonNull Style loadedMapstyle) {
+    public void enaleCommponent(@NonNull Style loadedMapStyle){
         try {
             if (PermissionsManager.areLocationPermissionsGranted(this)) {
                 locationComponent = mapboxMap.getLocationComponent();
-                locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(this, loadedMapstyle).build());
+                locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(this, loadedMapStyle).build());
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -127,7 +127,6 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
 
 
     @Override
-    @SuppressWarnings({"MissingPermission"})
     protected void onStart() {
         super.onStart();
         mapView.onStart();
