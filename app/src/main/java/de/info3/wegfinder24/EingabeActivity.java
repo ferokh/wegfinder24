@@ -87,14 +87,16 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
     }
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
+        this.mapboxMap= mapboxMap;
         mapboxMap.setStyle(Style.LIGHT, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
+
                 enaleCommponent(style);
             }
 
 
-    });
+        });
     }
 
     public void enaleCommponent(@NonNull Style loadedMapStyle){
@@ -102,7 +104,9 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
             if (PermissionsManager.areLocationPermissionsGranted(this)) {
                 locationComponent = mapboxMap.getLocationComponent();
                 locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(this, loadedMapStyle).build());
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
                 locationComponent.setLocationComponentEnabled(true);
                 locationComponent.setCameraMode(CameraMode.TRACKING);
                 locationComponent.setRenderMode(RenderMode.COMPASS);
