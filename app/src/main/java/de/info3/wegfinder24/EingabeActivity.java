@@ -99,6 +99,7 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
         });
     }
 
+    @SuppressLint("SuspiciousIndentation")
     public void enaleCommponent(@NonNull Style loadedMapStyle){
         try {
             if (PermissionsManager.areLocationPermissionsGranted(this)) {
