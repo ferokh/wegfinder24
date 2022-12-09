@@ -104,12 +104,12 @@ public class EingabeActivity extends AppCompatActivity implements PermissionsLis
             if (PermissionsManager.areLocationPermissionsGranted(this)) {
                 locationComponent = mapboxMap.getLocationComponent();
                 locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(this, loadedMapStyle).build());
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                    return;
-                }
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
                 locationComponent.setLocationComponentEnabled(true);
+                locationComponent.zoomWhileTracking(14,3000);
                 locationComponent.setCameraMode(CameraMode.TRACKING);
                 locationComponent.setRenderMode(RenderMode.COMPASS);
+                locationComponent.tiltWhileTracking(45);
             }else{
                 permissionsManager= new PermissionsManager(this);
                 permissionsManager.requestLocationPermissions(this);
