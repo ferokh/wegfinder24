@@ -21,6 +21,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MediaType;
 //import javax.xml.transform.Result;
 
@@ -128,10 +131,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         requestQueue.add(stringRequest);        */
-
-        /*
         Client client = ClientBuilder.newClient();
-        Entity<String> payload = Entity.json({"coordinates": [[8.681495,49.41461],[8.686507,49.41943],[8.687872,49.420318]]});
+        Entity<String> payload = Entity.json({"coordinates":[[8.681495,49.41461],[8.687872,49.420318]],"alternative_routes":{"target_count":3},"language":"de"});
         Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car/geojson")
                 .request()
                 .header("Authorization", "5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada")
@@ -142,7 +143,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         System.out.println("status: " + response.getStatus());
         System.out.println("headers: " + response.getHeaders());
         System.out.println("body:" + response.readEntity(String.class));
-*/
 
 
 
