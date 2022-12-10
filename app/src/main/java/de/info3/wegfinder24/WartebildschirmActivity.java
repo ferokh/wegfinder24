@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import de.info3.wegfinder24.newtwork.Result;
+import de.info3.wegfinder24.newtwork.TestJSON.Summary;
 import de.info3.wegfinder24.newtwork.OpenrouteService;
 import java.util.ArrayList;
 
@@ -22,14 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+//import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MediaType;
 //import javax.xml.transform.Result;
 
 public class WartebildschirmActivity extends AppCompatActivity {
 
-    //private RequestQueue requestQueue; // Volley
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +52,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
         btnBerechnen.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                /*Client client = ClientBuilder.newClient();
-                Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada&start=8.681495,49.41461&end=8.687872,49.420318")
-                        .request(MediaType.TEXT_PLAIN_TYPE)
-                        .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
-                        .get();
 
-                System.out.println("status: " + response.getStatus());
-                System.out.println("headers: " + response.getHeaders());
-                System.out.println("body:" + response.readEntity(String.class));*/ //Get Diretions Service
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://api.openrouteservice.org/")
+                        .baseUrl("https://api.openrouteservice.org")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
@@ -76,18 +68,37 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         Result result = response.body();
                         //int i = 0;
                         Log.d("FeaturesList","Anfrage ging durch");
-                        //Log.i("DepartureActivity", String.valueOf(result.getfeaturesList().size()));
+                        if (response.code() != 200){
+                            Log.d("FeaturesList","Problem, viel Glück!");
+                            return;
+                        }
+                        //Log.i("WartebildschirmActivity", String.valueOf(result.getfeaturesList().size()));
                         //Log.d("Name"+' ' +i, result.getDepartureList().get(i).getServingLine().getName());
                         //Log.d("Dauer",result.getfeaturesList().get(0).getzero().getproperties().getsummary().getduration());
                         //TODO:de.info3.wegfinder24.newtwork.F_Null.getproperties()' on a null object reference kommt als Fehlermeldung
                         //Log.d("Dauer", result.getfeaturesList().get(0).getzero().getproperties().getsummary().getduration().toString());
                         //Log.d("Dauer",result.getFeatures().get(0).getProperties().getSummary().getDuration().toString());
                         //Double Dauer = result.getFeatures().get(0).getProperties().getSummary().getDuration();
-                        Double Dauer = result.getFeatures().get(0).getProperties().getSummary().getDuration();
-                        Log.d("Dauer", Double.toString(Dauer));
+                        //Double Dauer = Summary.
+                        //getFeatures().get(0).getProperties().getSummary().getDuration();
+                        //Log.d("Dauer", result.);
                         //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
                         //intent.putExtra("Message",Dauer);
                         //startActivity(intent);
+
+                        //Log.i("DepartureActivity", String.valueOf(result.getDepartureList().size()));
+
+                        for ( int i = 0; i < 40; i++)
+                        {
+                            //Log.i("Ausgabe", String.valueOf(result.getDepartureList().get(i)));
+                            //Log.i("Ausgabe" +i, result.getDepartureList().get(i).getServingLine().getName());
+                            //Log.i("Ausgabe" +i, result.getDepartureList().get(i).getServingLine().getNumber());
+                            //Log.i("Ausgabe" +i, result.getDepartureList().get(i).getServingLine().getDestination());
+                            Double Distanz = result.getDepartureList().get(i).getdidu().getDistance();
+                            Double Dauer = result.getDepartureList().get(i).getdidu().getDuration();
+                            Log.i("Ausgabe" +i, Double.toString(Distanz));
+                            Log.i("Ausgabe" +i, Double.toString(Dauer));
+                        }
                     }
 
                     @Override
@@ -99,38 +110,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 });
             }
         });
-        /*
-        // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
 
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
 
-        // Instantiate the RequestQueue with the cache and network.
-        requestQueue = new RequestQueue(cache, network);
+/*      Kopiert aus dem /v2/directions/{profile}/geojson vom Openrouteservice
 
-        // Start the queue
-        requestQueue.start();
-
-        String url = "https://httpbin.org/post";
-
-        // Formulate the request and handle the response.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Do something with the response
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle error
-                    }
-                });
-
-        // Add the request to the RequestQueue.
-        requestQueue.add(stringRequest);        */
         Client client = ClientBuilder.newClient();
         Entity<String> payload = Entity.json({"coordinates":[[8.681495,49.41461],[8.687872,49.420318]],"alternative_routes":{"target_count":3},"language":"de"});
         Response response = client.target("https://api.openrouteservice.org/v2/directions/driving-car/geojson")
@@ -144,7 +127,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
         System.out.println("headers: " + response.getHeaders());
         System.out.println("body:" + response.readEntity(String.class));
 
-
+*/
 
 
 

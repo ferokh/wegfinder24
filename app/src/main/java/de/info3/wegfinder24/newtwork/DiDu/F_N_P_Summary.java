@@ -21,8 +21,8 @@ public class F_N_P_Summary {
     public void setDistance(Double distance) {this.distance = distance;}
 
     @SerializedName("duration")
-    private Double duration;
-    public Double getDuration() {return duration;}
-    public void setDuration(Double duration) {this.duration = duration;}
+    private Integer duration;
+    public Integer getDuration() {return duration;}
+    public void setDuration(Integer duration) {this.duration = duration;}
 
 }

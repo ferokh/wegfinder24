@@ -1,19 +1,28 @@
 package de.info3.wegfinder24.newtwork;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Result {
-    @SerializedName("features")
+    private List<Departures> departureList;
+
+    @SerializedName("departureList")
+
+    public List<Departures> getDepartureList() {
+        return departureList;
+    }
+
+    public void setDepartureList(List<Departures> departureList) {
+        this.departureList = departureList;
+    }
     /*private List<Features> featuresList;
     public List<Features> getfeaturesList() {return featuresList;}
     public void setfeaturesList(List<Features> featuresList) {this.featuresList = featuresList;}
     */
 
-    public List<Features> features = null;
-    public List<Features> getFeatures() {return features;}
-    public void setFeatures(List<Features> features) {this.features = features;}
+    //public List<Features> features = null;
+    //public List<Features> getFeatures() {return features;}
+    //public void setFeatures(List<Features> features) {this.features = features;}
 
 }
 
