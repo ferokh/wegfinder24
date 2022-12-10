@@ -1,4 +1,4 @@
-package de.info3.wegfinder24.newtwork.TestJSON;
+package de.info3.wegfinder24.newtwork.JSON;
 
 import java.util.List;
 import javax.annotation.Generated;
@@ -6,17 +6,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("jsonschema2pojo")
-public class Query {
+public class Geometry {
 
     @SerializedName("coordinates")
     @Expose
     private List<List<Double>> coordinates = null;
-    @SerializedName("profile")
+    @SerializedName("type")
     @Expose
-    private String profile;
-    @SerializedName("format")
-    @Expose
-    private String format;
+    private String type;
 
     public List<List<Double>> getCoordinates() {
         return coordinates;
@@ -26,20 +23,12 @@ public class Query {
         this.coordinates = coordinates;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getType() {
+        return type;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

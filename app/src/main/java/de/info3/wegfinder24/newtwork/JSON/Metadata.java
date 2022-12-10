@@ -1,4 +1,4 @@
-package de.info3.wegfinder24.newtwork.TestJSON;
+package de.info3.wegfinder24.newtwork.JSON;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
