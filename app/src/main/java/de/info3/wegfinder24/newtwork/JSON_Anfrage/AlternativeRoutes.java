@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 @Generated("jsonschema2pojo")
 public class AlternativeRoutes {
 
-    @SerializedName("targetCount")
+    @SerializedName("target_count")
     @Expose
     private Integer targetCount;
 

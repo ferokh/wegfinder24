@@ -15,7 +15,7 @@ public class Anfrage {
     @SerializedName("coordinates")
     @Expose
     private List<List<Double>> coordinates = null;
-    @SerializedName("alternativeRoutes")
+    @SerializedName("alternative_routes")
     @Expose
     private AlternativeRoutes alternativeRoutes;
     @SerializedName("language")
@@ -26,7 +26,6 @@ public class Anfrage {
 //
     public Anfrage(List coordinates, int i, String de) {
         this.coordinates=coordinates;
-
         this.alternativeRoutes=new AlternativeRoutes(i);
         this.language=de;
     }
