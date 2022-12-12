@@ -78,8 +78,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
                 OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -148,6 +146,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
 
                 });
+
+
             }
         });
 
