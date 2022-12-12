@@ -92,7 +92,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .client(client)
-                        .baseUrl("https://api.openrouteservice.org")
+                        .baseUrl("https://api.openrouteservice.org/")
                         //.baseUrl("https://webhook.site/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
