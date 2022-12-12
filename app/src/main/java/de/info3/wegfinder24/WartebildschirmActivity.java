@@ -115,19 +115,19 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
                         Anfrage example = response.body();
                         //int i = 0;
-                        Log.d("FeaturesList","Anfrage ging durch");
+                        Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
-                            Log.d("FeaturesList","Problem, viel Glück!");
+                            Log.i("FeaturesList","Problem, viel Glück!");
                             Integer ResponseCode = response.code();
-                            Log.d("ResponseCode", Integer.toString(ResponseCode));
+                            Log.i("ResponseCode", Integer.toString(ResponseCode));
                             return;
                         }
 
                         //Log.d("Anfrage", anfrage)
-                        //Double Distanz = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        //Double Dauer = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-                        //Log.i("Distanz", Double.toString(Distanz));
-                        //Log.i("Dauer", Double.toString(Dauer));
+                        Double Distanz = example.getFeatures().get(0).getProperties().getSummary().getDistance();
+                        Double Dauer = example.getFeatures().get(0).getProperties().getSummary().getDuration();
+                        Log.i("Distanz", Double.toString(Distanz));
+                        Log.i("Dauer", Double.toString(Dauer));
                     }
 
                     @Override

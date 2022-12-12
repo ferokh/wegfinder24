@@ -10,6 +10,9 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import de.info3.wegfinder24.newtwork.JSON.Feature;
+import de.info3.wegfinder24.newtwork.JSON.Metadata;
+
 //@Generated("jsonschema2pojo")
 public class Anfrage {
     @SerializedName("coordinates")
@@ -21,9 +24,52 @@ public class Anfrage {
     @SerializedName("language")
     @Expose
     private String language;
+/////////////////////////////////
+    @SerializedName("type")
+    @Expose
+    private String type;
+    @SerializedName("features")
+    @Expose
+    private List<Feature> features = null;
+    @SerializedName("bbox")
+    @Expose
+    private List<Double> bbox = null;
+    @SerializedName("metadata")
+    @Expose
+    private Metadata metadata;
 
+    public String getType() {
+        return type;
+    }
 
-//
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
+
+    public List<Double> getBbox() {
+        return bbox;
+    }
+
+    public void setBbox(List<Double> bbox) {
+        this.bbox = bbox;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
+    }
+/////////////////////////////////
     public Anfrage(List coordinates, int i, String de) {
         this.coordinates=coordinates;
         this.alternativeRoutes=new AlternativeRoutes(i);
