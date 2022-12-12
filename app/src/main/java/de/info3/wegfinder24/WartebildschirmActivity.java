@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
+//import javax.ws.rs.client.Client;
+//import javax.ws.rs.client.ClientBuilder;
+//import javax.ws.rs.client.Entity;
 //import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
+//import javax.ws.rs.core.MediaType;
 
 import de.info3.wegfinder24.newtwork.JSON.Example;
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
@@ -31,7 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-import javax.ws.rs.core.Response;
+//import javax.ws.rs.core.Response;
 
 import javax.xml.transform.Result;
 

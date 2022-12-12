@@ -18,7 +18,7 @@ public interface OpenrouteService {
     //Call<Example> listAuto1();
 
     //@POST("a14bd01f-2a7d-4669-a065-70c854efca1a")  // webhook.site Testen der Anfrage
-    @POST("v2/directions/driving-car")
+    @POST("v2/directions/driving-car/geojson")
     Call<Anfrage> addAnfrage(@Body Anfrage anfrageauto);
 
 
