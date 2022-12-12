@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -24,7 +25,6 @@ import de.info3.wegfinder24.newtwork.OpenRouteServiceBike;
 import de.info3.wegfinder24.newtwork.OpenRouteServiceCar;
 
 import de.info3.wegfinder24.newtwork.OpenRouteServiceWalk;
-import de.info3.wegfinder24.newtwork.weitergabe.JSONCar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,11 +39,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WartebildschirmActivity extends AppCompatActivity {
 
-    double BA = 8.681495;
-    double LA = 49.41461;
-    double BE = 8.687872;
-    double LE = 49.420318;
-    JSONCar car = null;
+    double BA = 0; //8.681495;
+    double LA = 0; //49.41461;
+    double BE = 0; //8.687872;
+    double LE = 0; //49.420318;
+
     double car_distance = 0;
     double car_duration = 0;
 
@@ -58,6 +58,15 @@ public class WartebildschirmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wartebildschirm);
+
+        //TextView tvBikeDuration = this.findViewById(R.id.tvBikeDuration);
+        Intent intent_StartEnter = this.getIntent();
+
+
+        BA = intent_StartEnter.getDoubleExtra("Startlat",0);
+        LA = intent_StartEnter.getDoubleExtra("Startlong",0);
+        BE = intent_StartEnter.getDoubleExtra("Ziellat",0);
+        LE = intent_StartEnter.getDoubleExtra("Ziellong",0);
 
         // Koordinaten in Liste stecken
         List Anfang = new ArrayList();
@@ -99,18 +108,13 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
-
-
+                Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
 
                 //////////////////////////////////////////////CAR///////////////////////////////////////////////////
                 // POST Anfrage
                 OpenRouteServiceCar service_car = retrofit.create(OpenRouteServiceCar.class);
-                Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
-
                 // send the Anfrage to the Rest API
                 Call<Anfrage> resultCall_car = service_car.addAnfrage(anfrage);
-
-
                 resultCall_car.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
@@ -147,8 +151,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
                 // POST Anfrage
                 OpenRouteServiceBike service_bike = retrofit.create(OpenRouteServiceBike.class);
-                //Anfrage anfrage_bike = new Anfrage(Koordinaten, 3, "de");
-
                 // send the Anfrage to the Rest API
                 Call<Anfrage> resultCall_bike = service_bike.addAnfrage(anfrage);
                 resultCall_bike.enqueue(new Callback<Anfrage>() {
@@ -184,11 +186,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     }
                 }); //Fahrrad Abfrage
 
-
                 //////////////////////////////////////////////WALK///////////////////////////////////////////////////
                 // POST Anfrage
                 OpenRouteServiceWalk service_walk = retrofit.create(OpenRouteServiceWalk.class);
-                //Anfrage anfrage_walk = new Anfrage(Koordinaten, 3, "de");
 
                 // send the Anfrage to the Rest API
                 Call<Anfrage> resultCall_walk = service_walk.addAnfrage(anfrage);
@@ -223,10 +223,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
                         //startActivity(intent);
                     }
-                }); //Fuß abfrage
-
+                }); //Fuß Abfrage
             }
         });
+
         btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -237,35 +237,35 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 Log.i("Dauer Car", Double.toString(car_duration));
 
 
-                car_distance = car_distance / 1000;
-                car_distance = round(car_distance,1);
+                car_distance = car_distance / 1000; //Distanz von Metern in Kilometer
+                car_distance = round(car_distance,1); //Mit der Funktion round (s.u.) auf eine Nachkommastelle runden
 
-                if(car_distance < 1.0)
+                if(car_distance < 1.0) //wenn es weniger als 1km ist
                 {
                     double car_distance_meter = car_distance * 100;
                     intent.putExtra("Distanz_Car_Meter", Double.toString(car_distance_meter));
                 }
-                else
+                else //wenn es mehr als 1 km sind
                 {
                     intent.putExtra("Distanz_Car", Double.toString(car_distance));
                 }
                 //intent.putExtra("Dauer_Car", Double.toString(car_duration));
 
-                car_duration = car_duration / 60;
-                car_duration = round(car_duration,0);
+                car_duration = car_duration / 60; //Dauer von Sekunden auf Minuten
+                car_duration = round(car_duration,0);  //Mit der Funktion round (s.u.) auf keine Nachkommastelle runden
 
-                int car_duration_int = (int) car_duration;
+                int car_duration_int = (int) car_duration; //von double in int - von 1,0 auf 1 (sieht schöner aus)
 
-                if(car_duration_int < 60)
+                if(car_duration_int < 60)   //Wenn es weniger als 1h ist, im Format 00min darstellen
                 {
                     int car_duration_minuten = car_duration_int;
                     intent.putExtra("Dauer_Car_Minuten", Integer.toString(car_duration_minuten));
                 }
-                else
+                else    //Wenn es mehr als 1h ist, im Format 0h 00min darstellen
                 {
                     int stunden = 0;
                     int minuten = 0;
-                    while (car_duration_int>59)
+                    while (car_duration_int>59) //Berechnen wie viele Stunden es sind und was an Minuten übrig bleibt
                     {
                         car_duration_int = car_duration_int - 60;
                         stunden = stunden + 1;
@@ -360,9 +360,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     intent.putExtra("Dauer_Walk_Stunden", Integer.toString(stunden));
                     intent.putExtra("Dauer_Walk_Stunden_Minuten",Integer.toString(minuten));
                 }
-
-
-
                 startActivity(intent);
             }
         });

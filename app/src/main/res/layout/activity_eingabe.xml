@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_25dark"
+    android:background="@color/black"
     tools:context=".EingabeActivity">
 
 
@@ -15,58 +15,82 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="400dp" />
-    <TextView
-        android:id="@+id/StartEnter"
+    <EditText
+        android:id="@+id/edtStartEnter"
         android:layout_below="@id/mapView"
-        android:layout_width="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
+        android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:background="@color/white"
-
-        android:hint="Startpunkt wählen"
-        android:textColorHint="@color/black"
+        android:hint="Start\nBreitengrad"
+        android:textColorHint="@color/grey"
+        android:textColor="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="25dp"/>
+        android:textSize="20dp"/>
+    <EditText
+        android:id="@+id/edtStartEnterLong"
+        android:layout_below="@id/mapView"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/edtStartEnter"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:hint="Start\nLängengrad"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"/>
 
     <ImageButton
         android:id="@+id/btnGPS"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@id/mapView"
-        android:layout_alignRight="@id/StartEnter"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/edtStartEnterLong"
+        android:layout_margin="5dp"
         android:background="@color/alternative"
         android:src="@drawable/ic_baseline_gps_fixed_40"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <TextView
-        android:id="@+id/DestinationEnter"
-        android:layout_below="@id/StartEnter"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/edtZielEnter"
+        android:layout_below="@id/edtStartEnter"
+        android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/white"
-
-        android:hint="Zielpunkt wählen"
-        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:hint="Ziel\nBreitengrad"
+        android:textColorHint="@color/grey"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="25dp"/>
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/edtZielEnterLong"
+        android:layout_below="@id/edtStartEnterLong"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/edtStartEnter"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:hint="Ziel\nLängengrad"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"/>
 
     <ImageButton
         android:id="@+id/btnArrow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/StartEnter"
-        android:layout_alignRight="@id/DestinationEnter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/edtStartEnter"
+        android:layout_toRightOf="@id/edtZielEnterLong"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
