@@ -66,9 +66,10 @@
         android:id="@+id/tvCarDistance"
         android:layout_width="130dp"
         android:layout_height="15dp"
-        android:layout_below="@+id/tvCarDuration"
+        android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvBike"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="50dp"
         android:textColor="@color/black"
         android:gravity="center_horizontal"
         android:textSize="12dp">

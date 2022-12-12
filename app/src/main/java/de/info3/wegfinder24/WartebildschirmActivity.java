@@ -153,9 +153,29 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 {
                     intent.putExtra("Distanz_Car", Double.toString(car_distance));
                 }
-
-                intent.putExtra("Dauer_Car", Double.toString(car_duration));
+                //intent.putExtra("Dauer_Car", Double.toString(car_duration));
                 startActivity(intent);
+
+                car_duration = car_duration / 60;
+                if(car_duration < 60)
+                {
+                    double car_duration_minuten = car_duration;
+                    intent.putExtra("Dauer_Car_Minuten", Double.toString(car_duration_minuten));
+                }
+                else
+                {
+                    double stunden = 1;
+                    double minuten = 1;
+                    while (car_duration>59)
+                    {
+                        car_duration = car_duration - 60;
+                        stunden = stunden + 1;
+                    }
+                    minuten = car_duration;
+
+                    intent.putExtra("Dauer_Car_Stunden", Double.toString(stunden));
+                    intent.putExtra("Dauer_Car_Stunden_Minuten",Double.toString(minuten));
+                }
             }
         });
 

@@ -56,27 +56,44 @@ public class VarianteActivity extends AppCompatActivity {
             distance_meter = intent_CarDistance.getStringExtra("Distanz_Car_Meter");
             if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
             {
-                tvCarDistance.setText(distance_meter + " " + "m");
+                tvCarDistance.setText(distance_meter + " m");
             }
             else
             {
-                tvCarDistance.setText(distance + " " + "km");
+                tvCarDistance.setText(distance + " km");
             }
         }
 
         TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
         Intent intent_CarDuration = this.getIntent();
         if (intent_CarDuration != null) {
-            String duration = intent_CarDuration.getStringExtra("Dauer_Car");
-            tvCarDuration.setText(duration);
+            String duration_stunde = "0";
+            String duration_stunde_minute = "0";
+            String duration_minute = "0";
+
+            duration_stunde = intent_CarDuration.getStringExtra("Dauer_Car_Stunden");
+            duration_stunde_minute = intent_CarDuration.getStringExtra("Dauer_Car_Stunden_Minuten");
+            duration_minute = intent_CarDuration.getStringExtra("Dauer_Car_Minuten");
+
+            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            {
+                tvCarDuration.setText(duration_minute + " min");
+            }
+            else
+            {
+                tvCarDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+            }
         }
 
-        /*TextView lblMessage = this.findViewById(R.id.lblMessage);
-        Intent intent = this.getIntent();
-        if (intent != null) {
-            String message = intent.getStringExtra("Message");
-            lblMessage.setText(message);
+
+
+        /*TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
+        Intent intent_CarDuration = this.getIntent();
+        if (intent_CarDuration != null) {
+            String duration = intent_CarDuration.getStringExtra("Dauer_Car");
+            tvCarDuration.setText(duration);
         }*/
+
 
         btnBike.setOnClickListener(new View.OnClickListener(){
             @Override
