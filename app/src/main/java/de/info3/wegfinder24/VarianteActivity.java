@@ -46,6 +46,31 @@ public class VarianteActivity extends AppCompatActivity {
         Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
 
 
+        ///////Auto Angabe
+        TextView tvCarDistance = this.findViewById(R.id.tvCarDistance);
+        Intent intent_CarDistance = this.getIntent();
+        if (intent_CarDistance != null) {
+            String distance = "0";
+            String distance_meter = "0";
+            distance = intent_CarDistance.getStringExtra("Distanz_Car");
+            distance_meter = intent_CarDistance.getStringExtra("Distanz_Car_Meter");
+            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            {
+                tvCarDistance.setText(distance_meter + " " + "m");
+            }
+            else
+            {
+                tvCarDistance.setText(distance + " " + "km");
+            }
+        }
+
+        TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
+        Intent intent_CarDuration = this.getIntent();
+        if (intent_CarDuration != null) {
+            String duration = intent_CarDuration.getStringExtra("Dauer_Car");
+            tvCarDuration.setText(duration);
+        }
+
         /*TextView lblMessage = this.findViewById(R.id.lblMessage);
         Intent intent = this.getIntent();
         if (intent != null) {

@@ -7,7 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:background="@color/primary"
+    android:background="@color/black"
     tools:context=".VarianteActivity">
 
     <org.osmdroid.views.MapView
@@ -41,14 +41,37 @@
         android:id="@+id/tvCar"
         android:layout_width="130dp"
         android:layout_height="60dp"
+        android:layout_below="@+id/mapView"
         android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvBike"
+        android:background="@color/car"
+        android:gravity="center_horizontal"
+        android:text="Auto"
+        android:textColor="@color/black"
+        android:textSize="25dp">
+    </TextView>
+    <TextView
+        android:id="@+id/tvCarDuration"
+        android:layout_width="130dp"
+        android:layout_height="15dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvBike"
-        android:layout_marginTop="5dp"
-        android:background="@color/car"
-        android:hint="Auto"
-        android:gravity="center"
-        android:textSize="25dp">
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:textSize="12dp">
+    </TextView>
+    <TextView
+        android:id="@+id/tvCarDistance"
+        android:layout_width="130dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/tvCarDuration"
+        android:layout_toRightOf="@id/tvBike"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:textSize="12dp">
     </TextView>
     <Button
         android:id="@+id/btnCar"

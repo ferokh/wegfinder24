@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,9 @@ import java.util.List;
 //import javax.ws.rs.core.MediaType;
 
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
-import de.info3.wegfinder24.newtwork.OpenrouteService;
+import de.info3.wegfinder24.newtwork.OpenRouteServiceCar;
 
+import de.info3.wegfinder24.newtwork.weitergabe.JSONCar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,7 +41,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
     double LA = 49.41461;
     double BE = 8.687872;
     double LE = 49.420318;
-
+    JSONCar car = null;
+    double car_distance = 0;
+    double car_duration = 0;
 
 
     @Override
@@ -63,14 +67,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         // Button
         Button btnOpenVariante =this.findViewById(R.id.btnweiter);
         Button btnBerechnen =this.findViewById(R.id.btnBerechnen);
-
-        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btnBerechnen.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -96,7 +92,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         .build();
 
                 // POST Anfrage
-                OpenrouteService service = retrofit.create(OpenrouteService.class);
+                OpenRouteServiceCar service = retrofit.create(OpenRouteServiceCar.class);
                 Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
 
                 // send the Anfrage to the Rest API
@@ -116,10 +112,16 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             return;
                         }
 
-                        Double Distanz = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-                        Log.i("Distanz", Double.toString(Distanz));
-                        Log.i("Dauer", Double.toString(Dauer));
+                        Double Distanz_car = example.getFeatures().get(0).getProperties().getSummary().getDistance();
+                        Double Dauer_car = example.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+                        car_distance = Distanz_car;
+                        car_duration=Dauer_car;
+
+                        Log.i("Distanz Auto", Double.toString(Distanz_car));
+                        Log.i("Dauer Auto", Double.toString(Dauer_car));
+                        //Log.i("Distanz Auto", Double.toString(car.getDistance()));
+                        //Log.i("Dauer Auto", Double.toString(car.getDuration()));
                     }
 
                     @Override
@@ -131,10 +133,31 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 });
                 //Intent intent = new Intent(WartebildschirmActivity.this,WegActivity.class);
                 //startActivity(intent);
-
             }
         });
+        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
 
+                Log.i("Distanz Car", Double.toString(car_distance));
+                Log.i("Dauer Car", Double.toString(car_duration));
+                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
+
+                car_distance = car_distance / 1000;
+                if(car_distance < 1.0)
+                {
+                    double car_distance_meter = car_distance * 100;
+                    intent.putExtra("Distanz_Car_Meter", Double.toString(car_distance_meter));
+                }
+                else
+                {
+                    intent.putExtra("Distanz_Car", Double.toString(car_distance));
+                }
+
+                intent.putExtra("Dauer_Car", Double.toString(car_duration));
+                startActivity(intent);
+            }
+        });
 
 
 
