@@ -18,7 +18,6 @@ import java.util.List;
 //import javax.ws.rs.core.Response;
 //import javax.ws.rs.core.MediaType;
 
-import de.info3.wegfinder24.newtwork.JSON.Example;
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 import de.info3.wegfinder24.newtwork.OpenrouteService;
 
@@ -33,7 +32,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 //import javax.ws.rs.core.Response;
 
-import javax.xml.transform.Result;
 
 public class WartebildschirmActivity extends AppCompatActivity {
 
@@ -103,12 +101,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
                 // send the Anfrage to the Rest API
                 Call<Anfrage> resultCall = service.addAnfrage(anfrage);
-                //Response<Anfrage> response = resultCall.execute();
-                //assertTrue(response.isSuccessful());
 
-                // GET Anfrage
-                //OpenrouteService service = retrofit.create(OpenrouteService.class);
-                //Call<Example> resultCall = service.listAuto1();
 
                 resultCall.enqueue(new Callback<Anfrage>() {
                     @Override
@@ -123,7 +116,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             return;
                         }
 
-                        //Log.d("Anfrage", anfrage)
                         Double Distanz = example.getFeatures().get(0).getProperties().getSummary().getDistance();
                         Double Dauer = example.getFeatures().get(0).getProperties().getSummary().getDuration();
                         Log.i("Distanz", Double.toString(Distanz));
@@ -136,15 +128,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
                         //startActivity(intent);
                     }
-
-
-
-
-
-
-
                 });
-
+                //Intent intent = new Intent(WartebildschirmActivity.this,WegActivity.class);
+                //startActivity(intent);
 
             }
         });

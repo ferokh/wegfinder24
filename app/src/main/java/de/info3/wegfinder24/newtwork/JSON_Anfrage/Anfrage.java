@@ -1,17 +1,15 @@
 package de.info3.wegfinder24.newtwork.JSON_Anfrage;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-import java.util.List;
 //import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import de.info3.wegfinder24.newtwork.JSON.Feature;
-import de.info3.wegfinder24.newtwork.JSON.Metadata;
+import de.info3.wegfinder24.newtwork.Feature;
+import de.info3.wegfinder24.newtwork.Metadata;
 
 //@Generated("jsonschema2pojo")
 public class Anfrage {
