@@ -17,8 +17,8 @@ public interface OpenrouteService {
     //@GET("/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada&start=8.681495,49.41461&end=8.687872,49.420318")
     //Call<Example> listAuto1();
 
-    //@POST("a14bd01f-2a7d-4669-a065-70c854efca1a")
-    @POST("/v2/directions/driving-car/geojson/")
+    //@POST("a14bd01f-2a7d-4669-a065-70c854efca1a")  // webhook.site Testen der Anfrage
+    @POST("/v2/directions/driving-car/json/")
     Call<Anfrage> addAnfrage(@Body Anfrage anfrageauto);
 
 

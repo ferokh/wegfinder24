@@ -23,8 +23,12 @@ public class Anfrage {
     private String language;
 
 
-
+//
     public Anfrage(List coordinates, int i, String de) {
+        this.coordinates=coordinates;
+
+        this.alternativeRoutes=new AlternativeRoutes(i);
+        this.language=de;
     }
 
     public List<List<Double>> getCoordinates() {return coordinates;}

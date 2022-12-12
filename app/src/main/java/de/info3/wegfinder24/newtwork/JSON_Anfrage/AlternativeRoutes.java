@@ -11,6 +11,10 @@ public class AlternativeRoutes {
     @Expose
     private Integer targetCount;
 
+    public AlternativeRoutes(Integer targetCount) {
+        this.targetCount = targetCount;
+    }
+
     public Integer getTargetCount() {return targetCount;}
     public void setTargetCount(Integer targetCount) {this.targetCount = targetCount;}
 

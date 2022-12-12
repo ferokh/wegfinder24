@@ -82,9 +82,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
                         Request newRequest  = chain.request().newBuilder()
-                                .addHeader("Authorization", "5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada")
-                                .addHeader("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
                                 .addHeader("Content-Type", "application/json; charset=utf-8")
+                                .addHeader("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
+                                .addHeader("Authorization", "5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada")
                                 .build();
                         return chain.proceed(newRequest);
                     }
@@ -101,14 +101,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 OpenrouteService service = retrofit.create(OpenrouteService.class);
                 Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
 
-
                 // send the Anfrage to the Rest API
                 Call<Anfrage> resultCall = service.addAnfrage(anfrage);
                 //Response<Anfrage> response = resultCall.execute();
-
-
                 //assertTrue(response.isSuccessful());
-
 
                 // GET Anfrage
                 //OpenrouteService service = retrofit.create(OpenrouteService.class);
@@ -126,6 +122,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             Log.d("ResponseCode", Integer.toString(ResponseCode));
                             return;
                         }
+
+                        //Log.d("Anfrage", anfrage)
                         //Double Distanz = example.getFeatures().get(0).getProperties().getSummary().getDistance();
                         //Double Dauer = example.getFeatures().get(0).getProperties().getSummary().getDuration();
                         //Log.i("Distanz", Double.toString(Distanz));
