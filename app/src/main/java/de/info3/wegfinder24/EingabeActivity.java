@@ -23,6 +23,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -99,6 +100,10 @@ public class EingabeActivity extends AppCompatActivity {
 
         this.mapView = this.findViewById(R.id.mapView);
         this.mapView.setTileSource(mapServer);
+
+        CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
+        compassOverlay.enableCompass();
+        mapView.getOverlays().add(compassOverlay);
 
         GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
         IMapController mapController = mapView.getController();
