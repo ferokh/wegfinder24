@@ -1,7 +1,5 @@
 package de.info3.wegfinder24;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,10 +7,13 @@ import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -22,6 +23,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class EingabeActivity extends AppCompatActivity {
 
 
     private LocationManager locationManager;
+    private MyLocationNewOverlay locationOverlay;
 
 
 
@@ -96,25 +100,36 @@ public class EingabeActivity extends AppCompatActivity {
         this.mapView = this.findViewById(R.id.mapView);
         this.mapView.setTileSource(mapServer);
 
-        GeoPoint startPoint = new GeoPoint(49.0069, 8.4037); //Standard Startpunkt
-
+        GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
         IMapController mapController = mapView.getController();
-        mapController.setZoom(17.0); //Anfangswert Zoom
-        mapController.setCenter(startPoint); //Wo ist die Mitte der Karte zu Beginn
+        mapController.setCenter(startPoint);
+//add
+        GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
+        provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
+        locationOverlay = new MyLocationNewOverlay(provider, mapView);
+        locationOverlay.enableFollowLocation();
+        locationOverlay.runOnFirstFix(new Runnable() {
+            public void run() {
+                Log.d("MyTag", String.format("First location fix: %s", locationOverlay.getLastFix()));
+            }
+        });
+        mapView.getOverlayManager().add(locationOverlay);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 
+        locationOverlay.enableMyLocation();
         this.mapView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        locationOverlay.disableMyLocation();
         this.mapView.onPause();
     }
 
