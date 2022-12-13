@@ -319,6 +319,12 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             intent.putExtra("Dauer_Walk_Stunden", Integer.toString(result_walk_duration[0]));
                             intent.putExtra("Dauer_Walk_Stunden_Minuten",Integer.toString(result_walk_duration[1]));
                         }
+
+                        intent.putExtra("Startlat",Double.toString(BA));
+                        intent.putExtra("Startlong",Double.toString(LA));
+                        intent.putExtra("Ziellat",Double.toString(BE));
+                        intent.putExtra("Ziellong",Double.toString(LE));
+
                         startActivity(intent);
                     }
                 }, 2000);

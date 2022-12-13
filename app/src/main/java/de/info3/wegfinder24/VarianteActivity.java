@@ -46,6 +46,16 @@ public class VarianteActivity extends AppCompatActivity {
         Button btnWalk =this.findViewById(R.id.btnWalk);
         Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
 
+        Intent intent_latlonh = this.getIntent();
+        String BA = intent_latlonh.getStringExtra("Startlat");
+        String LA = intent_latlonh.getStringExtra("Startlong");
+        String BE = intent_latlonh.getStringExtra("Ziellat");
+        String LE = intent_latlonh.getStringExtra("Ziellong");
+
+        TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationVar);
+        tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
+
+
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
         TextView tvCarDistance = this.findViewById(R.id.tvCarDistance); //TextView für die Entfernung - Auto
