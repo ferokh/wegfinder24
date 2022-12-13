@@ -57,6 +57,11 @@ public class EingabeActivity extends AppCompatActivity {
         btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+                /*double Startlat = 8.681495;
+                double Startlong = 49.41461;
+                double Ziellat = 8.687872;
+                double Ziellong = 49.420318;*/
                 double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
                 double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
                 double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
