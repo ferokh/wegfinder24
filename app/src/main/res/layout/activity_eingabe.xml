@@ -23,12 +23,15 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:background="@color/white"
+        android:text="49.41461"
         android:hint="Start\nBreitengrad"
         android:textColorHint="@color/grey"
         android:textColor="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:numeric="decimal"
+        tools:ignore="Deprecated" />
     <EditText
         android:id="@+id/edtStartEnterLong"
         android:layout_below="@id/mapView"
@@ -38,11 +41,14 @@
         android:layout_margin="5dp"
         android:background="@color/white"
         android:textColor="@color/black"
+        android:text="8.681495"
         android:hint="Start\nLängengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:numeric="decimal"
+        tools:ignore="Deprecated"/>
 
     <ImageButton
         android:id="@+id/btnGPS"
@@ -64,11 +70,14 @@
         android:layout_marginBottom="5dp"
         android:background="@color/white"
         android:textColor="@color/black"
+        android:text="49.420318"
         android:hint="Ziel\nBreitengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:numeric="decimal"
+        tools:ignore="Deprecated"/>
 
     <EditText
         android:id="@+id/edtZielEnterLong"
@@ -79,11 +88,14 @@
         android:layout_margin="5dp"
         android:background="@color/white"
         android:textColor="@color/black"
+        android:text="8.687872"
         android:hint="Ziel\nLängengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:numeric="decimal"
+        tools:ignore="Deprecated"/>
 
     <ImageButton
         android:id="@+id/btnArrow"
