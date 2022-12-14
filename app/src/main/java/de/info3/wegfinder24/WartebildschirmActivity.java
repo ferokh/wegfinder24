@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.osmdroid.util.Distance;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ import de.info3.wegfinder24.newtwork.OpenRouteServiceWalk;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -64,8 +67,10 @@ public class WartebildschirmActivity<Private> extends AppCompatActivity {
     double walk_distance = 0;
     double walk_duration = 0;
 
-    Integer status = 0;
-    Integer ups = 0;
+    int status = 0;
+    int ups = 0;
+    int ii = 0;
+    int kombi = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +116,7 @@ public class WartebildschirmActivity<Private> extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
                     @Override
-                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                    public Response intercept(Chain chain) throws IOException {
                         Request newRequest  = chain.request().newBuilder()
                                 .addHeader("Content-Type", "application/json; charset=utf-8")
                                 .addHeader("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
@@ -264,17 +269,30 @@ public class WartebildschirmActivity<Private> extends AppCompatActivity {
 
                 Log.d("ups4", Integer.toString(status));
 
-                int ii = 0;
-                int kombi = 0;
+
 
                 do {
-                    Handler handler = new Handler();
+ /*                   Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             Log.d("Warten", "Warten");
+                            Log.d("Warten ups", Integer.toString(ups));
+                            Log.d("Warten status", Integer.toString(status));
+                            Log.d("Warten kombi", Integer.toString(kombi));
                         }
                     }, 1000);
-
+*/
+                    try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            System.out.printf("Start Time: %s\n", LocalTime.now());
+                        }
+                        Thread.sleep(1 * 1000); // Wait for 2 seconds
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            System.out.printf("End Time: %s\n", LocalTime.now());
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     ii = ii + 1;
 
                     kombi = ups + status;
@@ -283,7 +301,7 @@ public class WartebildschirmActivity<Private> extends AppCompatActivity {
                             //////////////////////////////////////////////CAR///////////////////////////////////////////////////
                             Log.i("Distanz Car", Double.toString(car_distance));
                             Log.i("Dauer Car", Double.toString(car_duration));
-
+/*
                             double result_car_distance[] = distanz(car_distance);
                             if (result_car_distance[1] == 0) {
                                 intent.putExtra("Distanz_Car_Meter", Double.toString(result_car_distance[0]));
@@ -341,23 +359,29 @@ public class WartebildschirmActivity<Private> extends AppCompatActivity {
                             intent.putExtra("Startlong", Double.toString(LA));
                             intent.putExtra("Ziellat", Double.toString(BE));
                             intent.putExtra("Ziellong", Double.toString(LE));
-
-                            startActivity(intent);
-
+*/
 
                     }
-                }while(kombi < 3 || ii < 10);
+                }while(ups < 3 && status < 3 && ii < 10);
 
-                builder =new AlertDialog.Builder(this);
-                builder.setTitle("Fehler")
-                .setMessage("Es ist ein Problem mit der Internetverbindung oder mit der Datenübermittlung aufgetreten.")
-                .setPositiveButton("coolcoolcool", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(fehler);
-                    }
-                })
-                .show();
+                Log.d("ups", "gleich geschafft");
+                if (status == 3){
+                    startActivity(intent);
+                }
+
+                Log.d("ups", "fast da");
+                if (ups > 0) {
+                    builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Fehler")
+                            .setMessage("Es ist ein Problem mit der Internetverbindung oder mit der Datenübermittlung aufgetreten.")
+                            .setPositiveButton("coolcoolcool", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(fehler);
+                                }
+                            })
+                            .show();
+                }
 /*
                 if(!ups) {
                     Handler handler = new Handler();
