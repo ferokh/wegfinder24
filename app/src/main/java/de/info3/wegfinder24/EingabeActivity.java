@@ -1,9 +1,12 @@
 package de.info3.wegfinder24;
 
+import org.osmdroid.views.overlay.Marker;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -29,38 +33,95 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
+
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
+
+import static android.os.Build.VERSION_CODES.M;
+import static java.security.AccessController.getContext;
 
 public class EingabeActivity extends AppCompatActivity {
 
+    MapView map = null;
+
     private MapView mapView;
-
-
-
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
 
 
+    //TODO: Layout überarbeiten, das Blau ist bisschen krass und die Form abändern könnte helfen
+    //TODO: Beim drücken des Knopfes wird die gleiche Activity wieder gestrartet. Wie das sein kann, keine Ahnung
 
 
-    @SuppressLint("MissingPermission")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
         setContentView(R.layout.activity_eingabe);
-        //über den ArrowButton die Variate Activity öffnen
-        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
+        ImageButton btnOpenVariante = this.findViewById(R.id.btnArrow);
 
-        //TODO: Layout überarbeiten, das Blau ist bisschen krass und die Form abändern könnte helfen
-        //TODO: Beim drücken des Knopfes wird die gleiche Activity wieder gestrartet. Wie das sein kann, keine Ahnung
-        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                startActivity(intent);
-            }
-        });
+        btnOpenVariante.setOnClickListener(new View.OnClickListener()
 
-        //Kartenserver von Herr Knopf
+    {
+        @Override
+        public void onClick (View view){
+        Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+        startActivity(intent);
+    }
+    });
+
+        map = (MapView) findViewById(R.id.mapView);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+
+        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
+        IMapController mapController = map.getController();
+        mapController.setZoom(9);
+        mapController.setCenter(startPoint);
+
+
+
+    }
+    public void onResume(){
+        super.onResume();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+    public void onPause(){
+        super.onPause();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().save(this, prefs);
+        map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+    }
+}
+
+
+   /* ImageButton btnOpenVariante = this.findViewById(R.id.btnArrow);
+        btnOpenVariante.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View view){
+        Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+        startActivity(intent);
+    }
+    });*/
+
+
+
+
+
+
+        /* //Kartenserver von Herr Knopf
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -108,6 +169,7 @@ public class EingabeActivity extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
         IMapController mapController = mapView.getController();
         mapController.setCenter(startPoint);
+        mapController.setZoom(9);
 //add
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
@@ -120,24 +182,8 @@ public class EingabeActivity extends AppCompatActivity {
         });
         mapView.getOverlayManager().add(locationOverlay);
 
+
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-
-        locationOverlay.enableMyLocation();
-        this.mapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        locationOverlay.disableMyLocation();
-        this.mapView.onPause();
-    }
-
     @SuppressLint("MissingPermission")
     private void setupMapView()
     {
@@ -175,6 +221,24 @@ public class EingabeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+
+        locationOverlay.enableMyLocation();
+        this.mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationOverlay.disableMyLocation();
+        this.mapView.onPause();
+    }
+
+
+
     private String getMapServerAuthorizationString(String username, String password)
     {
         String authorizationString = String.format("%s:%s", username, password);
@@ -186,4 +250,6 @@ public class EingabeActivity extends AppCompatActivity {
         super.onDestroy();
         this.mapView.onPause();
     }
-}
+
+
+}*/
