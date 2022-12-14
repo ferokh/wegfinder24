@@ -82,6 +82,11 @@ public class EingabeActivity extends AppCompatActivity {
         mapController.setZoom(9);
         mapController.setCenter(startPoint);
 
+        Marker startMarker=new Marker(map);
+        startMarker.setPosition(startPoint);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(startMarker);
+
 
 
     }
