@@ -6,6 +6,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,12 +29,15 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -73,9 +78,29 @@ public class EingabeActivity extends AppCompatActivity {
     }
     });
 
+        Polyline line = new Polyline(mapView);
+        line.setWidth(4f);
+        line.setColor(Color.BLUE);
+
         map = (MapView) findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
+        mapView = map;
+
+        List<GeoPoint> coordlist =new ArrayList<GeoPoint>();
+
+        coordlist.add( new GeoPoint(49.1,1));
+        coordlist.add(new GeoPoint(48.13,-1.63));
+        coordlist.add(new GeoPoint(50.1,2));
+        coordlist.add(new GeoPoint(51.1,3));
+
+        line.setPoints(coordlist);
+        line.setGeodesic(true);
+        mapView.getOverlayManager().add(line);
+        mapView.setVisibility(View.GONE);
+        mapView.setVisibility(View.VISIBLE);
+
+
 
         GeoPoint startPoint=new GeoPoint(48.13,-1.63);
         IMapController mapController = map.getController();
@@ -86,6 +111,9 @@ public class EingabeActivity extends AppCompatActivity {
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         map.getOverlays().add(startMarker);
+
+
+
 
 
 
