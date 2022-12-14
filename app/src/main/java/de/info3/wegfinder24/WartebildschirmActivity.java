@@ -1,26 +1,29 @@
 package de.info3.wegfinder24;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Button;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.osmdroid.util.Distance;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-//import javax.ws.rs.client.Client;
-//import javax.ws.rs.client.ClientBuilder;
-//import javax.ws.rs.client.Entity;
-//import javax.ws.rs.core.Response;
-//import javax.ws.rs.core.MediaType;
 
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 import de.info3.wegfinder24.newtwork.OpenRouteServiceBike;
@@ -39,12 +42,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //import javax.ws.rs.core.Response;
 
 
-public class WartebildschirmActivity extends AppCompatActivity {
-
+public class WartebildschirmActivity<Private> extends AppCompatActivity {
+    RelativeLayout relativeLayout;
     /*double BA = 8.681495;
     double LA = 49.41461;
     double BE = 8.687872;
     double LE = 49.420318;*/
+    AlertDialog.Builder builder;
 
     double BA = 0;
     double LA = 0;
@@ -60,6 +64,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
     double walk_distance = 0;
     double walk_duration = 0;
 
+    Integer status = 0;
+    Integer ups = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +105,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
        //     public void onClick(View view) {
 
                 Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
+                Intent fehler = new Intent(WartebildschirmActivity.this, EingabeActivity.class);
 
-                roundProgress.setVisibility(View.VISIBLE);
+            roundProgress.setVisibility(View.VISIBLE);
 
                 OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
                     @Override
@@ -122,7 +129,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         .build();
 
                 Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
-
                 //////////////////////////////////////////////CAR///////////////////////////////////////////////////
                 // POST Anfrage
                 OpenRouteServiceCar service_car = retrofit.create(OpenRouteServiceCar.class);
@@ -138,6 +144,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             Log.i("FeaturesList","Problem, viel Glück!");
                             Integer ResponseCode = response.code();
                             Log.i("ResponseCode", Integer.toString(ResponseCode));
+                            //startActivity(fehler);
                             return;
                         }
 
@@ -146,18 +153,25 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
                         car_distance = Distanz_car;
                         car_duration=Dauer_car;
-
+                        status ++;
                         Log.i("Distanz Auto", Double.toString(Distanz_car));
                         Log.i("Dauer Auto", Double.toString(Dauer_car));
+
                         //Log.i("Distanz Auto", Double.toString(car.getDistance()));
                         //Log.i("Dauer Auto", Double.toString(car.getDuration()));
                     }
 
                     @Override
                     public void onFailure(Call<Anfrage> call, Throwable t) {
-                        Log.d("WartebildschirmActivity", "Anfragefehler");
-                        //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-                        //startActivity(intent);
+                        Log.d("WartebildschirmActivity", "Anfragefehler1");
+                        ups ++;
+                        Log.d("ups1", Integer.toString(ups));
+
+                        //Context context = getApplicationContext();
+                        //CharSequence toastText = "dffgbjidfbjl";
+                        //Toast.makeText(context, toastText, Toast.LENGTH_LONG);
+                        //startActivity(fehler);
+
                     }
                 }); //Auto Abfrage
 
@@ -178,6 +192,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             Log.i("FeaturesList","Problem, viel Glück!");
                             Integer ResponseCode = response.code();
                             Log.i("ResponseCode", Integer.toString(ResponseCode));
+                            //startActivity(fehler);
                             return;
                         }
 
@@ -186,7 +201,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
                         bike_distance = Distanz_bike;
                         bike_duration = Dauer_bike;
-
+                        status ++;
                         Log.i("Distanz Fahrrad", Double.toString(Distanz_bike));
                         Log.i("Dauer Fahrrad", Double.toString(Dauer_bike));
                         //Log.i("Distanz Auto", Double.toString(car.getDistance()));
@@ -196,8 +211,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<Anfrage> call, Throwable t) {
                         Log.d("WartebildschirmActivity", "Anfragefehler");
-                        //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-                        //startActivity(intent);
+                        //startActivity(fehler);
+                        ups ++;
+                        Log.d("ups2", Integer.toString(ups));
                     }
                 }); //Fahrrad Abfrage
 
@@ -219,6 +235,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                             Log.i("FeaturesList","Problem, viel Glück!");
                             Integer ResponseCode = response.code();
                             Log.i("ResponseCode", Integer.toString(ResponseCode));
+                            //startActivity(fehler);
                             return;
                         }
 
@@ -227,6 +244,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
                         walk_distance = Distanz_walk;
                         walk_duration = Dauer_walk;
+
+                        status ++;
 
                         Log.i("Distanz Fuß", Double.toString(Distanz_walk));
                         Log.i("Dauer Fuß", Double.toString(Dauer_walk));
@@ -237,99 +256,194 @@ public class WartebildschirmActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<Anfrage> call, Throwable t) {
                         Log.d("WartebildschirmActivity", "Anfragefehler");
-                        //Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-                        //startActivity(intent);
+                        ups ++;
+                        Log.d("ups1", Integer.toString(ups));
+
                     }
                 }); //Fuß Abfrage
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        //////////////////////////////////////////////CAR///////////////////////////////////////////////////
-                        Log.i("Distanz Car", Double.toString(car_distance));
-                        Log.i("Dauer Car", Double.toString(car_duration));
+                Log.d("ups4", Integer.toString(status));
 
-                        double result_car_distance[] = distanz(car_distance);
-                        if (result_car_distance[1] == 0)
-                        {
-                            intent.putExtra("Distanz_Car_Meter", Double.toString(result_car_distance[0]));
-                        }
-                        else
-                        {
-                            intent.putExtra("Distanz_Car", Double.toString(result_car_distance[0]));
-                        }
+                int ii = 0;
+                int kombi = 0;
 
-                        int result_car_duration [] = dauer(car_duration);
-                        if (result_car_duration[0] == 0)
-                        {
-                            intent.putExtra("Dauer_Car_Minuten", Integer.toString(result_car_duration[1]));
+                do {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            Log.d("Warten", "Warten");
                         }
-                        else
-                        {
-                            intent.putExtra("Dauer_Car_Stunden", Integer.toString(result_car_duration[0]));
-                            intent.putExtra("Dauer_Car_Stunden_Minuten",Integer.toString(result_car_duration[1]));
-                        }
+                    }, 1000);
 
-                        //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
-                        Log.i("Distanz Bike", Double.toString(bike_distance));
-                        Log.i("Dauer Bike", Double.toString(bike_duration));
+                    ii = ii + 1;
 
-                        double result_bike_distance[] = distanz(bike_distance);
-                        if (result_bike_distance[1] == 0)
-                        {
-                            intent.putExtra("Distanz_Bike_Meter", Double.toString(result_bike_distance[0]));
-                        }
-                        else
-                        {
-                            intent.putExtra("Distanz_Bike", Double.toString(result_bike_distance[0]));
-                        }
+                    kombi = ups + status;
 
-                        int result_bike_duration [] = dauer(bike_duration);
-                        if (result_bike_duration[0] == 0)
-                        {
-                            intent.putExtra("Dauer_Bike_Minuten", Integer.toString(result_bike_duration[1]));
-                        }
-                        else
-                        {
-                            intent.putExtra("Dauer_Bike_Stunden", Integer.toString(result_bike_duration[0]));
-                            intent.putExtra("Dauer_Bike_Stunden_Minuten",Integer.toString(result_bike_duration[1]));
-                        }
+                    if (status == 3){
+                            //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+                            Log.i("Distanz Car", Double.toString(car_distance));
+                            Log.i("Dauer Car", Double.toString(car_duration));
 
-                        //////////////////////////////////////////////WALK///////////////////////////////////////////////////
-                        Log.i("Distanz Walk", Double.toString(walk_distance));
-                        Log.i("Dauer Walk", Double.toString(walk_duration));
+                            double result_car_distance[] = distanz(car_distance);
+                            if (result_car_distance[1] == 0) {
+                                intent.putExtra("Distanz_Car_Meter", Double.toString(result_car_distance[0]));
+                            } else {
+                                intent.putExtra("Distanz_Car", Double.toString(result_car_distance[0]));
+                            }
 
-                        double result_walk_distance[] = distanz(walk_distance);
-                        if (result_walk_distance[1] == 0)
-                        {
-                            intent.putExtra("Distanz_Walk_Meter", Double.toString(result_walk_distance[0]));
-                        }
-                        else
-                        {
-                            intent.putExtra("Distanz_Walk", Double.toString(result_walk_distance[0]));
-                        }
+                            int result_car_duration[] = dauer(car_duration);
+                            if (result_car_duration[0] == 0) {
+                                intent.putExtra("Dauer_Car_Minuten", Integer.toString(result_car_duration[1]));
+                            } else {
+                                intent.putExtra("Dauer_Car_Stunden", Integer.toString(result_car_duration[0]));
+                                intent.putExtra("Dauer_Car_Stunden_Minuten", Integer.toString(result_car_duration[1]));
+                            }
 
-                        int result_walk_duration [] = dauer(walk_duration);
-                        if (result_walk_duration[0] == 0)
-                        {
-                            intent.putExtra("Dauer_Walk_Minuten", Integer.toString(result_walk_duration[1]));
-                        }
-                        else
-                        {
-                            intent.putExtra("Dauer_Walk_Stunden", Integer.toString(result_walk_duration[0]));
-                            intent.putExtra("Dauer_Walk_Stunden_Minuten",Integer.toString(result_walk_duration[1]));
-                        }
+                            //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+                            Log.i("Distanz Bike", Double.toString(bike_distance));
+                            Log.i("Dauer Bike", Double.toString(bike_duration));
 
-                        intent.putExtra("Startlat",Double.toString(BA));
-                        intent.putExtra("Startlong",Double.toString(LA));
-                        intent.putExtra("Ziellat",Double.toString(BE));
-                        intent.putExtra("Ziellong",Double.toString(LE));
+                            double result_bike_distance[] = distanz(bike_distance);
+                            if (result_bike_distance[1] == 0) {
+                                intent.putExtra("Distanz_Bike_Meter", Double.toString(result_bike_distance[0]));
+                            } else {
+                                intent.putExtra("Distanz_Bike", Double.toString(result_bike_distance[0]));
+                            }
 
-                        startActivity(intent);
+                            int result_bike_duration[] = dauer(bike_duration);
+                            if (result_bike_duration[0] == 0) {
+                                intent.putExtra("Dauer_Bike_Minuten", Integer.toString(result_bike_duration[1]));
+                            } else {
+                                intent.putExtra("Dauer_Bike_Stunden", Integer.toString(result_bike_duration[0]));
+                                intent.putExtra("Dauer_Bike_Stunden_Minuten", Integer.toString(result_bike_duration[1]));
+                            }
+
+                            //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+                            Log.i("Distanz Walk", Double.toString(walk_distance));
+                            Log.i("Dauer Walk", Double.toString(walk_duration));
+
+                            double result_walk_distance[] = distanz(walk_distance);
+                            if (result_walk_distance[1] == 0) {
+                                intent.putExtra("Distanz_Walk_Meter", Double.toString(result_walk_distance[0]));
+                            } else {
+                                intent.putExtra("Distanz_Walk", Double.toString(result_walk_distance[0]));
+                            }
+
+                            int result_walk_duration[] = dauer(walk_duration);
+                            if (result_walk_duration[0] == 0) {
+                                intent.putExtra("Dauer_Walk_Minuten", Integer.toString(result_walk_duration[1]));
+                            } else {
+                                intent.putExtra("Dauer_Walk_Stunden", Integer.toString(result_walk_duration[0]));
+                                intent.putExtra("Dauer_Walk_Stunden_Minuten", Integer.toString(result_walk_duration[1]));
+                            }
+
+                            intent.putExtra("Startlat", Double.toString(BA));
+                            intent.putExtra("Startlong", Double.toString(LA));
+                            intent.putExtra("Ziellat", Double.toString(BE));
+                            intent.putExtra("Ziellong", Double.toString(LE));
+
+                            startActivity(intent);
+
+
                     }
-                }, 2000);
+                }while(kombi < 3 || ii < 10);
 
+                builder =new AlertDialog.Builder(this);
+                builder.setTitle("Fehler")
+                .setMessage("Es ist ein Problem mit der Internetverbindung oder mit der Datenübermittlung aufgetreten.")
+                .setPositiveButton("coolcoolcool", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(fehler);
+                    }
+                })
+                .show();
+/*
+                if(!ups) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+                            Log.i("Distanz Car", Double.toString(car_distance));
+                            Log.i("Dauer Car", Double.toString(car_duration));
 
+                            double result_car_distance[] = distanz(car_distance);
+                            if (result_car_distance[1] == 0) {
+                                intent.putExtra("Distanz_Car_Meter", Double.toString(result_car_distance[0]));
+                            } else {
+                                intent.putExtra("Distanz_Car", Double.toString(result_car_distance[0]));
+                            }
+
+                            int result_car_duration[] = dauer(car_duration);
+                            if (result_car_duration[0] == 0) {
+                                intent.putExtra("Dauer_Car_Minuten", Integer.toString(result_car_duration[1]));
+                            } else {
+                                intent.putExtra("Dauer_Car_Stunden", Integer.toString(result_car_duration[0]));
+                                intent.putExtra("Dauer_Car_Stunden_Minuten", Integer.toString(result_car_duration[1]));
+                            }
+
+                            //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+                            Log.i("Distanz Bike", Double.toString(bike_distance));
+                            Log.i("Dauer Bike", Double.toString(bike_duration));
+
+                            double result_bike_distance[] = distanz(bike_distance);
+                            if (result_bike_distance[1] == 0) {
+                                intent.putExtra("Distanz_Bike_Meter", Double.toString(result_bike_distance[0]));
+                            } else {
+                                intent.putExtra("Distanz_Bike", Double.toString(result_bike_distance[0]));
+                            }
+
+                            int result_bike_duration[] = dauer(bike_duration);
+                            if (result_bike_duration[0] == 0) {
+                                intent.putExtra("Dauer_Bike_Minuten", Integer.toString(result_bike_duration[1]));
+                            } else {
+                                intent.putExtra("Dauer_Bike_Stunden", Integer.toString(result_bike_duration[0]));
+                                intent.putExtra("Dauer_Bike_Stunden_Minuten", Integer.toString(result_bike_duration[1]));
+                            }
+
+                            //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+                            Log.i("Distanz Walk", Double.toString(walk_distance));
+                            Log.i("Dauer Walk", Double.toString(walk_duration));
+
+                            double result_walk_distance[] = distanz(walk_distance);
+                            if (result_walk_distance[1] == 0) {
+                                intent.putExtra("Distanz_Walk_Meter", Double.toString(result_walk_distance[0]));
+                            } else {
+                                intent.putExtra("Distanz_Walk", Double.toString(result_walk_distance[0]));
+                            }
+
+                            int result_walk_duration[] = dauer(walk_duration);
+                            if (result_walk_duration[0] == 0) {
+                                intent.putExtra("Dauer_Walk_Minuten", Integer.toString(result_walk_duration[1]));
+                            } else {
+                                intent.putExtra("Dauer_Walk_Stunden", Integer.toString(result_walk_duration[0]));
+                                intent.putExtra("Dauer_Walk_Stunden_Minuten", Integer.toString(result_walk_duration[1]));
+                            }
+
+                            intent.putExtra("Startlat", Double.toString(BA));
+                            intent.putExtra("Startlong", Double.toString(LA));
+                            intent.putExtra("Ziellat", Double.toString(BE));
+                            intent.putExtra("Ziellong", Double.toString(LE));
+
+                            startActivity(intent);
+                        }
+                    }, 2000);
+                }
+                else  {
+
+                    builder =new AlertDialog.Builder(this);
+                    builder.setTitle("Fehler")
+                            .setMessage("Es ist ein Problem mit der Internetverbindung oder mit der Datenübermittlung aufgetreten.")
+                            .setPositiveButton("coolcoolcool", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(fehler);
+                                }
+                            })
+                            .show();
+
+                }
+*/
         //    }
 
        //});
@@ -463,4 +577,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
             return new int[] {stunden,minuten};
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //ups = false;
+    }
+
 }

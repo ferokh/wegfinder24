@@ -39,6 +39,7 @@ dependencies {
 
 
     implementation 'com.nabinbhandari.android:permissions:3.8'
+
     //implementation("com.android.volley:volley:1.2.1")
 
     // Retrofit

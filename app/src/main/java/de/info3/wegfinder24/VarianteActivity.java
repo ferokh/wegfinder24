@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 public class VarianteActivity extends AppCompatActivity {
 
+    // wenn man auf zurück klickt, sollte man zur EingabeAktivity kommen.
     private MapView mapView;
 
     private LocationManager locationManager;
