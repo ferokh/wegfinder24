@@ -106,7 +106,6 @@ public class EingabeActivity extends AppCompatActivity {
                 }
             }
         });
-
         //Map anzeigen
         map = (MapView) findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
