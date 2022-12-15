@@ -101,7 +101,6 @@ public class EingabeActivity extends AppCompatActivity {
         mapView.setVisibility(View.VISIBLE);
 
 
-
         GeoPoint startPoint=new GeoPoint(48.13,-1.63);
         IMapController mapController = map.getController();
         mapController.setZoom(9);
@@ -112,12 +111,58 @@ public class EingabeActivity extends AppCompatActivity {
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         map.getOverlays().add(startMarker);
 
-
-
-
+        GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
+        provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
+        locationOverlay = new MyLocationNewOverlay(provider, mapView);
+        locationOverlay.enableFollowLocation();
+        locationOverlay.runOnFirstFix(new Runnable() {
+            public void run() {
+                Log.d("MyTag", String.format("First location fix: %s", locationOverlay.getLastFix()));
+            }
+        });
+        mapView.getOverlayManager().add(locationOverlay);
 
 
     }
+    @SuppressLint("MissingPermission")
+    private void setupMapView()
+    {
+        //Abfrage GPS - Koordinaten des Handys
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(android.location.Location location) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+
+                GeoPoint startPoint = new GeoPoint(latitude, longitude);
+
+                IMapController mapController = mapView.getController();
+                mapController.setCenter(startPoint);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        this.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+
+    }
+
+
+
     public void onResume(){
         super.onResume();
         //this will refresh the osmdroid configuration on resuming.
@@ -136,6 +181,12 @@ public class EingabeActivity extends AppCompatActivity {
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 }
+
+
+
+
+
+
 
 
    /* ImageButton btnOpenVariante = this.findViewById(R.id.btnArrow);
