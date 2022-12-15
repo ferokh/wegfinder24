@@ -14,14 +14,14 @@
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
-  <!--  <EditText
+        android:layout_height="570dp" />
+   <!--<EditText
         android:id="@+id/edtStartEnter"
         android:layout_height="570dp"
         android:clickable="true"
         android:focusable="true"/>-->
 
-    <TextView
+   <EditText
         android:id="@+id/edtStartEnter"
         android:layout_below="@id/mapView"
         android:layout_width="150dp"
@@ -37,7 +37,9 @@
         android:paddingLeft="10dp"
         android:textSize="20dp"
         android:numeric="decimal"
-        tools:ignore="Deprecated" />
+        tools:ignore="Deprecated"
+       android:clickable="true"
+       android:focusable="true"/>
     <EditText
         android:id="@+id/edtStartEnterLong"
         android:layout_below="@id/mapView"
