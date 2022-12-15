@@ -1,5 +1,6 @@
 package de.info3.wegfinder24;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.overlay.Marker;
 
 import android.Manifest;
@@ -78,14 +79,42 @@ public class EingabeActivity extends AppCompatActivity {
     }
     });
 
-        Polyline line = new Polyline(mapView);
-        line.setWidth(4f);
-        line.setColor(Color.BLUE);
-
+        //Map anzeigen
         map = (MapView) findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
         mapView = map;
+
+
+        //Standort anzeigen lassen
+        GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
+        provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
+        locationOverlay = new MyLocationNewOverlay(provider, mapView);
+        locationOverlay.enableFollowLocation();
+        locationOverlay.runOnFirstFix(new Runnable() {
+            public void run() {
+                Log.d("MyTag", String.format("First location fix: %s", locationOverlay.getLastFix()));
+            }
+        });
+        mapView.getOverlayManager().add(locationOverlay);
+
+
+        //Marker setzen
+        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
+        IMapController mapController = map.getController();
+        mapController.setZoom(9);
+        mapController.setCenter(startPoint);
+
+        Marker startMarker=new Marker(map);
+        startMarker.setPosition(startPoint);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(startMarker);
+
+
+        //Polygon mit Array anzeigen lassen
+        Polyline line = new Polyline(mapView);
+        line.setWidth(4f);
+        line.setColor(Color.BLUE);
 
         List<GeoPoint> coordlist =new ArrayList<GeoPoint>();
 
@@ -100,27 +129,6 @@ public class EingabeActivity extends AppCompatActivity {
         mapView.setVisibility(View.GONE);
         mapView.setVisibility(View.VISIBLE);
 
-
-        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
-        IMapController mapController = map.getController();
-        mapController.setZoom(9);
-        mapController.setCenter(startPoint);
-
-        Marker startMarker=new Marker(map);
-        startMarker.setPosition(startPoint);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(startMarker);
-
-        GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
-        provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
-        locationOverlay = new MyLocationNewOverlay(provider, mapView);
-        locationOverlay.enableFollowLocation();
-        locationOverlay.runOnFirstFix(new Runnable() {
-            public void run() {
-                Log.d("MyTag", String.format("First location fix: %s", locationOverlay.getLastFix()));
-            }
-        });
-        mapView.getOverlayManager().add(locationOverlay);
 
 
     }
@@ -137,6 +145,7 @@ public class EingabeActivity extends AppCompatActivity {
                 GeoPoint startPoint = new GeoPoint(latitude, longitude);
 
                 IMapController mapController = mapView.getController();
+                mapController.setZoom(12);
                 mapController.setCenter(startPoint);
             }
 
