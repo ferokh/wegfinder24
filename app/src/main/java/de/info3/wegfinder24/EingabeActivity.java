@@ -78,6 +78,37 @@ public class EingabeActivity extends AppCompatActivity {
         startActivity(intent);
     }
     });
+        String[] permissions = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+
+        };
+
+        Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen
+            @Override
+            public void onGranted() {//wenn alles okay ist wird die Karte angezeigt
+                setupMapView();
+                String string = "Karte sofort erstellt";
+                Log.d("Karte",string);
+            }
+
+            @Override
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) { //Wenn Berechtigung nicht okay ist, wird die Karte nicht angezeigt
+                super.onDenied(context, deniedPermissions);
+
+                if (deniedPermissions.size() == 1)
+                {
+                    String permission = deniedPermissions.get(0);
+                    if (permission.equals(Manifest.permission.MANAGE_EXTERNAL_STORAGE)) //darf auf den Speicher zugegriffen werden
+                    {
+                        setupMapView();
+                        String string = "Karte nicht sofort erstellt";
+                        Log.d("Karte", string);
+                    }
+                }
+            }
+        });
 
         //Map anzeigen
         map = (MapView) findViewById(R.id.mapView);
