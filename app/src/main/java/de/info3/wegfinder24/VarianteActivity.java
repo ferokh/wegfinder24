@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -39,11 +40,142 @@ public class VarianteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variante);
 
+        //Definition Knöpfe
         Button btnBike =this.findViewById(R.id.btnBike);
         Button btnCar =this.findViewById(R.id.btnCar);
         Button btnWalk =this.findViewById(R.id.btnWalk);
         Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
 
+        Intent intent_latlonh = this.getIntent();
+        String BA = intent_latlonh.getStringExtra("Startlat");
+        String LA = intent_latlonh.getStringExtra("Startlong");
+        String BE = intent_latlonh.getStringExtra("Ziellat");
+        String LE = intent_latlonh.getStringExtra("Ziellong");
+
+        TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationVar);
+        tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
+
+
+
+        //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+        TextView tvCarDistance = this.findViewById(R.id.tvCarDistance); //TextView für die Entfernung - Auto
+        Intent intent_CarDistance = this.getIntent();
+        if (intent_CarDistance != null) {
+            String distance = "0";
+            String distance_meter = "0";
+            distance = intent_CarDistance.getStringExtra("Distanz_Car"); //Übergabe der Werte hier, wenn länger als 1km
+            distance_meter = intent_CarDistance.getStringExtra("Distanz_Car_Meter"); //Übergabe der Werte hier, wenn kürzer als 1km
+
+            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            {
+                tvCarDistance.setText(distance_meter + " m"); //Anzeige mit Meter
+            }
+            else
+            {
+                tvCarDistance.setText(distance + " km"); //Anzeige mit Kilometer
+            }
+        }
+
+        TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
+        Intent intent_CarDuration = this.getIntent();
+        if (intent_CarDuration != null) {
+            String duration_stunde = "0";           //Format 00h 00min - hier die Stunden
+            String duration_stunde_minute = "0";    //Format 00h 00min - hier die Minuten
+            String duration_minute = "0";           //Minuten wenn unter 1h
+
+            duration_stunde = intent_CarDuration.getStringExtra("Dauer_Car_Stunden");
+            duration_stunde_minute = intent_CarDuration.getStringExtra("Dauer_Car_Stunden_Minuten");
+            duration_minute = intent_CarDuration.getStringExtra("Dauer_Car_Minuten");
+
+            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            {
+                tvCarDuration.setText(duration_minute + " min");
+            }
+            else
+            {
+                tvCarDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+            }
+        }
+
+        //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+        TextView tvBikeDistance = this.findViewById(R.id.tvBikeDistance); //TextView für die Entfernung - Fahrrad
+        Intent intent_BikeDistance = this.getIntent();
+        if (intent_BikeDistance != null) {
+            String distance = "0";
+            String distance_meter = "0";
+            distance = intent_BikeDistance.getStringExtra("Distanz_Bike");//Übergabe der Werte hier, wenn länger als 1km
+            distance_meter = intent_BikeDistance.getStringExtra("Distanz_Bike_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
+            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            {
+                tvBikeDistance.setText(distance_meter + " m");
+            }
+            else
+            {
+                tvBikeDistance.setText(distance + " km");
+            }
+        }
+
+        TextView tvBikeDuration = this.findViewById(R.id.tvBikeDuration);
+        Intent intent_BikeDuration = this.getIntent();
+        if (intent_BikeDuration != null) {
+            String duration_stunde = "0";
+            String duration_stunde_minute = "0";
+            String duration_minute = "0";
+
+            duration_stunde = intent_BikeDuration.getStringExtra("Dauer_Bike_Stunden");
+            duration_stunde_minute = intent_BikeDuration.getStringExtra("Dauer_Bike_Stunden_Minuten");
+            duration_minute = intent_BikeDuration.getStringExtra("Dauer_Bike_Minuten");
+
+            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            {
+                tvBikeDuration.setText(duration_minute + " min");
+            }
+            else
+            {
+                tvBikeDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+            }
+        }
+
+        //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+        TextView tvWalkDistance = this.findViewById(R.id.tvWalkDistance); //TextView für die Entfernung - zu Fuß
+        Intent intent_WalkDistance = this.getIntent();
+        if (intent_WalkDistance != null) {
+            String distance = "0";
+            String distance_meter = "0";
+            distance = intent_WalkDistance.getStringExtra("Distanz_Walk");//Übergabe der Werte hier, wenn länger als 1km
+            distance_meter = intent_WalkDistance.getStringExtra("Distanz_Walk_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
+            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            {
+                tvWalkDistance.setText(distance_meter + " m");
+            }
+            else
+            {
+                tvWalkDistance.setText(distance + " km");
+            }
+        }
+
+        TextView tvWalkDuration = this.findViewById(R.id.tvWalkDuration);
+        Intent intent_WalkDuration = this.getIntent();
+        if (intent_WalkDuration != null) {
+            String duration_stunde = "0";
+            String duration_stunde_minute = "0";
+            String duration_minute = "0";
+
+            duration_stunde = intent_WalkDuration.getStringExtra("Dauer_Walk_Stunden");
+            duration_stunde_minute = intent_WalkDuration.getStringExtra("Dauer_Walk_Stunden_Minuten");
+            duration_minute = intent_WalkDuration.getStringExtra("Dauer_Walk_Minuten");
+
+            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            {
+                tvWalkDuration.setText(duration_minute + " min");
+            }
+            else
+            {
+                tvWalkDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+            }
+        }
+
+        //WegActivity Starten von BikeKnopf
         btnBike.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -52,6 +184,7 @@ public class VarianteActivity extends AppCompatActivity {
             }
         });
 
+        //WegActivity Starten von AutoKnopf
         btnCar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -60,6 +193,7 @@ public class VarianteActivity extends AppCompatActivity {
             }
         });
 
+        //WegActivity Starten von WalkKnopf
         btnWalk.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -68,6 +202,7 @@ public class VarianteActivity extends AppCompatActivity {
             }
         });
 
+        //Zurück zur EingabeActivity
         btnBacktoEingabe.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

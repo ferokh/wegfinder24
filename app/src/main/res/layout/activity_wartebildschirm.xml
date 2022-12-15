@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,21 +8,49 @@
     android:orientation="vertical"
     tools:context=".WartebildschirmActivity">
 
+    <ProgressBar
+        android:id="@+id/Progress"
+        style="@android:style/Widget.ProgressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="15dp"
+        android:max="100"
+        android:visibility="invisible">
+    </ProgressBar>
+
     <TextView
+        android:id="@+id/plsWait"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
         android:text="Bitte Warten"
         android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Progress"
         android:textColor="@color/white"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/btnweiter"
         android:layout_width="100dp"
         android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/plsWait"
         android:layout_gravity="center"
+        android:layout_margin="15dp"
         android:text="Weiter"
         android:background="@color/black">
 
     </Button>
+    <Button
+        android:id="@+id/btnBerechnen"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btnweiter"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:text="Berechnen"
+        android:background="@color/black">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </Button>-->
+
+</RelativeLayout>

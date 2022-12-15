@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,14 +49,34 @@ public class EingabeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eingabe);
         //über den ArrowButton die Variate Activity öffnen
-        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
 
-        //TODO: Layout überarbeiten, das Blau ist bisschen krass und die Form abändern könnte helfen
-        //TODO: Beim drücken des Knopfes wird die gleiche Activity wieder gestrartet. Wie das sein kann, keine Ahnung
+
+        //Definition der EditText-Felder für die Eingabe von Start und Ziel Lat/Long
+        EditText edtStartMessagelat = this.findViewById(R.id.edtStartEnter);
+        EditText edtStartMessagelong = this.findViewById(R.id.edtStartEnterLong);
+        EditText edtZielMessagelat = this.findViewById(R.id.edtZielEnter);
+        EditText edtZielMessagelong = this.findViewById(R.id.edtZielEnterLong);
+
+        //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
+        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
         btnOpenVariante.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+                /*double Startlat = 8.681495;
+                double Startlong = 49.41461;
+                double Ziellat = 8.687872;
+                double Ziellong = 49.420318;*/
+                double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
+                double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
+                double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
+                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
+
                 Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+                intent.putExtra("Startlat",Startlat);
+                intent.putExtra("Startlong",Startlong);
+                intent.putExtra("Ziellat",Ziellat);
+                intent.putExtra("Ziellong",Ziellong);
                 startActivity(intent);
             }
         });
