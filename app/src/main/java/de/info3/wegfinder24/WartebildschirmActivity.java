@@ -90,13 +90,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         ProgressBar roundProgress = (ProgressBar) findViewById(R.id.Progress);
         int maxValue = roundProgress.getMax();
 
-        // Button
-        //Button btnOpenVariante =this.findViewById(R.id.btnweiter);
-        //Button btnBerechnen =this.findViewById(R.id.btnBerechnen);
-
-       // btnBerechnen.setOnClickListener(new View.OnClickListener(){
-       //     @Override
-       //     public void onClick(View view) {
 
                 Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
 
