@@ -1,9 +1,14 @@
 package de.info3.wegfinder24;
 
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.views.overlay.Marker;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,6 +19,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -24,30 +31,51 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.Inflater;
+
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
+
+import static android.os.Build.VERSION_CODES.M;
+import static java.security.AccessController.getContext;
 
 public class EingabeActivity extends AppCompatActivity {
 
+    MapView map = null;
+
     private MapView mapView;
-
-
-
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
 
 
 
-
-    @SuppressLint("MissingPermission")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
         setContentView(R.layout.activity_eingabe);
+  /*      //ImageButton btnOpenVariante = this.findViewById(R.id.btnArrow);
+
+        //btnOpenVariante.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View view){
+        Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+        startActivity(intent);
+    }
+    });*/
         //über den ArrowButton die Variate Activity öffnen
 
 
@@ -112,24 +140,20 @@ public class EingabeActivity extends AppCompatActivity {
                 }
             }
         });
+        //Map anzeigen
+        map = (MapView) findViewById(R.id.mapView);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        mapView = map;
 
-        //Zugriff auf den Kartenserver der von Herr Knopf bereitgestellt wird
-        String authorizationString = this.getMapServerAuthorizationString("ws2223@hka", "LeevwBfDi#2027"); //username und passwort
-        Configuration.getInstance().getAdditionalHttpRequestProperties().put("Authorization", authorizationString);
 
-        XYTileSource mapServer = new XYTileSource("MapServer", 8, 20, 256, ".png", new String[]{"https://www.mapserver.dev/styles/default/"});
-
-        this.mapView = this.findViewById(R.id.mapView);
-        this.mapView.setTileSource(mapServer);
-
+        //Kompass
         CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
         compassOverlay.enableCompass();
         mapView.getOverlays().add(compassOverlay);
 
-        GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
-        IMapController mapController = mapView.getController();
-        mapController.setCenter(startPoint);
-//add
+
+        //Standort anzeigen lassen
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
         locationOverlay = new MyLocationNewOverlay(provider, mapView);
@@ -141,24 +165,40 @@ public class EingabeActivity extends AppCompatActivity {
         });
         mapView.getOverlayManager().add(locationOverlay);
 
+
+        //Marker setzen
+        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
+        IMapController mapController = map.getController();
+        mapController.setZoom(9);
+        mapController.setCenter(startPoint);
+
+        Marker startMarker=new Marker(map);
+        startMarker.setPosition(startPoint);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(startMarker);
+
+
+        //Polygon mit Array anzeigen lassen
+        Polyline line = new Polyline(mapView);
+        line.setWidth(4f);
+        line.setColor(Color.BLUE);
+
+        List<GeoPoint> coordlist =new ArrayList<GeoPoint>();
+
+        coordlist.add( new GeoPoint(49.1,1));
+        coordlist.add(new GeoPoint(48.13,-1.63));
+        coordlist.add(new GeoPoint(50.1,2));
+        coordlist.add(new GeoPoint(51.1,3));
+
+        line.setPoints(coordlist);
+        line.setGeodesic(true);
+        mapView.getOverlayManager().add(line);
+        mapView.setVisibility(View.GONE);
+        mapView.setVisibility(View.VISIBLE);
+
+
+
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-
-        locationOverlay.enableMyLocation();
-        this.mapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        locationOverlay.disableMyLocation();
-        this.mapView.onPause();
-    }
-
     @SuppressLint("MissingPermission")
     private void setupMapView()
     {
@@ -172,6 +212,7 @@ public class EingabeActivity extends AppCompatActivity {
                 GeoPoint startPoint = new GeoPoint(latitude, longitude);
 
                 IMapController mapController = mapView.getController();
+                mapController.setZoom(12);
                 mapController.setCenter(startPoint);
             }
 
@@ -196,10 +237,24 @@ public class EingabeActivity extends AppCompatActivity {
 
     }
 
-    private String getMapServerAuthorizationString(String username, String password)
-    {
-        String authorizationString = String.format("%s:%s", username, password);
-        return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+
+
+    public void onResume(){
+        super.onResume();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+    public void onPause(){
+        super.onPause();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().save(this, prefs);
+        map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
     @Override
