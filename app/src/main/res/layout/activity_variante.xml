@@ -13,7 +13,7 @@
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="380dp"
-        android:layout_height="570dp" />
+        android:layout_height="470dp" />
 
     <!--Fahrrad-->
     <TextView
