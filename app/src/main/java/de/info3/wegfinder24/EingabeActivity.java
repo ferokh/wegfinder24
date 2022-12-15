@@ -117,6 +117,12 @@ public class EingabeActivity extends AppCompatActivity {
         mapView = map;
 
 
+        //Kompass
+        CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
+        compassOverlay.enableCompass();
+        mapView.getOverlays().add(compassOverlay);
+
+
         //Standort anzeigen lassen
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
@@ -131,7 +137,7 @@ public class EingabeActivity extends AppCompatActivity {
 
 
         //Marker setzen
-        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
+       /* GeoPoint startPoint=new GeoPoint(48.13,-1.63);
         IMapController mapController = map.getController();
         mapController.setZoom(9);
         mapController.setCenter(startPoint);
@@ -139,7 +145,7 @@ public class EingabeActivity extends AppCompatActivity {
         Marker startMarker=new Marker(map);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(startMarker);
+        map.getOverlays().add(startMarker);*/
 
 
         //Polygon mit Array anzeigen lassen
