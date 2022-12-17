@@ -64,7 +64,11 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
     int status = 0;
     int ups_verbindung = 0;
-    int ups_übertragung = 0;
+    int ups_uebertragung = 0;
+
+    Integer RP_car = 200;
+    Integer RP_bike = 200;
+    Integer RP_walk = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,35 +139,18 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
                             Log.i("FeaturesList","Problem, viel Glück!");
-                            Integer ResponseCode = response.code();
-                            Log.i("ResponseCode", Integer.toString(ResponseCode));
-                            ups_übertragung++;
-                            return;
+                            RP_car = response.code();
+                            Log.i("ResponseCode", Integer.toString(RP_car));
+                            ups_uebertragung++;
                         }
-
-                        Double Distanz_car = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer_car = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-                        car_distance = Distanz_car;
-                        car_duration=Dauer_car;
-
-                        Log.i("Distanz Auto", Double.toString(Distanz_car));
-                        Log.i("Dauer Auto", Double.toString(Dauer_car));
-
-                        Integer wayPointsCar = example.getFeatures().get(0).getProperties().getWayPoints().get(1);
-
-                        Log.i("WayPoints Car",Integer.toString(wayPointsCar));
-
-
-
 
                         // Datenübergabe oder Fehler abfangen
                         status++;
-                        if (status == 3 && ups_übertragung == 0) {
-                            Datenübergabe();
+                        if (status == 3 && ups_uebertragung == 0) {
+                            Datenuebergabe();
                         }
-                        if (status == 3 && ups_übertragung > 0) {
-                            UPS_übertragung();
+                        if (status == 3 && ups_uebertragung > 0) {
+                            UPS_uebertragung();
                         }
                     }
 
@@ -192,28 +179,18 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
                             Log.i("FeaturesList","Problem, viel Glück!");
-                            Integer ResponseCode = response.code();
-                            Log.i("ResponseCode", Integer.toString(ResponseCode));
-                            ups_übertragung++;
-                            return;
+                            RP_bike = response.code();
+                            Log.i("ResponseCode", Integer.toString(RP_bike));
+                            ups_uebertragung++;
                         }
-
-                        Double Distanz_bike = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer_bike = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-                        bike_distance = Distanz_bike;
-                        bike_duration = Dauer_bike;
-
-                        Log.i("Distanz Fahrrad", Double.toString(Distanz_bike));
-                        Log.i("Dauer Fahrrad", Double.toString(Dauer_bike));
 
                         // Datenübergabe oder Fehler abfangen
                         status++;
-                        if (status == 3 && ups_übertragung == 0) {
-                            Datenübergabe();
+                        if (status == 3 && ups_uebertragung == 0) {
+                            Datenuebergabe();
                         }
-                        if (status == 3 && ups_übertragung > 0) {
-                            UPS_übertragung();
+                        if (status == 3 && ups_uebertragung > 0) {
+                            UPS_uebertragung();
                         }
                     }
 
@@ -243,28 +220,18 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
                             Log.i("FeaturesList","Problem, viel Glück!");
-                            Integer ResponseCode = response.code();
-                            Log.i("ResponseCode", Integer.toString(ResponseCode));
-                            ups_übertragung++;
-                            return;
+                            RP_walk = response.code();
+                            Log.i("ResponseCode", Integer.toString(RP_walk));
+                            ups_uebertragung++;
                         }
-
-                        Double Distanz_walk = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer_walk = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-                        walk_distance = Distanz_walk;
-                        walk_duration = Dauer_walk;
-
-                        Log.i("Distanz Fuß", Double.toString(Distanz_walk));
-                        Log.i("Dauer Fuß", Double.toString(Dauer_walk));
 
                         // Datenübergabe oder Fehler abfangen
                         status++;
-                        if (status == 3 && ups_übertragung == 0) {
-                            Datenübergabe();
+                        if (status == 3 && ups_uebertragung == 0) {
+                            Datenuebergabe();
                         }
-                        if (status == 3 && ups_übertragung > 0) {
-                            UPS_übertragung();
+                        if (status == 3 && ups_uebertragung > 0) {
+                            UPS_uebertragung();
                         }
                     }
 
@@ -302,13 +269,14 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 })
                 .show();
     }
-    private void UPS_übertragung(){
+    private void UPS_uebertragung(){
         Intent fehler = new Intent(WartebildschirmActivity.this, EingabeActivity.class);
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Fehler")
-                .setMessage("Es konnte keine Daten vom Navigationsdienst empfangen werden." +
-                        "Überprüfe, ob die Start- und Endpunkte korrekt in den Eingabefeldern eingegeben wurden.")
+                .setMessage("Es konnte keine Daten vom Navigationsdienst empfangen werden.\n" +
+                        "Überprüfe, ob die Start- und Endpunkte korrekt in den Eingabefeldern eingegeben wurden, oder wende dich an die Entwickler.\n" +
+                        "RP-Auto: " + RP_car + "\nRP-Gehen: " + RP_walk + "\nRP-Fahrrad: " + RP_bike)
                 .setPositiveButton("coolcoolcool und zurück", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -317,7 +285,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 })
                 .show();
     }
-    private void Datenübergabe(){
+    private void Datenuebergabe(){
         Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
