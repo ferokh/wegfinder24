@@ -150,6 +150,13 @@ public class WartebildschirmActivity extends AppCompatActivity {
                         Log.i("Distanz Auto", Double.toString(Distanz_car));
                         Log.i("Dauer Auto", Double.toString(Dauer_car));
 
+                        Integer wayPointsCar = example.getFeatures().get(0).getProperties().getWayPoints().get(1);
+
+                        Log.i("WayPoints Car",Integer.toString(wayPointsCar));
+
+
+
+
                         // Datenübergabe oder Fehler abfangen
                         status++;
                         if (status == 3 && ups_übertragung == 0) {
