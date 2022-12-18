@@ -287,7 +287,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
         Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
 
-
         Log.i("Distanz Car", Double.toString(car_distance));
         Log.i("Dauer Car", Double.toString(car_duration));
 
@@ -316,7 +315,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         Double bike_distance = datenbike.getFeatures().get(0).getProperties().getSummary().getDistance();
         Double bike_duration = datenbike.getFeatures().get(0).getProperties().getSummary().getDuration();
 
-
         Log.i("Distanz Bike", Double.toString(bike_distance));
         Log.i("Dauer Bike", Double.toString(bike_duration));
 
@@ -344,7 +342,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
         Double walk_distance = datenwalk.getFeatures().get(0).getProperties().getSummary().getDistance();
         Double walk_duration = datenwalk.getFeatures().get(0).getProperties().getSummary().getDuration();
-
 
         Log.i("Distanz Walk", Double.toString(walk_distance));
         Log.i("Dauer Walk", Double.toString(walk_duration));
