@@ -53,14 +53,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
     double BE = 0;
     double LE = 0;
 
-    double car_distance = 0;
-    double car_duration = 0;
-
-    double bike_distance = 0;
-    double bike_duration = 0;
-
-    double walk_distance = 0;
-    double walk_duration = 0;
+    Anfrage datencar;
+    Anfrage datenwalk;
+    Anfrage datenbike;
 
     int status = 0;
     int ups_verbindung = 0;
@@ -86,11 +81,11 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
         // Koordinaten in Liste stecken
         List Anfang = new ArrayList();
-        Anfang.add(BA);
         Anfang.add(LA);
+        Anfang.add(BA);
         List Ende = new ArrayList();
-        Ende.add(BE);
         Ende.add(LE);
+        Ende.add(BE);
         List Koordinaten = new ArrayList();
         Koordinaten.add(Anfang);
         Koordinaten.add(Ende);
@@ -134,7 +129,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 resultCall_car.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        Anfrage example = response.body();
+                        datencar = response.body();
                         //int i = 0;
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
@@ -174,7 +169,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 resultCall_bike.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        Anfrage example = response.body();
+                        datenbike = response.body();
                         //int i = 0;
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
@@ -215,7 +210,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 resultCall_walk.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        Anfrage example = response.body();
+                        datenwalk = response.body();
                         //int i = 0;
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
@@ -285,10 +280,14 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 })
                 .show();
     }
-    private void Datenuebergabe(){
+    private void Datenuebergabe () {
         Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+        Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
+        Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+
         Log.i("Distanz Car", Double.toString(car_distance));
         Log.i("Dauer Car", Double.toString(car_duration));
 
@@ -314,6 +313,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
         }
 
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+        Double bike_distance = datenbike.getFeatures().get(0).getProperties().getSummary().getDistance();
+        Double bike_duration = datenbike.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+
         Log.i("Distanz Bike", Double.toString(bike_distance));
         Log.i("Dauer Bike", Double.toString(bike_duration));
 
@@ -339,6 +342,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
         }
 
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+        Double walk_distance = datenwalk.getFeatures().get(0).getProperties().getSummary().getDistance();
+        Double walk_duration = datenwalk.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+
         Log.i("Distanz Walk", Double.toString(walk_distance));
         Log.i("Dauer Walk", Double.toString(walk_duration));
 
