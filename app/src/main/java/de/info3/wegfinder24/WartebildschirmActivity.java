@@ -30,10 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-//import javax.ws.rs.core.Response;
-
-
 public class WartebildschirmActivity extends AppCompatActivity {
 
     double BA = 0;
@@ -82,160 +78,147 @@ public class WartebildschirmActivity extends AppCompatActivity {
         ProgressBar roundProgress = (ProgressBar) findViewById(R.id.Progress);
         int maxValue = roundProgress.getMax();
 
+        roundProgress.setVisibility(View.VISIBLE);
 
-                Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-
-
-                roundProgress.setVisibility(View.VISIBLE);
-
-                OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-                    @Override
-                    public okhttp3.Response intercept(Chain chain) throws IOException {
-                        Request newRequest  = chain.request().newBuilder()
-                                .addHeader("Content-Type", "application/json; charset=utf-8")
-                                .addHeader("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
-                                .addHeader("Authorization", "5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada")
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                }).build();
-                roundProgress.setProgress(10);
-                Retrofit retrofit = new Retrofit.Builder()
-                        .client(client)
-                        .baseUrl("https://api.openrouteservice.org/")
-                        //.baseUrl("https://webhook.site/")
-                        .addConverterFactory(GsonConverterFactory.create())
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request newRequest  = chain.request().newBuilder()
+                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                        .addHeader("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
+                        .addHeader("Authorization", "5b3ce3597851110001cf6248f06b7f011fe047c9b80f787320e4eada")
                         .build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+        roundProgress.setProgress(10);
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .baseUrl("https://api.openrouteservice.org/")
+                //.baseUrl("https://webhook.site/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-                Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
+        Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
 
-                //////////////////////////////////////////////CAR///////////////////////////////////////////////////
-                // POST Anfrage
-                OpenRouteServiceCar service_car = retrofit.create(OpenRouteServiceCar.class);
-                // send the Anfrage to the Rest API
-                Call<Anfrage> resultCall_car = service_car.addAnfrage(anfrage);
-                resultCall_car.enqueue(new Callback<Anfrage>() {
-                    @Override
-                    public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        datencar = response.body();
-                        //int i = 0;
-                        Log.i("FeaturesList","Anfrage ging durch");
-                        if (response.code() != 200){
-                            Log.i("FeaturesList","Problem, viel Glück!");
-                            RP_car = response.code();
-                            Log.i("ResponseCode", Integer.toString(RP_car));
-                            ups_uebertragung++;
-                        }
+        //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+        // POST Anfrage
+        OpenRouteServiceCar service_car = retrofit.create(OpenRouteServiceCar.class);
+        // send the Anfrage to the Rest API
+        Call<Anfrage> resultCall_car = service_car.addAnfrage(anfrage);
+        resultCall_car.enqueue(new Callback<Anfrage>() {
+            @Override
+            public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
+                datencar = response.body();
+                //int i = 0;
+                Log.i("FeaturesList","Anfrage ging durch");
+                if (response.code() != 200){
+                    Log.i("FeaturesList","Problem, viel Glück!");
+                    RP_car = response.code();
+                    Log.i("ResponseCode", Integer.toString(RP_car));
+                    ups_uebertragung++;
+                }
 
-                        // Datenübergabe oder Fehler abfangen
-                        status++;
-                        if (status == 3 && ups_uebertragung == 0) {
-                            Datenuebergabe();
-                        }
-                        if (status == 3 && ups_uebertragung > 0) {
-                            UPS_uebertragung();
-                        }
-                    }
+                // Datenübergabe oder Fehler abfangen
+                status++;
+                if (status == 3 && ups_uebertragung == 0) {
+                    Datenuebergabe();
+                }
+                if (status == 3 && ups_uebertragung > 0) {
+                    UPS_uebertragung();
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<Anfrage> call, Throwable t) {
-                        Log.d("WartebildschirmActivity", "Anfragefehler");
-                        ups_verbindung++;
-                        if (status + ups_verbindung == 3) {
-                            UPS_verbindung();
-                        }
-                    }
-                }); //Auto Abfrage
+            @Override
+            public void onFailure(Call<Anfrage> call, Throwable t) {
+                Log.d("WartebildschirmActivity", "Anfragefehler");
+                ups_verbindung++;
+                if (status + ups_verbindung == 3) {
+                    UPS_verbindung();
+                }
+            }
+        }); //Auto Abfrage
 
-                roundProgress.setProgress(40);
+        roundProgress.setProgress(40);
 
-                //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
-                // POST Anfrage
-                OpenRouteServiceBike service_bike = retrofit.create(OpenRouteServiceBike.class);
-                // send the Anfrage to the Rest API
-                Call<Anfrage> resultCall_bike = service_bike.addAnfrage(anfrage);
-                resultCall_bike.enqueue(new Callback<Anfrage>() {
-                    @Override
-                    public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        datenbike = response.body();
-                        //int i = 0;
-                        Log.i("FeaturesList","Anfrage ging durch");
-                        if (response.code() != 200){
-                            Log.i("FeaturesList","Problem, viel Glück!");
-                            RP_bike = response.code();
-                            Log.i("ResponseCode", Integer.toString(RP_bike));
-                            ups_uebertragung++;
-                        }
+        //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+        // POST Anfrage
+        OpenRouteServiceBike service_bike = retrofit.create(OpenRouteServiceBike.class);
+        // send the Anfrage to the Rest API
+        Call<Anfrage> resultCall_bike = service_bike.addAnfrage(anfrage);
+        resultCall_bike.enqueue(new Callback<Anfrage>() {
+            @Override
+            public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
+                datenbike = response.body();
+                //int i = 0;
+                Log.i("FeaturesList","Anfrage ging durch");
+                if (response.code() != 200){
+                    Log.i("FeaturesList","Problem, viel Glück!");
+                    RP_bike = response.code();
+                    Log.i("ResponseCode", Integer.toString(RP_bike));
+                    ups_uebertragung++;
+                }
 
-                        // Datenübergabe oder Fehler abfangen
-                        status++;
-                        if (status == 3 && ups_uebertragung == 0) {
-                            Datenuebergabe();
-                        }
-                        if (status == 3 && ups_uebertragung > 0) {
-                            UPS_uebertragung();
-                        }
-                    }
+                // Datenübergabe oder Fehler abfangen
+                status++;
+                if (status == 3 && ups_uebertragung == 0) {
+                    Datenuebergabe();
+                }
+                if (status == 3 && ups_uebertragung > 0) {
+                    UPS_uebertragung();
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<Anfrage> call, Throwable t) {
-                        Log.d("WartebildschirmActivity", "Anfragefehler");
-                        ups_verbindung++;
-                        if (status + ups_verbindung == 3) {
-                            UPS_verbindung();
-                        }
-                    }
-                }); //Fahrrad Abfrage
+            @Override
+            public void onFailure(Call<Anfrage> call, Throwable t) {
+                Log.d("WartebildschirmActivity", "Anfragefehler");
+                ups_verbindung++;
+                if (status + ups_verbindung == 3) {
+                    UPS_verbindung();
+                }
+            }
+        }); //Fahrrad Abfrage
 
-                roundProgress.setProgress(70);
+        roundProgress.setProgress(70);
 
-                //////////////////////////////////////////////WALK///////////////////////////////////////////////////
-                // POST Anfrage
-                OpenRouteServiceWalk service_walk = retrofit.create(OpenRouteServiceWalk.class);
+        //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+        // POST Anfrage
+        OpenRouteServiceWalk service_walk = retrofit.create(OpenRouteServiceWalk.class);
 
-                // send the Anfrage to the Rest API
-                Call<Anfrage> resultCall_walk = service_walk.addAnfrage(anfrage);
-                resultCall_walk.enqueue(new Callback<Anfrage>() {
-                    @Override
-                    public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        datenwalk = response.body();
-                        //int i = 0;
-                        Log.i("FeaturesList","Anfrage ging durch");
-                        if (response.code() != 200){
-                            Log.i("FeaturesList","Problem, viel Glück!");
-                            RP_walk = response.code();
-                            Log.i("ResponseCode", Integer.toString(RP_walk));
-                            ups_uebertragung++;
-                        }
+        // send the Anfrage to the Rest API
+        Call<Anfrage> resultCall_walk = service_walk.addAnfrage(anfrage);
+        resultCall_walk.enqueue(new Callback<Anfrage>() {
+            @Override
+            public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
+                datenwalk = response.body();
+                //int i = 0;
+                Log.i("FeaturesList","Anfrage ging durch");
+                if (response.code() != 200){
+                    Log.i("FeaturesList","Problem, viel Glück!");
+                    RP_walk = response.code();
+                    Log.i("ResponseCode", Integer.toString(RP_walk));
+                    ups_uebertragung++;
+                }
 
-                        // Datenübergabe oder Fehler abfangen
-                        status++;
-                        if (status == 3 && ups_uebertragung == 0) {
-                            Datenuebergabe();
-                        }
-                        if (status == 3 && ups_uebertragung > 0) {
-                            UPS_uebertragung();
-                        }
-                    }
+                // Datenübergabe oder Fehler abfangen
+                status++;
+                if (status == 3 && ups_uebertragung == 0) {
+                    Datenuebergabe();
+                }
+                if (status == 3 && ups_uebertragung > 0) {
+                    UPS_uebertragung();
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<Anfrage> call, Throwable t) {
-                        Log.d("WartebildschirmActivity", "Anfragefehler");
-                        ups_verbindung++;
-                        if (status + ups_verbindung == 3) {
-                            UPS_verbindung();
-                        }
-                    }
-                }); //Fuß Abfrage
-
-
-        //    }
-
-       //});
-
-
-
-
+            @Override
+            public void onFailure(Call<Anfrage> call, Throwable t) {
+                Log.d("WartebildschirmActivity", "Anfragefehler");
+                ups_verbindung++;
+                if (status + ups_verbindung == 3) {
+                    UPS_verbindung();
+                }
+            }
+        }); //Fuß Abfrage
     }
     private void UPS_verbindung(){
         Intent fehler = new Intent(WartebildschirmActivity.this, EingabeActivity.class);
@@ -270,146 +253,9 @@ public class WartebildschirmActivity extends AppCompatActivity {
     }
     private void Datenuebergabe () {
         Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-
-        //////////////////////////////////////////////CAR///////////////////////////////////////////////////
-        Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
-        Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-        intent.putExtra("car_WP", (Serializable) datencar);
-
-        Log.i("Distanz Car", Double.toString(car_distance));
-        Log.i("Dauer Car", Double.toString(car_duration));
-
-        double result_car_distance[] = distanz(car_distance);
-        if (result_car_distance[1] == 0)
-        {
-            intent.putExtra("Distanz_Car_Meter", Double.toString(result_car_distance[0]));
-        }
-        else
-        {
-            intent.putExtra("Distanz_Car", Double.toString(result_car_distance[0]));
-        }
-
-        int result_car_duration [] = dauer(car_duration);
-        if (result_car_duration[0] == 0)
-        {
-            intent.putExtra("Dauer_Car_Minuten", Integer.toString(result_car_duration[1]));
-        }
-        else
-        {
-            intent.putExtra("Dauer_Car_Stunden", Integer.toString(result_car_duration[0]));
-            intent.putExtra("Dauer_Car_Stunden_Minuten",Integer.toString(result_car_duration[1]));
-        }
-
-        //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
-        Double bike_distance = datenbike.getFeatures().get(0).getProperties().getSummary().getDistance();
-        Double bike_duration = datenbike.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-        intent.putExtra("bike_WP",(Serializable) datenbike);
-
-        Log.i("Distanz Bike", Double.toString(bike_distance));
-        Log.i("Dauer Bike", Double.toString(bike_duration));
-
-        double result_bike_distance[] = distanz(bike_distance);
-        if (result_bike_distance[1] == 0)
-        {
-            intent.putExtra("Distanz_Bike_Meter", Double.toString(result_bike_distance[0]));
-        }
-        else
-        {
-            intent.putExtra("Distanz_Bike", Double.toString(result_bike_distance[0]));
-        }
-
-        int result_bike_duration [] = dauer(bike_duration);
-        if (result_bike_duration[0] == 0)
-        {
-            intent.putExtra("Dauer_Bike_Minuten", Integer.toString(result_bike_duration[1]));
-        }
-        else
-        {
-            intent.putExtra("Dauer_Bike_Stunden", Integer.toString(result_bike_duration[0]));
-            intent.putExtra("Dauer_Bike_Stunden_Minuten",Integer.toString(result_bike_duration[1]));
-        }
-
-        //////////////////////////////////////////////WALK///////////////////////////////////////////////////
-        Double walk_distance = datenwalk.getFeatures().get(0).getProperties().getSummary().getDistance();
-        Double walk_duration = datenwalk.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-        intent.putExtra("walk_WP",(Serializable) datenwalk);
-
-        Log.i("Distanz Walk", Double.toString(walk_distance));
-        Log.i("Dauer Walk", Double.toString(walk_duration));
-
-        double result_walk_distance[] = distanz(walk_distance);
-        if (result_walk_distance[1] == 0)
-        {
-            intent.putExtra("Distanz_Walk_Meter", Double.toString(result_walk_distance[0]));
-        }
-        else
-        {
-            intent.putExtra("Distanz_Walk", Double.toString(result_walk_distance[0]));
-        }
-
-        int result_walk_duration [] = dauer(walk_duration);
-        if (result_walk_duration[0] == 0)
-        {
-            intent.putExtra("Dauer_Walk_Minuten", Integer.toString(result_walk_duration[1]));
-        }
-        else
-        {
-            intent.putExtra("Dauer_Walk_Stunden", Integer.toString(result_walk_duration[0]));
-            intent.putExtra("Dauer_Walk_Stunden_Minuten",Integer.toString(result_walk_duration[1]));
-        }
-
-        intent.putExtra("Startlat",Double.toString(BA));
-        intent.putExtra("Startlong",Double.toString(LA));
-        intent.putExtra("Ziellat",Double.toString(BE));
-        intent.putExtra("Ziellong",Double.toString(LE));
-
+        intent.putExtra("datencar", (Serializable) datencar);
+        intent.putExtra("datenbike",(Serializable) datenbike);
+        intent.putExtra("datenwalk",(Serializable) datenwalk);
         startActivity(intent);
-    }
-    private double round (double value, int decimalPoints)
-    {
-        double d = Math.pow(10,decimalPoints);
-        return Math.round(value * d)/d;
-    }
-
-    private double[] distanz (double Distanz)
-    {
-        Distanz = Distanz / 1000;
-        Distanz = round(Distanz,1);
-
-        if(Distanz < 1.0)
-        {
-            Distanz = Distanz * 100;
-            return new double [] {Distanz, 0};
-        }
-        else
-        {
-            return new double[] {Distanz,1};
-        }
-    }
-
-    private int[] dauer(double Dauer)
-    {
-        Dauer = Dauer / 60;
-        Dauer = round(Dauer,0);
-
-        int minuten = (int) Dauer;
-        int stunden = 0;
-
-        if(minuten < 60)
-        {
-            return new int[] {stunden,minuten};
-        }
-        else
-        {
-            while (minuten>59)
-            {
-                minuten = minuten - 60;
-                stunden = stunden + 1;
-            }
-            return new int[] {stunden,minuten};
-        }
     }
 }

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -26,6 +27,9 @@ import org.osmdroid.views.MapView;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
+
+import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 
 public class WegActivity extends AppCompatActivity {
 
@@ -39,11 +43,113 @@ public class WegActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weg);
 
-        Button btnWeg1 =this.findViewById(R.id.btnWay1);
-        Button btnWeg2 =this.findViewById(R.id.btnWay2);
-        Button btnWeg3 =this.findViewById(R.id.btnWay3);
+        Button btnWeg1 =this.findViewById(R.id.btnWeg1);
+        Button btnWeg2 =this.findViewById(R.id.btnWeg2);
+        Button btnWeg3 =this.findViewById(R.id.btnWeg3);
         Button btnBacktoEingabe = this.findViewById(R.id.btnbacktoEingabe);
         ImageButton ibtnBacktoVariante =this.findViewById(R.id.ibtnbacktoVariante);
+
+        Intent VAintent = this.getIntent();
+        Anfrage daten = (Anfrage) VAintent.getSerializableExtra("daten");
+
+        String BA = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(0).get(1));
+        String LA = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(0).get(0));
+        String BE = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(1).get(1));
+        String LE = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(1).get(0));
+
+        TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationWeg);
+        tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
+
+//////////////////////////////////////////////WEG1///////////////////////////////////////////////////
+        // Strecke anzeigen
+        TextView tvWeg1Distance = this.findViewById(R.id.tvWeg1Distance); //TextView für die Entfernung - Auto
+        double[] weg1_distance = distanz(daten.getFeatures().get(0).getProperties().getSummary().getDistance());
+        if (weg1_distance[1] == 0) {
+            tvWeg1Distance.setText(weg1_distance[0] + " m"); //Anzeige mit Meter
+        }
+        else {
+            tvWeg1Distance.setText(weg1_distance[0] + " km"); //Anzeige mit Kilometer
+        }
+
+        // Dauer anzeigen
+        TextView tvWeg1Duration = this.findViewById(R.id.tvWeg1Duration);
+        int[] weg1_duration = dauer(daten.getFeatures().get(0).getProperties().getSummary().getDuration());
+        if (weg1_duration[0] == 0) {  // Unterscheidung, wenn Zeit kürzer einer Stunde
+            tvWeg1Duration.setText(weg1_duration[1] + " min");
+        }
+        else {
+            tvWeg1Duration.setText(weg1_duration[0] + " h " + weg1_duration[1] + " min");
+        }
+
+        // Liste mit Waypoints erstellen
+        Integer weg1_WayPoints_First_number = daten.getFeatures().get(0).getProperties().getWayPoints().get(1);
+        List<GeoPoint> weg1_WayPoints =new ArrayList<GeoPoint>();
+        for (int i = 0; i<weg1_WayPoints_First_number + 1;i++)
+        {
+            weg1_WayPoints.add(new GeoPoint (daten.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),daten.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
+        }
+
+        //////////////////////////////////////////////weg2///////////////////////////////////////////////////
+        // Strecke anzeigen
+        TextView tvWeg2Distance = this.findViewById(R.id.tvWeg2Distance); //TextView für die Entfernung - Fahrrad
+        double[] weg2_distance = distanz(daten.getFeatures().get(1).getProperties().getSummary().getDistance());
+        if (weg2_distance[1] == 0) {
+            tvWeg2Distance.setText(weg2_distance[0] + " m"); //Anzeige mit Meter
+        }
+        else {
+            tvWeg2Distance.setText(weg2_distance[0] + " km"); //Anzeige mit Kilometer
+        }
+
+        // Dauer anzeigen
+        TextView tvWeg2Duration = this.findViewById(R.id.tvWeg2Duration);
+        int[] weg2_duration = dauer(daten.getFeatures().get(1).getProperties().getSummary().getDuration());
+        if (weg2_duration[0] == 0) {  // Unterscheidung, wenn Zeit kürzer einer Stunde
+            tvWeg2Duration.setText(weg2_duration[1] + " min");
+        }
+        else {
+            tvWeg2Duration.setText(weg2_duration[0] + " h " + weg2_duration[1] + " min");
+        }
+
+        // Liste mit Waypoints erstellen
+        Integer weg2_WayPoints_First_number = daten.getFeatures().get(1).getProperties().getWayPoints().get(1);
+        List<GeoPoint> weg2_WayPoints =new ArrayList<GeoPoint>();
+        for (int i = 0; i< (weg2_WayPoints_First_number + 1);i++)
+        {
+            weg2_WayPoints.add(new GeoPoint (daten.getFeatures().get(1).getGeometry().getCoordinates().get(i).get(1),daten.getFeatures().get(1).getGeometry().getCoordinates().get(i).get(0)));
+        }
+
+        //////////////////////////////////////////////weg3///////////////////////////////////////////////////
+        // Strecke anzeigen
+        TextView tvWeg3Distance = this.findViewById(R.id.tvWeg3Distance); //TextView für die Entfernung - zu Fuß
+        double[] weg3_distance = distanz(daten.getFeatures().get(2).getProperties().getSummary().getDistance());
+        if (weg3_distance[1] == 0) {
+            tvWeg3Distance.setText(weg3_distance[0] + " m"); //Anzeige mit Meter
+        }
+        else {
+            tvWeg3Distance.setText(weg3_distance[0] + " km"); //Anzeige mit Kilometer
+        }
+
+        // Dauer anzeigen
+        TextView tvWeg3Duration = this.findViewById(R.id.tvWeg3Duration);
+        int[] weg3_duration = dauer(daten.getFeatures().get(2).getProperties().getSummary().getDuration());
+        if (weg3_duration[0] == 0) {  // Unterscheidung, wenn Zeit kürzer einer Stunde
+            tvWeg3Duration.setText(weg3_duration[1] + " min");
+        }
+        else {
+            tvWeg3Duration.setText(weg3_duration[0] + " h " + weg3_duration[1] + " min");
+        }
+
+        // Liste mit Waypoints erstellen
+        Integer weg3_WayPoints_First_number = daten.getFeatures().get(2).getProperties().getWayPoints().get(1);
+        List<GeoPoint> weg3_WayPoints =new ArrayList<GeoPoint>();
+        for (int i = 0; i < weg3_WayPoints_First_number + 1;i++)
+        {
+            weg3_WayPoints.add(new GeoPoint (daten.getFeatures().get(2).getGeometry().getCoordinates().get(i).get(1),daten.getFeatures().get(2).getGeometry().getCoordinates().get(i).get(0)));
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
         btnWeg1.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -190,5 +296,42 @@ public class WegActivity extends AppCompatActivity {
     {
         String authorizationString = String.format("%s:%s", username, password);
         return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+    }
+
+    private double round (double value, int decimalPoints)
+    {
+        double d = Math.pow(10,decimalPoints);
+        return Math.round(value * d)/d;
+    }
+
+    private double[] distanz (double Distanz)
+    {
+        if(Distanz < 1000)
+        {
+            Distanz = round( Distanz / 10,0);
+            return new double [] {Distanz * 10, 0};
+        }
+        else
+        {
+            Distanz = round(Distanz / 1000,1);
+            return new double[] {Distanz,1};
+        }
+    }
+
+    private int[] dauer(double Dauer)
+    {
+        Dauer = Dauer / 60;
+        Dauer = round(Dauer,0);
+
+        int minuten = (int) Dauer;
+        int stunden = 0;
+
+        while (minuten>59)
+        {
+            minuten = minuten - 60;
+            stunden = stunden + 1;
+        }
+        return new int[] {stunden,minuten};
+
     }
 }
