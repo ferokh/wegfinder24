@@ -48,11 +48,11 @@ public class VarianteActivity extends AppCompatActivity {
         Button btnWalk =this.findViewById(R.id.btnWalk);
         Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
 
-        Intent intent_latlonh = this.getIntent();
-        String BA = intent_latlonh.getStringExtra("Startlat");
-        String LA = intent_latlonh.getStringExtra("Startlong");
-        String BE = intent_latlonh.getStringExtra("Ziellat");
-        String LE = intent_latlonh.getStringExtra("Ziellong");
+        Intent WBAintent = this.getIntent();
+        String BA = WBAintent.getStringExtra("Startlat");
+        String LA = WBAintent.getStringExtra("Startlong");
+        String BE = WBAintent.getStringExtra("Ziellat");
+        String LE = WBAintent.getStringExtra("Ziellong");
 
         TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationVar);
         tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
@@ -61,12 +61,11 @@ public class VarianteActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
         TextView tvCarDistance = this.findViewById(R.id.tvCarDistance); //TextView für die Entfernung - Auto
-        Intent intent_CarDistance = this.getIntent();
-        if (intent_CarDistance != null) {
+        if (WBAintent != null) {
             String distance = "0";
             String distance_meter = "0";
-            distance = intent_CarDistance.getStringExtra("Distanz_Car"); //Übergabe der Werte hier, wenn länger als 1km
-            distance_meter = intent_CarDistance.getStringExtra("Distanz_Car_Meter"); //Übergabe der Werte hier, wenn kürzer als 1km
+            distance = WBAintent.getStringExtra("Distanz_Car"); //Übergabe der Werte hier, wenn länger als 1km
+            distance_meter = WBAintent.getStringExtra("Distanz_Car_Meter"); //Übergabe der Werte hier, wenn kürzer als 1km
 
             if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
             {
@@ -77,26 +76,31 @@ public class VarianteActivity extends AppCompatActivity {
                 tvCarDistance.setText(distance + " km"); //Anzeige mit Kilometer
             }
         }
-
-        Intent intent_datencar = this.getIntent();
-        Anfrage datencar = (Anfrage) intent_datencar.getSerializableExtra("car_WP");
+        
+        Anfrage datencar = (Anfrage) WBAintent.getSerializableExtra("car_WP");
 
         Integer car_WayPoints_First_number = datencar.getFeatures().get(0).getProperties().getWayPoints().get(1);
-        Log.i("WayPoints First Car_Var", Integer.toString(car_WayPoints_First_number));
 
 
+        ArrayList<GeoPoint> car_WayPoints = null;
+
+        for (int i = 0; i<car_WayPoints_First_number;i++)
+        {
+            car_WayPoints.add(i, 
+                    new GeoPoint(datencar.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0),
+                                 datencar.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1)));
+        }
 
 
         TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
-        Intent intent_CarDuration = this.getIntent();
-        if (intent_CarDuration != null) {
+        if (WBAintent != null) {
             String duration_stunde = "0";           //Format 00h 00min - hier die Stunden
             String duration_stunde_minute = "0";    //Format 00h 00min - hier die Minuten
             String duration_minute = "0";           //Minuten wenn unter 1h
 
-            duration_stunde = intent_CarDuration.getStringExtra("Dauer_Car_Stunden");
-            duration_stunde_minute = intent_CarDuration.getStringExtra("Dauer_Car_Stunden_Minuten");
-            duration_minute = intent_CarDuration.getStringExtra("Dauer_Car_Minuten");
+            duration_stunde = WBAintent.getStringExtra("Dauer_Car_Stunden");
+            duration_stunde_minute = WBAintent.getStringExtra("Dauer_Car_Stunden_Minuten");
+            duration_minute = WBAintent.getStringExtra("Dauer_Car_Minuten");
 
             if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
             {
@@ -110,12 +114,11 @@ public class VarianteActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
         TextView tvBikeDistance = this.findViewById(R.id.tvBikeDistance); //TextView für die Entfernung - Fahrrad
-        Intent intent_BikeDistance = this.getIntent();
-        if (intent_BikeDistance != null) {
+        if (WBAintent != null) {
             String distance = "0";
             String distance_meter = "0";
-            distance = intent_BikeDistance.getStringExtra("Distanz_Bike");//Übergabe der Werte hier, wenn länger als 1km
-            distance_meter = intent_BikeDistance.getStringExtra("Distanz_Bike_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
+            distance = WBAintent.getStringExtra("Distanz_Bike");//Übergabe der Werte hier, wenn länger als 1km
+            distance_meter = WBAintent.getStringExtra("Distanz_Bike_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
             if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
             {
                 tvBikeDistance.setText(distance_meter + " m");
@@ -127,15 +130,14 @@ public class VarianteActivity extends AppCompatActivity {
         }
 
         TextView tvBikeDuration = this.findViewById(R.id.tvBikeDuration);
-        Intent intent_BikeDuration = this.getIntent();
-        if (intent_BikeDuration != null) {
+        if (WBAintent != null) {
             String duration_stunde = "0";
             String duration_stunde_minute = "0";
             String duration_minute = "0";
 
-            duration_stunde = intent_BikeDuration.getStringExtra("Dauer_Bike_Stunden");
-            duration_stunde_minute = intent_BikeDuration.getStringExtra("Dauer_Bike_Stunden_Minuten");
-            duration_minute = intent_BikeDuration.getStringExtra("Dauer_Bike_Minuten");
+            duration_stunde = WBAintent.getStringExtra("Dauer_Bike_Stunden");
+            duration_stunde_minute = WBAintent.getStringExtra("Dauer_Bike_Stunden_Minuten");
+            duration_minute = WBAintent.getStringExtra("Dauer_Bike_Minuten");
 
             if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
             {
@@ -149,12 +151,11 @@ public class VarianteActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
         TextView tvWalkDistance = this.findViewById(R.id.tvWalkDistance); //TextView für die Entfernung - zu Fuß
-        Intent intent_WalkDistance = this.getIntent();
-        if (intent_WalkDistance != null) {
+        if (WBAintent != null) {
             String distance = "0";
             String distance_meter = "0";
-            distance = intent_WalkDistance.getStringExtra("Distanz_Walk");//Übergabe der Werte hier, wenn länger als 1km
-            distance_meter = intent_WalkDistance.getStringExtra("Distanz_Walk_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
+            distance = WBAintent.getStringExtra("Distanz_Walk");//Übergabe der Werte hier, wenn länger als 1km
+            distance_meter = WBAintent.getStringExtra("Distanz_Walk_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
             if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
             {
                 tvWalkDistance.setText(distance_meter + " m");
@@ -166,15 +167,14 @@ public class VarianteActivity extends AppCompatActivity {
         }
 
         TextView tvWalkDuration = this.findViewById(R.id.tvWalkDuration);
-        Intent intent_WalkDuration = this.getIntent();
-        if (intent_WalkDuration != null) {
+        if (WBAintent != null) {
             String duration_stunde = "0";
             String duration_stunde_minute = "0";
             String duration_minute = "0";
 
-            duration_stunde = intent_WalkDuration.getStringExtra("Dauer_Walk_Stunden");
-            duration_stunde_minute = intent_WalkDuration.getStringExtra("Dauer_Walk_Stunden_Minuten");
-            duration_minute = intent_WalkDuration.getStringExtra("Dauer_Walk_Minuten");
+            duration_stunde = WBAintent.getStringExtra("Dauer_Walk_Stunden");
+            duration_stunde_minute = WBAintent.getStringExtra("Dauer_Walk_Stunden_Minuten");
+            duration_minute = WBAintent.getStringExtra("Dauer_Walk_Minuten");
 
             if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
             {
