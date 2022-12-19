@@ -3,31 +3,19 @@ package de.info3.wegfinder24;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.Button;
 
-import org.osmdroid.util.Distance;
+import org.osmdroid.util.GeoPoint;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-//import javax.ws.rs.client.Client;
-//import javax.ws.rs.client.ClientBuilder;
-//import javax.ws.rs.client.Entity;
-//import javax.ws.rs.core.Response;
-//import javax.ws.rs.core.MediaType;
 
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 import de.info3.wegfinder24.newtwork.OpenRouteServiceBike;
@@ -53,18 +41,17 @@ public class WartebildschirmActivity extends AppCompatActivity {
     double BE = 0;
     double LE = 0;
 
-    double car_distance = 0;
-    double car_duration = 0;
-
-    double bike_distance = 0;
-    double bike_duration = 0;
-
-    double walk_distance = 0;
-    double walk_duration = 0;
+    Anfrage datencar;
+    Anfrage datenwalk;
+    Anfrage datenbike;
 
     int status = 0;
     int ups_verbindung = 0;
-    int ups_übertragung = 0;
+    int ups_uebertragung = 0;
+
+    Integer RP_car = 200;
+    Integer RP_bike = 200;
+    Integer RP_walk = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +69,11 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
         // Koordinaten in Liste stecken
         List Anfang = new ArrayList();
-        Anfang.add(BA);
         Anfang.add(LA);
+        Anfang.add(BA);
         List Ende = new ArrayList();
-        Ende.add(BE);
         Ende.add(LE);
+        Ende.add(BE);
         List Koordinaten = new ArrayList();
         Koordinaten.add(Anfang);
         Koordinaten.add(Ende);
@@ -130,33 +117,23 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 resultCall_car.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        Anfrage example = response.body();
+                        datencar = response.body();
                         //int i = 0;
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
                             Log.i("FeaturesList","Problem, viel Glück!");
-                            Integer ResponseCode = response.code();
-                            Log.i("ResponseCode", Integer.toString(ResponseCode));
-                            ups_übertragung++;
-                            return;
+                            RP_car = response.code();
+                            Log.i("ResponseCode", Integer.toString(RP_car));
+                            ups_uebertragung++;
                         }
-
-                        Double Distanz_car = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer_car = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-                        car_distance = Distanz_car;
-                        car_duration=Dauer_car;
-
-                        Log.i("Distanz Auto", Double.toString(Distanz_car));
-                        Log.i("Dauer Auto", Double.toString(Dauer_car));
 
                         // Datenübergabe oder Fehler abfangen
                         status++;
-                        if (status == 3 && ups_übertragung == 0) {
-                            Datenübergabe();
+                        if (status == 3 && ups_uebertragung == 0) {
+                            Datenuebergabe();
                         }
-                        if (status == 3 && ups_übertragung > 0) {
-                            UPS_übertragung();
+                        if (status == 3 && ups_uebertragung > 0) {
+                            UPS_uebertragung();
                         }
                     }
 
@@ -180,33 +157,23 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 resultCall_bike.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        Anfrage example = response.body();
+                        datenbike = response.body();
                         //int i = 0;
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
                             Log.i("FeaturesList","Problem, viel Glück!");
-                            Integer ResponseCode = response.code();
-                            Log.i("ResponseCode", Integer.toString(ResponseCode));
-                            ups_übertragung++;
-                            return;
+                            RP_bike = response.code();
+                            Log.i("ResponseCode", Integer.toString(RP_bike));
+                            ups_uebertragung++;
                         }
-
-                        Double Distanz_bike = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer_bike = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-                        bike_distance = Distanz_bike;
-                        bike_duration = Dauer_bike;
-
-                        Log.i("Distanz Fahrrad", Double.toString(Distanz_bike));
-                        Log.i("Dauer Fahrrad", Double.toString(Dauer_bike));
 
                         // Datenübergabe oder Fehler abfangen
                         status++;
-                        if (status == 3 && ups_übertragung == 0) {
-                            Datenübergabe();
+                        if (status == 3 && ups_uebertragung == 0) {
+                            Datenuebergabe();
                         }
-                        if (status == 3 && ups_übertragung > 0) {
-                            UPS_übertragung();
+                        if (status == 3 && ups_uebertragung > 0) {
+                            UPS_uebertragung();
                         }
                     }
 
@@ -231,33 +198,23 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 resultCall_walk.enqueue(new Callback<Anfrage>() {
                     @Override
                     public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                        Anfrage example = response.body();
+                        datenwalk = response.body();
                         //int i = 0;
                         Log.i("FeaturesList","Anfrage ging durch");
                         if (response.code() != 200){
                             Log.i("FeaturesList","Problem, viel Glück!");
-                            Integer ResponseCode = response.code();
-                            Log.i("ResponseCode", Integer.toString(ResponseCode));
-                            ups_übertragung++;
-                            return;
+                            RP_walk = response.code();
+                            Log.i("ResponseCode", Integer.toString(RP_walk));
+                            ups_uebertragung++;
                         }
-
-                        Double Distanz_walk = example.getFeatures().get(0).getProperties().getSummary().getDistance();
-                        Double Dauer_walk = example.getFeatures().get(0).getProperties().getSummary().getDuration();
-
-                        walk_distance = Distanz_walk;
-                        walk_duration = Dauer_walk;
-
-                        Log.i("Distanz Fuß", Double.toString(Distanz_walk));
-                        Log.i("Dauer Fuß", Double.toString(Dauer_walk));
 
                         // Datenübergabe oder Fehler abfangen
                         status++;
-                        if (status == 3 && ups_übertragung == 0) {
-                            Datenübergabe();
+                        if (status == 3 && ups_uebertragung == 0) {
+                            Datenuebergabe();
                         }
-                        if (status == 3 && ups_übertragung > 0) {
-                            UPS_übertragung();
+                        if (status == 3 && ups_uebertragung > 0) {
+                            UPS_uebertragung();
                         }
                     }
 
@@ -295,13 +252,14 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 })
                 .show();
     }
-    private void UPS_übertragung(){
+    private void UPS_uebertragung(){
         Intent fehler = new Intent(WartebildschirmActivity.this, EingabeActivity.class);
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Fehler")
-                .setMessage("Es konnte keine Daten vom Navigationsdienst empfangen werden." +
-                        "Überprüfe, ob die Start- und Endpunkte korrekt in den Eingabefeldern eingegeben wurden.")
+                .setMessage("Es konnte keine Daten vom Navigationsdienst empfangen werden.\n" +
+                        "Überprüfe, ob die Start- und Endpunkte korrekt in den Eingabefeldern eingegeben wurden, oder wende dich an die Entwickler.\n" +
+                        "RP-Auto: " + RP_car + "\nRP-Gehen: " + RP_walk + "\nRP-Fahrrad: " + RP_bike)
                 .setPositiveButton("coolcoolcool und zurück", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -310,10 +268,27 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 })
                 .show();
     }
-    private void Datenübergabe(){
+    private void Datenuebergabe () {
         Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+        Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
+        Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+        Integer car_WayPoints_First_number = datencar.getFeatures().get(0).getProperties().getWayPoints().get(1);
+        Integer car_WayPoints_Second_number = datencar.getFeatures().get(1).getProperties().getWayPoints().get(1);
+        Integer car_WayPoints_Third_number = datencar.getFeatures().get(2).getProperties().getWayPoints().get(1);
+
+        //List <List<Double>> car_WayPoints_First = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+       // List <List<GeoPoint>> car_WayPoints_Second = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        //List <List<GeoPoint>> car_WayPoints_Third = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        //List car_WP = new ArrayList<>();
+        //car_WP.add(car_WayPoints_First);
+        intent.putExtra("car_WP", (Serializable) datencar);
+
+        Log.i("WayPoints First Car", Integer.toString(car_WayPoints_First_number));
+        Log.i("WayPoints Second Car", Integer.toString(car_WayPoints_Second_number));
+        Log.i("WayPoints Third Car", Integer.toString(car_WayPoints_Third_number));
         Log.i("Distanz Car", Double.toString(car_distance));
         Log.i("Dauer Car", Double.toString(car_duration));
 
@@ -339,6 +314,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
         }
 
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+        Double bike_distance = datenbike.getFeatures().get(0).getProperties().getSummary().getDistance();
+        Double bike_duration = datenbike.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+
         Log.i("Distanz Bike", Double.toString(bike_distance));
         Log.i("Dauer Bike", Double.toString(bike_duration));
 
@@ -364,6 +343,10 @@ public class WartebildschirmActivity extends AppCompatActivity {
         }
 
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+        Double walk_distance = datenwalk.getFeatures().get(0).getProperties().getSummary().getDistance();
+        Double walk_duration = datenwalk.getFeatures().get(0).getProperties().getSummary().getDuration();
+
+
         Log.i("Distanz Walk", Double.toString(walk_distance));
         Log.i("Dauer Walk", Double.toString(walk_duration));
 

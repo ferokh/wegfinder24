@@ -1,12 +1,15 @@
 package de.info3.wegfinder24.newtwork;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.osmdroid.util.GeoPoint;
+
 @Generated("jsonschema2pojo")
-public class Geometry {
+public class Geometry implements Serializable {
 
     @SerializedName("coordinates")
     @Expose
