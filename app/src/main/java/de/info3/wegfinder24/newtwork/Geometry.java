@@ -5,6 +5,8 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.osmdroid.util.GeoPoint;
+
 @Generated("jsonschema2pojo")
 public class Geometry {
 
@@ -15,7 +17,7 @@ public class Geometry {
     @Expose
     private String type;
 
-    public List<List<Double>> getCoordinates() {
+    public List<List<GeoPoint>> getCoordinates() {
         return coordinates;
     }
 

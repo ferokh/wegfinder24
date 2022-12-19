@@ -3,21 +3,14 @@ package de.info3.wegfinder24;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.Button;
 
-import org.osmdroid.util.Distance;
+import org.osmdroid.util.GeoPoint;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -287,7 +280,17 @@ public class WartebildschirmActivity extends AppCompatActivity {
         Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
         Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
 
+        Integer car_WayPoints_First_number = datencar.getFeatures().get(0).getProperties().getWayPoints().get(1);
+        Integer car_WayPoints_Second_number = datencar.getFeatures().get(1).getProperties().getWayPoints().get(1);
+        Integer car_WayPoints_Third_number = datencar.getFeatures().get(2).getProperties().getWayPoints().get(1);
 
+        List <List<GeoPoint>> car_WayPoints_First = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        List <List<GeoPoint>> car_WayPoints_Second = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        List <List<GeoPoint>> car_WayPoints_Third = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+
+        Log.i("WayPoints First Car", Integer.toString(car_WayPoints_First_number));
+        Log.i("WayPoints Second Car", Integer.toString(car_WayPoints_Second_number));
+        Log.i("WayPoints Third Car", Integer.toString(car_WayPoints_Third_number));
         Log.i("Distanz Car", Double.toString(car_distance));
         Log.i("Dauer Car", Double.toString(car_duration));
 
