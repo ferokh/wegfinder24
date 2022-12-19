@@ -149,7 +149,7 @@ public class EingabeActivity extends AppCompatActivity {
 
 
         //Polygon mit Array anzeigen lassen
-        Polyline line = new Polyline(mapView);
+        /*Polyline line = new Polyline(mapView);
         line.setWidth(4f);
         line.setColor(Color.BLUE);
 
@@ -164,7 +164,7 @@ public class EingabeActivity extends AppCompatActivity {
         line.setGeodesic(true);
         mapView.getOverlayManager().add(line);
         mapView.setVisibility(View.GONE);
-        mapView.setVisibility(View.VISIBLE);
+        mapView.setVisibility(View.VISIBLE);*/
 
     }
     @SuppressLint("MissingPermission")
