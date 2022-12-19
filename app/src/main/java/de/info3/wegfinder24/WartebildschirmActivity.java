@@ -275,20 +275,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
         Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
         Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
 
-        Integer car_WayPoints_First_number = datencar.getFeatures().get(0).getProperties().getWayPoints().get(1);
-        Integer car_WayPoints_Second_number = datencar.getFeatures().get(1).getProperties().getWayPoints().get(1);
-        Integer car_WayPoints_Third_number = datencar.getFeatures().get(2).getProperties().getWayPoints().get(1);
-
-        //List <List<Double>> car_WayPoints_First = datencar.getFeatures().get(0).getGeometry().getCoordinates();
-       // List <List<GeoPoint>> car_WayPoints_Second = datencar.getFeatures().get(0).getGeometry().getCoordinates();
-        //List <List<GeoPoint>> car_WayPoints_Third = datencar.getFeatures().get(0).getGeometry().getCoordinates();
-        //List car_WP = new ArrayList<>();
-        //car_WP.add(car_WayPoints_First);
         intent.putExtra("car_WP", (Serializable) datencar);
 
-        Log.i("WayPoints First Car", Integer.toString(car_WayPoints_First_number));
-        Log.i("WayPoints Second Car", Integer.toString(car_WayPoints_Second_number));
-        Log.i("WayPoints Third Car", Integer.toString(car_WayPoints_Third_number));
         Log.i("Distanz Car", Double.toString(car_distance));
         Log.i("Dauer Car", Double.toString(car_duration));
 
