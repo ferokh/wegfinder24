@@ -11,11 +11,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -24,7 +22,6 @@ import com.nabinbhandari.android.permissions.Permissions;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
@@ -32,10 +29,10 @@ import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.info3.wegfinder24.newtwork.DDD.DDProperties;
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 
 public class VarianteActivity extends AppCompatActivity {
@@ -63,6 +60,12 @@ public class VarianteActivity extends AppCompatActivity {
         Button btnBacktoEingabe =this.findViewById(R.id.btnbacktoEingabe);
 
         Intent WBAintent = this.getIntent();
+        Anfrage datenCar = (Anfrage) WBAintent.getSerializableExtra("car_WP");
+        Anfrage datenBike = (Anfrage) WBAintent.getSerializableExtra("bike_WP");
+        Anfrage datenWalk = (Anfrage) WBAintent.getSerializableExtra("bike_WP");
+
+        DDProperties dd = (DDProperties) WBAintent.getSerializableExtra("DaD");
+        
         String BA = WBAintent.getStringExtra("Startlat");
         String LA = WBAintent.getStringExtra("Startlong");
         String BE = WBAintent.getStringExtra("Ziellat");
@@ -76,149 +79,104 @@ public class VarianteActivity extends AppCompatActivity {
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
         TextView tvCarDistance = this.findViewById(R.id.tvCarDistance); //TextView für die Entfernung - Auto
         if (WBAintent != null) {
-            String distance = "0";
-            String distance_meter = "0";
-            distance = WBAintent.getStringExtra("Distanz_Car"); //Übergabe der Werte hier, wenn länger als 1km
-            distance_meter = WBAintent.getStringExtra("Distanz_Car_Meter"); //Übergabe der Werte hier, wenn kürzer als 1km
-
-            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            String i = dd.getCar().getFirst().getDistance().getMorKM().toString();
+            if (i == "0") //dann ist es unter 1km = Anzeige in Meter
             {
-                tvCarDistance.setText(distance_meter + " m"); //Anzeige mit Meter
+                tvCarDistance.setText(dd.getCar().getFirst().getDistance().getMkm()+ " m"); //Anzeige mit Meter
             }
             else
             {
-                tvCarDistance.setText(distance + " km"); //Anzeige mit Kilometer
+                tvCarDistance.setText(dd.getCar().getFirst().getDistance().getMkm() + " km"); //Anzeige mit Kilometer
             }
         }
-        
-        Anfrage datencar = (Anfrage) WBAintent.getSerializableExtra("car_WP");
         //Log.i("Lat", Double.toString(datencar.getFeatures().get(0).getGeometry().getCoordinates().get(0).get(0)));
         //Log.i("Long", Double.toString(datencar.getFeatures().get(0).getGeometry().getCoordinates().get(0).get(1)));
 
+        List<GeoPoint> Car_WayPoints =new ArrayList<GeoPoint>();
 
-        Integer car_WayPoints_First_number = datencar.getFeatures().get(0).getProperties().getWayPoints().get(1);
-
-        List<GeoPoint> car_WayPoints =new ArrayList<GeoPoint>();
-
-        for (int i = 0; i<car_WayPoints_First_number;i++)
+        for (int i = 0; i<datenCar.getFeatures().get(0).getProperties().getWayPoints().get(1);i++)
         {
-            car_WayPoints.add(new GeoPoint (datencar.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datencar.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
+            Car_WayPoints.add(new GeoPoint (datenCar.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenCar.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
         if (WBAintent != null) {
-            String duration_stunde = "0";           //Format 00h 00min - hier die Stunden
-            String duration_stunde_minute = "0";    //Format 00h 00min - hier die Minuten
-            String duration_minute = "0";           //Minuten wenn unter 1h
-
-            duration_stunde = WBAintent.getStringExtra("Dauer_Car_Stunden");
-            duration_stunde_minute = WBAintent.getStringExtra("Dauer_Car_Stunden_Minuten");
-            duration_minute = WBAintent.getStringExtra("Dauer_Car_Minuten");
-
-            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            if (dd.getCar().getFirst().getDuration().getHour() == "0") //dann ist es unter 1h = Anzeige in Minuten
             {
-                tvCarDuration.setText(duration_minute + " min");
+                tvCarDuration.setText(dd.getCar().getFirst().getDuration().getMinute() + " min");
             }
             else
             {
-                tvCarDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+                tvCarDuration.setText(dd.getCar().getFirst().getDuration().getHour() + " h " + dd.getCar().getFirst().getDuration().getMinute() + " min"); //Anzeige mit Kilometer
             }
         }
 
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
-        Anfrage datenbike = (Anfrage) WBAintent.getSerializableExtra("bike_WP");
         TextView tvBikeDistance = this.findViewById(R.id.tvBikeDistance); //TextView für die Entfernung - Fahrrad
         if (WBAintent != null) {
-            String distance = "0";
-            String distance_meter = "0";
-            distance = WBAintent.getStringExtra("Distanz_Bike");//Übergabe der Werte hier, wenn länger als 1km
-            distance_meter = WBAintent.getStringExtra("Distanz_Bike_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
-            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            if (dd.getBike().getFirst().getDistance().getMorKM() == "0") //dann ist es unter 1km = Anzeige in Meter
             {
-                tvBikeDistance.setText(distance_meter + " m");
+                tvBikeDistance.setText(dd.getBike().getFirst().getDistance().getMkm() + " m"); //Anzeige mit Meter
             }
             else
             {
-                tvBikeDistance.setText(distance + " km");
+                tvBikeDistance.setText(dd.getBike().getFirst().getDistance().getMkm() + " km"); //Anzeige mit Kilometer
             }
+        }
+        //Log.i("Lat", Double.toString(datenBike.getFeatures().get(0).getGeometry().getCoordinates().get(0).get(0)));
+        //Log.i("Long", Double.toString(datenBike.getFeatures().get(0).getGeometry().getCoordinates().get(0).get(1)));
+
+        List<GeoPoint> Bike_WayPoints =new ArrayList<GeoPoint>();
+
+        for (int i = 0; i<datenBike.getFeatures().get(0).getProperties().getWayPoints().get(1);i++)
+        {
+            Bike_WayPoints.add(new GeoPoint (datenBike.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenBike.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         TextView tvBikeDuration = this.findViewById(R.id.tvBikeDuration);
         if (WBAintent != null) {
-            String duration_stunde = "0";
-            String duration_stunde_minute = "0";
-            String duration_minute = "0";
-
-            duration_stunde = WBAintent.getStringExtra("Dauer_Bike_Stunden");
-            duration_stunde_minute = WBAintent.getStringExtra("Dauer_Bike_Stunden_Minuten");
-            duration_minute = WBAintent.getStringExtra("Dauer_Bike_Minuten");
-
-            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            if (dd.getBike().getFirst().getDuration().getHour() == "0") //dann ist es unter 1h = Anzeige in Minuten
             {
-                tvBikeDuration.setText(duration_minute + " min");
+                tvBikeDuration.setText(dd.getBike().getFirst().getDuration().getMinute() + " min");
             }
             else
             {
-                tvBikeDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+                tvBikeDuration.setText(dd.getBike().getFirst().getDuration().getHour() + " h " + dd.getBike().getFirst().getDuration().getMinute() + " min"); //Anzeige mit Kilometer
             }
         }
-
-        Integer bike_WayPoints_First_number = datenbike.getFeatures().get(0).getProperties().getWayPoints().get(1);
-
-        List<GeoPoint> bike_WayPoints =new ArrayList<GeoPoint>();
-
-        for (int i = 0; i<bike_WayPoints_First_number;i++)
-        {
-            bike_WayPoints.add(new GeoPoint (datenbike.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenbike.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
-        }
-
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
-        Anfrage datenwalk = (Anfrage) WBAintent.getSerializableExtra("walk_WP");
-        TextView tvWalkDistance = this.findViewById(R.id.tvWalkDistance); //TextView für die Entfernung - zu Fuß
+        TextView tvWalkDistance = this.findViewById(R.id.tvWalkDistance); //TextView für die Entfernung - Fahrrad
         if (WBAintent != null) {
-            String distance = "0";
-            String distance_meter = "0";
-            distance = WBAintent.getStringExtra("Distanz_Walk");//Übergabe der Werte hier, wenn länger als 1km
-            distance_meter = WBAintent.getStringExtra("Distanz_Walk_Meter");//Übergabe der Werte hier, wenn kürzer als 1km
-            if (distance == "0") //dann ist es unter 1km = Anzeige in Meter
+            if (dd.getWalk().getFirst().getDistance().getMorKM() == "0") //dann ist es unter 1km = Anzeige in Meter
             {
-                tvWalkDistance.setText(distance_meter + " m");
+                tvWalkDistance.setText(dd.getWalk().getFirst().getDistance().getMkm() + " m"); //Anzeige mit Meter
             }
             else
             {
-                tvWalkDistance.setText(distance + " km");
+                tvWalkDistance.setText(dd.getWalk().getFirst().getDistance().getMkm() + " km"); //Anzeige mit Kilometer
             }
+        }
+        //Log.i("Lat", Double.toString(datenWalk.getFeatures().get(0).getGeometry().getCoordinates().get(0).get(0)));
+        //Log.i("Long", Double.toString(datenWalk.getFeatures().get(0).getGeometry().getCoordinates().get(0).get(1)));
+
+        List<GeoPoint> Walk_WayPoints =new ArrayList<GeoPoint>();
+
+        for (int i = 0; i<datenWalk.getFeatures().get(0).getProperties().getWayPoints().get(1);i++)
+        {
+            Walk_WayPoints.add(new GeoPoint (datenWalk.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenWalk.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         TextView tvWalkDuration = this.findViewById(R.id.tvWalkDuration);
         if (WBAintent != null) {
-            String duration_stunde = "0";
-            String duration_stunde_minute = "0";
-            String duration_minute = "0";
-
-            duration_stunde = WBAintent.getStringExtra("Dauer_Walk_Stunden");
-            duration_stunde_minute = WBAintent.getStringExtra("Dauer_Walk_Stunden_Minuten");
-            duration_minute = WBAintent.getStringExtra("Dauer_Walk_Minuten");
-
-            if (duration_minute != "0") //dann ist es unter 1h = Anzeige in Minuten
+            if (dd.getWalk().getFirst().getDuration().getHour() == "0") //dann ist es unter 1h = Anzeige in Minuten
             {
-                tvWalkDuration.setText(duration_minute + " min");
+                tvWalkDuration.setText(dd.getWalk().getFirst().getDuration().getMinute() + " min");
             }
             else
             {
-                tvWalkDuration.setText(duration_stunde + " h " + duration_stunde_minute + " min");
+                tvWalkDuration.setText(dd.getWalk().getFirst().getDuration().getHour() + " h " + dd.getWalk().getFirst().getDuration().getMinute() + " min"); //Anzeige mit Kilometer
             }
         }
-
-        Integer walk_WayPoints_First_number = datenwalk.getFeatures().get(0).getProperties().getWayPoints().get(1);
-
-        List<GeoPoint> walk_WayPoints =new ArrayList<GeoPoint>();
-
-        for (int i = 0; i<walk_WayPoints_First_number;i++)
-        {
-            walk_WayPoints.add(new GeoPoint (datenwalk.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenwalk.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
-        }
-
         //WegActivity Starten von BikeKnopf
         btnBike.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -328,7 +286,7 @@ public class VarianteActivity extends AppCompatActivity {
         line_car.setWidth(4f);
         line_car.setColor(Color.RED);
 
-        line_car.setPoints(car_WayPoints);
+        line_car.setPoints(Car_WayPoints);
         line_car.setGeodesic(true);
         mapView.getOverlayManager().add(line_car);
         mapView.setVisibility(View.GONE);
@@ -339,7 +297,7 @@ public class VarianteActivity extends AppCompatActivity {
         line_bike.setWidth(4f);
         line_bike.setColor(Color.BLUE);
 
-        line_bike.setPoints(bike_WayPoints);
+        line_bike.setPoints(Bike_WayPoints);
         line_bike.setGeodesic(true);
         mapView.getOverlayManager().add(line_bike);
         mapView.setVisibility(View.GONE);
@@ -350,7 +308,7 @@ public class VarianteActivity extends AppCompatActivity {
         line_walk.setWidth(4f);
         line_walk.setColor(Color.GREEN);
 
-        line_walk.setPoints(walk_WayPoints);
+        line_walk.setPoints(Walk_WayPoints);
         line_walk.setGeodesic(true);
         mapView.getOverlayManager().add(line_walk);
         mapView.setVisibility(View.GONE);

@@ -10,13 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.osmdroid.util.GeoPoint;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.info3.wegfinder24.newtwork.DDD.CBW.Bike;
+import de.info3.wegfinder24.newtwork.DDD.CBW.Car;
+import de.info3.wegfinder24.newtwork.DDD.CBW.Walk;
+import de.info3.wegfinder24.newtwork.DDD.DDProperties;
+import de.info3.wegfinder24.newtwork.DDD.Distance;
+import de.info3.wegfinder24.newtwork.DDD.Duration;
+import de.info3.wegfinder24.newtwork.DDD.FST.First;
+import de.info3.wegfinder24.newtwork.DDD.FST.Second;
+import de.info3.wegfinder24.newtwork.DDD.FST.Third;
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 import de.info3.wegfinder24.newtwork.OpenRouteServiceBike;
 import de.info3.wegfinder24.newtwork.OpenRouteServiceCar;
@@ -44,6 +51,8 @@ public class WartebildschirmActivity extends AppCompatActivity {
     Anfrage datencar;
     Anfrage datenwalk;
     Anfrage datenbike;
+
+    DDProperties dd;
 
     int status = 0;
     int ups_verbindung = 0;
@@ -269,98 +278,187 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 .show();
     }
     private void Datenuebergabe () {
+
         Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
-        Double car_distance = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
-        Double car_duration = datencar.getFeatures().get(0).getProperties().getSummary().getDuration();
+        double distance_car_first = datencar.getFeatures().get(0).getProperties().getSummary().getDistance();
+        double result_car_distance_first[] = distanz(distance_car_first);
+
+        double distance_car_second = datencar.getFeatures().get(1).getProperties().getSummary().getDistance();
+        double result_car_distance_second[] = distanz(distance_car_second);
+
+        double distance_car_third = datencar.getFeatures().get(2).getProperties().getSummary().getDistance();
+        double result_car_distance_third[] = distanz(distance_car_third);
+        
+        int result_car_duration_first[] = dauer(datencar.getFeatures().get(0).getProperties().getSummary().getDuration());
+        int result_car_duration_second[] = dauer(datencar.getFeatures().get(1).getProperties().getSummary().getDuration());
+        int result_car_duration_third[] = dauer(datencar.getFeatures().get(2).getProperties().getSummary().getDuration());
+
+        DDProperties Properties = new DDProperties();
+        Car car = new Car();
+        First firstcar = new First();
+        Second secondcar = new Second();
+        Third thirdcar = new Third();
+        Distance firstcardistance = new Distance();
+        Distance secondcardistance = new Distance();
+        Distance thirdcardistance = new Distance();
+
+        Properties.setCar(car);
+
+        car.setFirst(firstcar);
+        car.setSecond(secondcar);
+        car.setThird(thirdcar);
+        
+        firstcar.setDistance(firstcardistance);
+        firstcardistance.setMkm(Double.toString(result_car_distance_first[0]));
+        firstcardistance.setMorKM(Double.toString(result_car_distance_first[1]));
+        
+        secondcar.setDistance(secondcardistance);
+        secondcardistance.setMkm(Double.toString(result_car_distance_second[0]));
+        secondcardistance.setMorKM(Double.toString(result_car_distance_second[1]));
+        
+        thirdcar.setDistance(thirdcardistance);
+        thirdcardistance.setMkm(Double.toString(result_car_distance_third[0]));
+        thirdcardistance.setMorKM(Double.toString(result_car_distance_third[1]));
+        
+        Duration firstcarduration = new Duration();
+        Duration secondcarduration = new Duration();
+        Duration thirdcarduration = new Duration();
+        
+        firstcar.setDuration(firstcarduration);
+        firstcarduration.setHour(Integer.toString(result_car_duration_first[0]));
+        firstcarduration.setMinute(Integer.toString(result_car_duration_first[1]));
+
+        secondcar.setDuration(secondcarduration);
+        secondcarduration.setHour(Integer.toString(result_car_duration_second[0]));
+        secondcarduration.setMinute(Integer.toString(result_car_duration_second[1]));
+
+        thirdcar.setDuration(thirdcarduration);
+        thirdcarduration.setHour(Integer.toString(result_car_duration_third[0]));
+        thirdcarduration.setMinute(Integer.toString(result_car_duration_third[1]));
 
         intent.putExtra("car_WP", (Serializable) datencar);
 
-        Log.i("Distanz Car", Double.toString(car_distance));
-        Log.i("Dauer Car", Double.toString(car_duration));
-
-        double result_car_distance[] = distanz(car_distance);
-        if (result_car_distance[1] == 0)
-        {
-            intent.putExtra("Distanz_Car_Meter", Double.toString(result_car_distance[0]));
-        }
-        else
-        {
-            intent.putExtra("Distanz_Car", Double.toString(result_car_distance[0]));
-        }
-
-        int result_car_duration [] = dauer(car_duration);
-        if (result_car_duration[0] == 0)
-        {
-            intent.putExtra("Dauer_Car_Minuten", Integer.toString(result_car_duration[1]));
-        }
-        else
-        {
-            intent.putExtra("Dauer_Car_Stunden", Integer.toString(result_car_duration[0]));
-            intent.putExtra("Dauer_Car_Stunden_Minuten",Integer.toString(result_car_duration[1]));
-        }
-
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
-        Double bike_distance = datenbike.getFeatures().get(0).getProperties().getSummary().getDistance();
-        Double bike_duration = datenbike.getFeatures().get(0).getProperties().getSummary().getDuration();
+        double distance_bike_first = datenbike.getFeatures().get(0).getProperties().getSummary().getDistance();
+        double result_bike_distance_first[] = distanz(distance_bike_first);
+
+        double distance_bike_second = datenbike.getFeatures().get(1).getProperties().getSummary().getDistance();
+        double result_bike_distance_second[] = distanz(distance_bike_second);
+
+        double distance_bike_third = datenbike.getFeatures().get(2).getProperties().getSummary().getDistance();
+        double result_bike_distance_third[] = distanz(distance_bike_third);
+
+        int result_bike_duration_first[] = dauer(datenbike.getFeatures().get(0).getProperties().getSummary().getDuration());
+        int result_bike_duration_second[] = dauer(datenbike.getFeatures().get(1).getProperties().getSummary().getDuration());
+        int result_bike_duration_third[] = dauer(datenbike.getFeatures().get(2).getProperties().getSummary().getDuration());
+
+        Bike bike = new Bike();
+        First firstbike = new First();
+        Second secondbike = new Second();
+        Third thirdbike = new Third();
+
+        Properties.setBike(bike);
+
+        Distance firstbikedistance = new Distance();
+        Distance secondbikedistance = new Distance();
+        Distance thirdbikedistance = new Distance();
+
+        bike.setFirst(firstbike);
+        bike.setSecond(secondbike);
+        bike.setThird(thirdbike);
+
+        firstbike.setDistance(firstbikedistance);
+        firstbikedistance.setMkm(Double.toString(result_bike_distance_first[0]));
+        firstbikedistance.setMorKM(Double.toString(result_bike_distance_first[1]));
+
+        secondbike.setDistance(secondbikedistance);
+        secondbikedistance.setMkm(Double.toString(result_bike_distance_second[0]));
+        secondbikedistance.setMorKM(Double.toString(result_bike_distance_second[1]));
+
+        thirdbike.setDistance(thirdbikedistance);
+        thirdbikedistance.setMkm(Double.toString(result_bike_distance_third[0]));
+        thirdbikedistance.setMorKM(Double.toString(result_bike_distance_third[1]));
+
+        Duration firstbikeduration = new Duration();
+        Duration secondbikeduration = new Duration();
+        Duration thirdbikeduration = new Duration();
+
+        firstbike.setDuration(firstbikeduration);
+        firstbikeduration.setHour(Integer.toString(result_bike_duration_first[0]));
+        firstbikeduration.setMinute(Integer.toString(result_bike_duration_first[1]));
+
+        secondbike.setDuration(secondbikeduration);
+        secondbikeduration.setHour(Integer.toString(result_bike_duration_second[0]));
+        secondbikeduration.setMinute(Integer.toString(result_bike_duration_second[1]));
+
+        thirdbike.setDuration(thirdbikeduration);
+        thirdbikeduration.setHour(Integer.toString(result_bike_duration_third[0]));
+        thirdbikeduration.setMinute(Integer.toString(result_bike_duration_third[1]));
 
         intent.putExtra("bike_WP",(Serializable) datenbike);
-
-        Log.i("Distanz Bike", Double.toString(bike_distance));
-        Log.i("Dauer Bike", Double.toString(bike_duration));
-
-        double result_bike_distance[] = distanz(bike_distance);
-        if (result_bike_distance[1] == 0)
-        {
-            intent.putExtra("Distanz_Bike_Meter", Double.toString(result_bike_distance[0]));
-        }
-        else
-        {
-            intent.putExtra("Distanz_Bike", Double.toString(result_bike_distance[0]));
-        }
-
-        int result_bike_duration [] = dauer(bike_duration);
-        if (result_bike_duration[0] == 0)
-        {
-            intent.putExtra("Dauer_Bike_Minuten", Integer.toString(result_bike_duration[1]));
-        }
-        else
-        {
-            intent.putExtra("Dauer_Bike_Stunden", Integer.toString(result_bike_duration[0]));
-            intent.putExtra("Dauer_Bike_Stunden_Minuten",Integer.toString(result_bike_duration[1]));
-        }
-
+        
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
-        Double walk_distance = datenwalk.getFeatures().get(0).getProperties().getSummary().getDistance();
-        Double walk_duration = datenwalk.getFeatures().get(0).getProperties().getSummary().getDuration();
+        double distance_walk_first = datenwalk.getFeatures().get(0).getProperties().getSummary().getDistance();
+        double result_walk_distance_first[] = distanz(distance_walk_first);
+        
+        double distance_walk_second = datenwalk.getFeatures().get(1).getProperties().getSummary().getDistance();
+        double result_walk_distance_second[] = distanz(distance_walk_second);
+        
+        double distance_walk_third = datenwalk.getFeatures().get(2).getProperties().getSummary().getDistance();
+        double result_walk_distance_third[] = distanz(distance_walk_third);
+
+        int result_walk_duration_first[] = dauer(datenwalk.getFeatures().get(0).getProperties().getSummary().getDuration());
+        int result_walk_duration_second[] = dauer(datenwalk.getFeatures().get(1).getProperties().getSummary().getDuration());
+        int result_walk_duration_third[] = dauer(datenwalk.getFeatures().get(2).getProperties().getSummary().getDuration());
+
+        Walk walk = new Walk();
+        First firstwalk = new First();
+        Second secondwalk = new Second();
+        Third thirdwalk = new Third();
+
+        Properties.setWalk(walk);
+
+        Distance firstwalkdistance = new Distance();
+        Distance secondwalkdistance = new Distance();
+        Distance thirdwalkdistance = new Distance();
+
+        walk.setFirst(firstwalk);
+        walk.setSecond(secondwalk);
+        walk.setThird(thirdwalk);
+
+        firstwalk.setDistance(firstwalkdistance);
+        firstwalkdistance.setMkm(Double.toString(result_walk_distance_first[0]));
+        firstwalkdistance.setMorKM(Double.toString(result_walk_distance_first[1]));
+
+        secondwalk.setDistance(secondwalkdistance);
+        secondwalkdistance.setMkm(Double.toString(result_walk_distance_second[0]));
+        secondwalkdistance.setMorKM(Double.toString(result_walk_distance_second[1]));
+
+        thirdwalk.setDistance(thirdwalkdistance);
+        thirdwalkdistance.setMkm(Double.toString(result_walk_distance_third[0]));
+        thirdwalkdistance.setMorKM(Double.toString(result_walk_distance_third[1]));
+
+        Duration firstwalkduration = new Duration();
+        Duration secondwalkduration = new Duration();
+        Duration thirdwalkduration = new Duration();
+
+        firstwalk.setDuration(firstwalkduration);
+        firstwalkduration.setHour(Integer.toString(result_walk_duration_first[0]));
+        firstwalkduration.setMinute(Integer.toString(result_walk_duration_first[1]));
+
+        secondwalk.setDuration(secondwalkduration);
+        secondwalkduration.setHour(Integer.toString(result_walk_duration_second[0]));
+        secondwalkduration.setMinute(Integer.toString(result_walk_duration_second[1]));
+
+        thirdwalk.setDuration(thirdwalkduration);
+        thirdwalkduration.setHour(Integer.toString(result_walk_duration_third[0]));
+        thirdwalkduration.setMinute(Integer.toString(result_walk_duration_third[1]));
+
 
         intent.putExtra("walk_WP",(Serializable) datenwalk);
-
-        Log.i("Distanz Walk", Double.toString(walk_distance));
-        Log.i("Dauer Walk", Double.toString(walk_duration));
-
-        double result_walk_distance[] = distanz(walk_distance);
-        if (result_walk_distance[1] == 0)
-        {
-            intent.putExtra("Distanz_Walk_Meter", Double.toString(result_walk_distance[0]));
-        }
-        else
-        {
-            intent.putExtra("Distanz_Walk", Double.toString(result_walk_distance[0]));
-        }
-
-        int result_walk_duration [] = dauer(walk_duration);
-        if (result_walk_duration[0] == 0)
-        {
-            intent.putExtra("Dauer_Walk_Minuten", Integer.toString(result_walk_duration[1]));
-        }
-        else
-        {
-            intent.putExtra("Dauer_Walk_Stunden", Integer.toString(result_walk_duration[0]));
-            intent.putExtra("Dauer_Walk_Stunden_Minuten",Integer.toString(result_walk_duration[1]));
-        }
-
+        intent.putExtra("DaD",(Serializable) dd);
         intent.putExtra("Startlat",Double.toString(BA));
         intent.putExtra("Startlong",Double.toString(LA));
         intent.putExtra("Ziellat",Double.toString(BE));
