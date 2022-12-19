@@ -126,6 +126,7 @@ public class VarianteActivity extends AppCompatActivity {
         }
 
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
+        Anfrage datenbike = (Anfrage) WBAintent.getSerializableExtra("bike_WP");
         TextView tvBikeDistance = this.findViewById(R.id.tvBikeDistance); //TextView für die Entfernung - Fahrrad
         if (WBAintent != null) {
             String distance = "0";
@@ -162,16 +163,17 @@ public class VarianteActivity extends AppCompatActivity {
             }
         }
 
-        Integer bike_WayPoints_First_number = datencar.getFeatures().get(1).getProperties().getWayPoints().get(1);
+        Integer bike_WayPoints_First_number = datenbike.getFeatures().get(0).getProperties().getWayPoints().get(1);
 
         List<GeoPoint> bike_WayPoints =new ArrayList<GeoPoint>();
 
         for (int i = 0; i<bike_WayPoints_First_number;i++)
         {
-            bike_WayPoints.add(new GeoPoint (datencar.getFeatures().get(1).getGeometry().getCoordinates().get(i).get(1),datencar.getFeatures().get(1).getGeometry().getCoordinates().get(i).get(0)));
+            bike_WayPoints.add(new GeoPoint (datenbike.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenbike.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
+        Anfrage datenwalk = (Anfrage) WBAintent.getSerializableExtra("walk_WP");
         TextView tvWalkDistance = this.findViewById(R.id.tvWalkDistance); //TextView für die Entfernung - zu Fuß
         if (WBAintent != null) {
             String distance = "0";
@@ -208,13 +210,13 @@ public class VarianteActivity extends AppCompatActivity {
             }
         }
 
-        Integer walk_WayPoints_First_number = datencar.getFeatures().get(2).getProperties().getWayPoints().get(1);
+        Integer walk_WayPoints_First_number = datenwalk.getFeatures().get(0).getProperties().getWayPoints().get(1);
 
         List<GeoPoint> walk_WayPoints =new ArrayList<GeoPoint>();
 
         for (int i = 0; i<walk_WayPoints_First_number;i++)
         {
-            walk_WayPoints.add(new GeoPoint (datencar.getFeatures().get(2).getGeometry().getCoordinates().get(i).get(1),datencar.getFeatures().get(2).getGeometry().getCoordinates().get(i).get(0)));
+            walk_WayPoints.add(new GeoPoint (datenwalk.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),datenwalk.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         //WegActivity Starten von BikeKnopf
@@ -308,7 +310,8 @@ public class VarianteActivity extends AppCompatActivity {
         });
         mapView.getOverlayManager().add(locationOverlay);
 
-       /* //Marker setzen
+        /*
+        //Marker setzen
         GeoPoint startPoint=new GeoPoint(48.13,-1.63);
         IMapController mapController = map.getController();
         mapController.setZoom(9);
