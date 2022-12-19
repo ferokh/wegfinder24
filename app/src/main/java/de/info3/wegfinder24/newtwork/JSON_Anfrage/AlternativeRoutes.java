@@ -4,8 +4,10 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Generated("jsonschema2pojo")
-public class AlternativeRoutes {
+public class AlternativeRoutes implements Serializable {
 
     @SerializedName("target_count")
     @Expose

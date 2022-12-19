@@ -28,6 +28,8 @@ import org.osmdroid.views.MapView;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
+
 public class VarianteActivity extends AppCompatActivity {
 
     private MapView mapView;
@@ -75,6 +77,15 @@ public class VarianteActivity extends AppCompatActivity {
                 tvCarDistance.setText(distance + " km"); //Anzeige mit Kilometer
             }
         }
+
+        Intent intent_datencar = this.getIntent();
+        Anfrage datencar = (Anfrage) intent_datencar.getSerializableExtra("car_WP");
+
+        Integer car_WayPoints_First_number = datencar.getFeatures().get(0).getProperties().getWayPoints().get(1);
+        Log.i("WayPoints First Car_Var", Integer.toString(car_WayPoints_First_number));
+
+
+
 
         TextView tvCarDuration = this.findViewById(R.id.tvCarDuration);
         Intent intent_CarDuration = this.getIntent();
@@ -272,6 +283,13 @@ public class VarianteActivity extends AppCompatActivity {
         super.onPause();
 
         this.mapView.onPause();
+    }
+    // Wenn man auf den standard Zurück-Knopf drückt, kommmt man zur EingabeAtivity
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent EingabeA = new Intent(VarianteActivity.this, EingabeActivity.class);
+        startActivity(EingabeA);
     }
 
     @SuppressLint("MissingPermission")

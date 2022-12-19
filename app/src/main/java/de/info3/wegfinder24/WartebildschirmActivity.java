@@ -13,14 +13,9 @@ import android.widget.ProgressBar;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-//import javax.ws.rs.client.Client;
-//import javax.ws.rs.client.ClientBuilder;
-//import javax.ws.rs.client.Entity;
-//import javax.ws.rs.core.Response;
-//import javax.ws.rs.core.MediaType;
 
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 import de.info3.wegfinder24.newtwork.OpenRouteServiceBike;
@@ -284,9 +279,12 @@ public class WartebildschirmActivity extends AppCompatActivity {
         Integer car_WayPoints_Second_number = datencar.getFeatures().get(1).getProperties().getWayPoints().get(1);
         Integer car_WayPoints_Third_number = datencar.getFeatures().get(2).getProperties().getWayPoints().get(1);
 
-        List <List<GeoPoint>> car_WayPoints_First = datencar.getFeatures().get(0).getGeometry().getCoordinates();
-        List <List<GeoPoint>> car_WayPoints_Second = datencar.getFeatures().get(0).getGeometry().getCoordinates();
-        List <List<GeoPoint>> car_WayPoints_Third = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        //List <List<Double>> car_WayPoints_First = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+       // List <List<GeoPoint>> car_WayPoints_Second = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        //List <List<GeoPoint>> car_WayPoints_Third = datencar.getFeatures().get(0).getGeometry().getCoordinates();
+        //List car_WP = new ArrayList<>();
+        //car_WP.add(car_WayPoints_First);
+        intent.putExtra("car_WP", (Serializable) datencar);
 
         Log.i("WayPoints First Car", Integer.toString(car_WayPoints_First_number));
         Log.i("WayPoints Second Car", Integer.toString(car_WayPoints_Second_number));

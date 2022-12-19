@@ -1,6 +1,7 @@
 package de.info3.wegfinder24.newtwork.JSON_Anfrage;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ import de.info3.wegfinder24.newtwork.Feature;
 import de.info3.wegfinder24.newtwork.Metadata;
 
 //@Generated("jsonschema2pojo")
-public class Anfrage {
+public class Anfrage implements Serializable {
     @SerializedName("coordinates")
     @Expose
     private List<List<Double>> coordinates = null;
