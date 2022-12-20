@@ -69,9 +69,9 @@ public class Anfrage implements Serializable {
         this.metadata = metadata;
     }
 /////////////////////////////////
-    public Anfrage(List coordinates, int i, String de) {
+    public Anfrage(List coordinates, double share_factor, int target_count, double weight_factor, String de) {
         this.coordinates=coordinates;
-        this.alternativeRoutes=new AlternativeRoutes(i);
+        this.alternativeRoutes=new AlternativeRoutes(share_factor, target_count, weight_factor);
         this.language=de;
     }
 

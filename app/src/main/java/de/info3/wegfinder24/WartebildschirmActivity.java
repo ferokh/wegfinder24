@@ -99,7 +99,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Anfrage anfrage = new Anfrage(Koordinaten, 3, "de");
+        Anfrage anfrage = new Anfrage(Koordinaten, 0.5,3, 2.5, "de");
 
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
         // POST Anfrage

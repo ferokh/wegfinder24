@@ -287,7 +287,7 @@ public class VarianteActivity extends AppCompatActivity {
         ////////////////////BIKE///////////////////////
         Polyline line_bike = new Polyline(mapView);
         line_bike.setWidth(4f);
-        line_bike.setColor(Color.BLUE);
+        line_bike.setColor(Color.CYAN);
 
         line_bike.setPoints(bike_WayPoints);
         line_bike.setGeodesic(true);

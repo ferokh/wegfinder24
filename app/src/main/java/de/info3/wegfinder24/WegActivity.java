@@ -74,6 +74,10 @@ public class WegActivity extends AppCompatActivity {
         tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
 
 //////////////////////////////////////////////WEG1///////////////////////////////////////////////////
+        // Farbe
+        //TextView tvWeg1 = this.findViewById(R.id.tvWeg1);
+        //tvWeg1.setBackgroundColor(1);
+
         // Strecke anzeigen
         TextView tvWeg1Distance = this.findViewById(R.id.tvWeg1Distance); //TextView für die Entfernung - Auto
         double[] weg1_distance = distanz(daten.getFeatures().get(0).getProperties().getSummary().getDistance());
@@ -287,7 +291,7 @@ public class WegActivity extends AppCompatActivity {
         ////////////////////BIKE///////////////////////
         Polyline line_bike = new Polyline(mapView);
         line_bike.setWidth(4f);
-        line_bike.setColor(Color.BLUE);
+        line_bike.setColor(Color.CYAN);
 
         line_bike.setPoints(weg2_WayPoints);
         line_bike.setGeodesic(true);
