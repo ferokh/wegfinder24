@@ -6,9 +6,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +23,14 @@ import com.nabinbhandari.android.permissions.Permissions;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,6 +41,12 @@ import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 public class WegActivity extends AppCompatActivity {
 
     private MapView mapView;
+    MapView map = null;
+
+
+
+    private MyLocationNewOverlay locationOverlay;
+
 
     private LocationManager locationManager;
 
@@ -199,7 +212,7 @@ public class WegActivity extends AppCompatActivity {
                 Manifest.permission.MANAGE_EXTERNAL_STORAGE
         };
 
-        Permissions.check(this, permissions, null, null, new PermissionHandler() {
+        Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen
             @Override
             public void onGranted() {//wenn alles okay ist wird die Karte angezeigt
                 setupMapView();
@@ -208,13 +221,13 @@ public class WegActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDenied(Context context, ArrayList<String> deniedPermissions) {//Wenn Berechtigung nicht okay ist, wird die Karte nicht angezeigt
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) { //Wenn Berechtigung nicht okay ist, wird die Karte nicht angezeigt
                 super.onDenied(context, deniedPermissions);
 
                 if (deniedPermissions.size() == 1)
                 {
                     String permission = deniedPermissions.get(0);
-                    if (permission.equals(Manifest.permission.MANAGE_EXTERNAL_STORAGE))//darf auf den Speicher zugegriffen werden
+                    if (permission.equals(Manifest.permission.MANAGE_EXTERNAL_STORAGE)) //darf auf den Speicher zugegriffen werden
                     {
                         setupMapView();
                         String string = "Karte nicht sofort erstellt";
@@ -224,37 +237,78 @@ public class WegActivity extends AppCompatActivity {
             }
         });
 
-        //Zugriff auf den Kartenserver der von Herr Knopf bereitgestellt wird
-        String authorizationString = this.getMapServerAuthorizationString("ws2223@hka", "LeevwBfDi#2027");//username und passwort
-        Configuration.getInstance().getAdditionalHttpRequestProperties().put("Authorization", authorizationString);
+        //Map anzeigen
+        map = (MapView) findViewById(R.id.mapView);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        mapView = map;
 
-        XYTileSource mapServer = new XYTileSource("MapServer", 8, 20, 256, ".png", new String[]{"https://www.mapserver.dev/styles/default/"});
 
-        this.mapView = this.findViewById(R.id.mapView);
-        this.mapView.setTileSource(mapServer);
+        //Kompass
+        CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
+        compassOverlay.enableCompass();
+        mapView.getOverlays().add(compassOverlay);
 
-        GeoPoint startPoint = new GeoPoint(49.0069, 8.4037);//Standard Startpunkt
+        //Standort anzeigen lassen
+        GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
+        provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
+        locationOverlay = new MyLocationNewOverlay(provider, mapView);
+        locationOverlay.enableFollowLocation();
+        locationOverlay.runOnFirstFix(new Runnable() {
+            public void run() {
+                Log.d("MyTag", String.format("First location fix: %s", locationOverlay.getLastFix()));
+            }
+        });
+        mapView.getOverlayManager().add(locationOverlay);
 
-        IMapController mapController = mapView.getController();
-        mapController.setZoom(17.0);//Anfangswert Zoom
-        mapController.setCenter(startPoint);//Wo ist die Mitte der Karte zu Beginn
+        /*
+        //Marker setzen
+        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
+        IMapController mapController = map.getController();
+        mapController.setZoom(9);
+        mapController.setCenter(startPoint);
+
+        Marker startMarker=new Marker(map);
+        startMarker.setPosition(startPoint);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(startMarker);*/
+
+        //Polygon mit Array anzeigen lassen
+        ////////////////////CAR///////////////////////
+        Polyline line_car = new Polyline(mapView);
+        line_car.setWidth(4f);
+        line_car.setColor(Color.RED);
+
+        line_car.setPoints(weg1_WayPoints);
+        line_car.setGeodesic(true);
+        mapView.getOverlayManager().add(line_car);
+        mapView.setVisibility(View.GONE);
+        mapView.setVisibility(View.VISIBLE);
+
+        ////////////////////BIKE///////////////////////
+        Polyline line_bike = new Polyline(mapView);
+        line_bike.setWidth(4f);
+        line_bike.setColor(Color.BLUE);
+
+        line_bike.setPoints(weg2_WayPoints);
+        line_bike.setGeodesic(true);
+        mapView.getOverlayManager().add(line_bike);
+        mapView.setVisibility(View.GONE);
+        mapView.setVisibility(View.VISIBLE);
+
+        ////////////////////WALK///////////////////////
+        Polyline line_walk = new Polyline(mapView);
+        line_walk.setWidth(4f);
+        line_walk.setColor(Color.GREEN);
+
+        line_walk.setPoints(weg3_WayPoints);
+        line_walk.setGeodesic(true);
+        mapView.getOverlayManager().add(line_walk);
+        mapView.setVisibility(View.GONE);
+        mapView.setVisibility(View.VISIBLE);
+
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        this.mapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        this.mapView.onPause();
-    }
-
     @SuppressLint("MissingPermission")
     private void setupMapView()
     {
@@ -269,6 +323,7 @@ public class WegActivity extends AppCompatActivity {
 
                 IMapController mapController = mapView.getController();
                 mapController.setCenter(startPoint);
+                mapController.setZoom(15);
             }
 
             @Override
@@ -292,11 +347,29 @@ public class WegActivity extends AppCompatActivity {
 
     }
 
-    private String getMapServerAuthorizationString(String username, String password)
-    {
-        String authorizationString = String.format("%s:%s", username, password);
-        return "Basic " + Base64.encodeToString(authorizationString.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+
+        locationOverlay.enableMyLocation();
+        this.mapView.onResume();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationOverlay.disableMyLocation();
+        this.mapView.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mapView.onPause();
+    }
+   ///////////////////////////////////////////////////////////////////Fingerweg///////////////////////////////
 
     private double round (double value, int decimalPoints)
     {
