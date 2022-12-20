@@ -151,7 +151,6 @@ public class WegActivity extends AppCompatActivity {
         else {
             tvWeg3Duration.setText(weg3_duration[0] + " h " + weg3_duration[1] + " min");
         }
-
         // Liste mit Waypoints erstellen
         Integer weg3_WayPoints_First_number = daten.getFeatures().get(2).getProperties().getWayPoints().get(1);
         List<GeoPoint> weg3_WayPoints =new ArrayList<GeoPoint>();
@@ -369,7 +368,7 @@ public class WegActivity extends AppCompatActivity {
         super.onDestroy();
         this.mapView.onPause();
     }
-   ///////////////////////////////////////////////////////////////////Fingerweg///////////////////////////////
+
 
     private double round (double value, int decimalPoints)
     {
