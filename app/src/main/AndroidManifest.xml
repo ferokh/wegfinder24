@@ -9,13 +9,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
 
     <application
         android:allowBackup="true"
@@ -27,11 +24,12 @@
         android:roundIcon="@mipmap/ic_provisorisch_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Wegfinder24">
-        <!--<service
+        <!--
+        <service
             android:name=".OpenrouteService"
             android:enabled="true"
-            android:exported="true"></service>-->
-
+            android:exported="true"></service>
+        -->
         <activity
             android:name=".WegActivity"
             android:exported="false"

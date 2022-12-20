@@ -1,10 +1,12 @@
 package de.info3.wegfinder24;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.LocationListener;
@@ -170,24 +172,21 @@ public class WegActivity extends AppCompatActivity {
         btnWeg1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WegActivity.this, WegActivity.class);
-                startActivity(intent);
+                Navigation();
             }
         });
 
         btnWeg2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WegActivity.this, WegActivity.class);
-                startActivity(intent);
+                Navigation();
             }
         });
 
         btnWeg3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WegActivity.this, WegActivity.class);
-                startActivity(intent);
+                Navigation();
             }
         });
 
@@ -373,7 +372,25 @@ public class WegActivity extends AppCompatActivity {
         this.mapView.onPause();
     }
 
-
+    private void Navigation(){
+        Intent fehler = new Intent(WegActivity.this, EingabeActivity.class);
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("Mit Navigation fortfahren?")
+                .setMessage("Geht leider nicht. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                .setPositiveButton("coolcoolcool und zurück", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                })
+                .setNeutralButton("Zur Eingabe", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(fehler);
+                    }
+                })
+                .show();
+    }
     private double round (double value, int decimalPoints)
     {
         double d = Math.pow(10,decimalPoints);
