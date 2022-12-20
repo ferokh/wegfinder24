@@ -31,6 +31,14 @@
             android:exported="true"></service>
         -->
         <activity
+            android:name=".NaviActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Design.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".WegActivity"
             android:exported="false"
             android:theme="@style/Theme.Design.NoActionBar">

@@ -34,6 +34,7 @@ import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +173,9 @@ public class WegActivity extends AppCompatActivity {
         btnWeg1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Navigation();
+                Intent intent = new Intent(WegActivity.this, NaviActivity.class);
+                intent.putExtra("daten", (Serializable) daten);
+                startActivity(intent);
             }
         });
 
