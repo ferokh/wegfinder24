@@ -101,46 +101,6 @@ public class WartebildschirmActivity extends AppCompatActivity {
 
         Anfrage anfrage = new Anfrage(Koordinaten, 0.5,3, 2.5, "de");
 
-        //////////////////////////////////////////////CAR///////////////////////////////////////////////////
-        // POST Anfrage
-        OpenRouteServiceCar service_car = retrofit.create(OpenRouteServiceCar.class);
-        // send the Anfrage to the Rest API
-        Call<Anfrage> resultCall_car = service_car.addAnfrage(anfrage);
-        resultCall_car.enqueue(new Callback<Anfrage>() {
-            @Override
-            public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
-                datencar = response.body();
-                //int i = 0;
-                Log.i("FeaturesList","Anfrage ging durch");
-                if (response.code() != 200){
-                    Log.i("FeaturesList","Problem, viel Glück!");
-                    RP_car = response.code();
-                    Log.i("ResponseCode", Integer.toString(RP_car));
-                    ups_uebertragung++;
-                }
-
-                // Datenübergabe oder Fehler abfangen
-                status++;
-                if (status == 3 && ups_uebertragung == 0) {
-                    Datenuebergabe();
-                }
-                if (status == 3 && ups_uebertragung > 0) {
-                    UPS_uebertragung();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Anfrage> call, Throwable t) {
-                Log.d("WartebildschirmActivity", "Anfragefehler");
-                ups_verbindung++;
-                if (status + ups_verbindung == 3) {
-                    UPS_verbindung();
-                }
-            }
-        }); //Auto Abfrage
-
-        roundProgress.setProgress(40);
-
         //////////////////////////////////////////////BIKE///////////////////////////////////////////////////
         // POST Anfrage
         OpenRouteServiceBike service_bike = retrofit.create(OpenRouteServiceBike.class);
@@ -180,6 +140,46 @@ public class WartebildschirmActivity extends AppCompatActivity {
         }); //Fahrrad Abfrage
 
         roundProgress.setProgress(70);
+
+        //////////////////////////////////////////////CAR///////////////////////////////////////////////////
+        // POST Anfrage
+        OpenRouteServiceCar service_car = retrofit.create(OpenRouteServiceCar.class);
+        // send the Anfrage to the Rest API
+        Call<Anfrage> resultCall_car = service_car.addAnfrage(anfrage);
+        resultCall_car.enqueue(new Callback<Anfrage>() {
+            @Override
+            public void onResponse(Call<Anfrage> call, retrofit2.Response<Anfrage> response) {
+                datencar = response.body();
+                //int i = 0;
+                Log.i("FeaturesList","Anfrage ging durch");
+                if (response.code() != 200){
+                    Log.i("FeaturesList","Problem, viel Glück!");
+                    RP_car = response.code();
+                    Log.i("ResponseCode", Integer.toString(RP_car));
+                    ups_uebertragung++;
+                }
+
+                // Datenübergabe oder Fehler abfangen
+                status++;
+                if (status == 3 && ups_uebertragung == 0) {
+                    Datenuebergabe();
+                }
+                if (status == 3 && ups_uebertragung > 0) {
+                    UPS_uebertragung();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Anfrage> call, Throwable t) {
+                Log.d("WartebildschirmActivity", "Anfragefehler");
+                ups_verbindung++;
+                if (status + ups_verbindung == 3) {
+                    UPS_verbindung();
+                }
+            }
+        }); //Auto Abfrage
+
+        roundProgress.setProgress(40);
 
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
         // POST Anfrage
@@ -253,9 +253,12 @@ public class WartebildschirmActivity extends AppCompatActivity {
     }
     private void Datenuebergabe () {
         Intent intent = new Intent(WartebildschirmActivity.this, VarianteActivity.class);
-        intent.putExtra("datencar", (Serializable) datencar);
-        intent.putExtra("datenbike",(Serializable) datenbike);
-        intent.putExtra("datenwalk",(Serializable) datenwalk);
+        ArrayList<Anfrage> daten = new ArrayList<>(3);
+        // immer: Reihenfolge im Array: Bike=0, Car=1, Walk=2       !!!
+        daten.add(datenbike);
+        daten.add(datencar);
+        daten.add(datenwalk);
+        intent.putExtra("daten", daten);
         startActivity(intent);
     }
 }

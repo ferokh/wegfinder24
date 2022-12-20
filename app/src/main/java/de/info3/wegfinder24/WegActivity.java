@@ -46,7 +46,8 @@ public class WegActivity extends AppCompatActivity {
     private MapView mapView;
     MapView map = null;
 
-
+    ArrayList<Anfrage> daten;
+    Integer var = 0;
 
     private MyLocationNewOverlay locationOverlay;
 
@@ -66,12 +67,13 @@ public class WegActivity extends AppCompatActivity {
         ImageButton ibtnBacktoVariante =this.findViewById(R.id.ibtnbacktoVariante);
 
         Intent VAintent = this.getIntent();
-        Anfrage daten = (Anfrage) VAintent.getSerializableExtra("daten");
-
-        String BA = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(0).get(1));
-        String LA = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(0).get(0));
-        String BE = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(1).get(1));
-        String LE = Double.toString(daten.getMetadata().getQuery().getCoordinates().get(1).get(0));
+        daten = (ArrayList<Anfrage>) VAintent.getSerializableExtra("daten");
+        var = (Integer) VAintent.getSerializableExtra("variante");
+        
+        Double BA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(1);
+        Double LA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(0);
+        Double BE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(1);
+        Double LE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(0);
 
         TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationWeg);
         tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
@@ -83,7 +85,7 @@ public class WegActivity extends AppCompatActivity {
 
         // Strecke anzeigen
         TextView tvWeg1Distance = this.findViewById(R.id.tvWeg1Distance); //TextView für die Entfernung - Auto
-        double[] weg1_distance = distanz(daten.getFeatures().get(0).getProperties().getSummary().getDistance());
+        double[] weg1_distance = distanz(daten.get(var).getFeatures().get(0).getProperties().getSummary().getDistance());
         if (weg1_distance[1] == 0) {
             tvWeg1Distance.setText(weg1_distance[0] + " m"); //Anzeige mit Meter
         }
@@ -93,7 +95,7 @@ public class WegActivity extends AppCompatActivity {
 
         // Dauer anzeigen
         TextView tvWeg1Duration = this.findViewById(R.id.tvWeg1Duration);
-        int[] weg1_duration = dauer(daten.getFeatures().get(0).getProperties().getSummary().getDuration());
+        int[] weg1_duration = dauer(daten.get(var).getFeatures().get(0).getProperties().getSummary().getDuration());
         if (weg1_duration[0] == 0) {  // Unterscheidung, wenn Zeit kürzer einer Stunde
             tvWeg1Duration.setText(weg1_duration[1] + " min");
         }
@@ -102,17 +104,17 @@ public class WegActivity extends AppCompatActivity {
         }
 
         // Liste mit Waypoints erstellen
-        Integer weg1_WayPoints_First_number = daten.getFeatures().get(0).getProperties().getWayPoints().get(1);
+        Integer weg1_WayPoints_First_number = daten.get(var).getFeatures().get(0).getProperties().getWayPoints().get(1);
         List<GeoPoint> weg1_WayPoints =new ArrayList<GeoPoint>();
         for (int i = 0; i<weg1_WayPoints_First_number + 1;i++)
         {
-            weg1_WayPoints.add(new GeoPoint (daten.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),daten.getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
+            weg1_WayPoints.add(new GeoPoint (daten.get(var).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),daten.get(var).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         //////////////////////////////////////////////weg2///////////////////////////////////////////////////
         // Strecke anzeigen
         TextView tvWeg2Distance = this.findViewById(R.id.tvWeg2Distance); //TextView für die Entfernung - Fahrrad
-        double[] weg2_distance = distanz(daten.getFeatures().get(1).getProperties().getSummary().getDistance());
+        double[] weg2_distance = distanz(daten.get(var).getFeatures().get(1).getProperties().getSummary().getDistance());
         if (weg2_distance[1] == 0) {
             tvWeg2Distance.setText(weg2_distance[0] + " m"); //Anzeige mit Meter
         }
@@ -122,7 +124,7 @@ public class WegActivity extends AppCompatActivity {
 
         // Dauer anzeigen
         TextView tvWeg2Duration = this.findViewById(R.id.tvWeg2Duration);
-        int[] weg2_duration = dauer(daten.getFeatures().get(1).getProperties().getSummary().getDuration());
+        int[] weg2_duration = dauer(daten.get(var).getFeatures().get(1).getProperties().getSummary().getDuration());
         if (weg2_duration[0] == 0) {  // Unterscheidung, wenn Zeit kürzer einer Stunde
             tvWeg2Duration.setText(weg2_duration[1] + " min");
         }
@@ -131,17 +133,17 @@ public class WegActivity extends AppCompatActivity {
         }
 
         // Liste mit Waypoints erstellen
-        Integer weg2_WayPoints_First_number = daten.getFeatures().get(1).getProperties().getWayPoints().get(1);
+        Integer weg2_WayPoints_First_number = daten.get(var).getFeatures().get(1).getProperties().getWayPoints().get(1);
         List<GeoPoint> weg2_WayPoints =new ArrayList<GeoPoint>();
         for (int i = 0; i< (weg2_WayPoints_First_number + 1);i++)
         {
-            weg2_WayPoints.add(new GeoPoint (daten.getFeatures().get(1).getGeometry().getCoordinates().get(i).get(1),daten.getFeatures().get(1).getGeometry().getCoordinates().get(i).get(0)));
+            weg2_WayPoints.add(new GeoPoint (daten.get(var).getFeatures().get(1).getGeometry().getCoordinates().get(i).get(1),daten.get(var).getFeatures().get(1).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         //////////////////////////////////////////////weg3///////////////////////////////////////////////////
         // Strecke anzeigen
         TextView tvWeg3Distance = this.findViewById(R.id.tvWeg3Distance); //TextView für die Entfernung - zu Fuß
-        double[] weg3_distance = distanz(daten.getFeatures().get(2).getProperties().getSummary().getDistance());
+        double[] weg3_distance = distanz(daten.get(var).getFeatures().get(2).getProperties().getSummary().getDistance());
         if (weg3_distance[1] == 0) {
             tvWeg3Distance.setText(weg3_distance[0] + " m"); //Anzeige mit Meter
         }
@@ -151,7 +153,7 @@ public class WegActivity extends AppCompatActivity {
 
         // Dauer anzeigen
         TextView tvWeg3Duration = this.findViewById(R.id.tvWeg3Duration);
-        int[] weg3_duration = dauer(daten.getFeatures().get(2).getProperties().getSummary().getDuration());
+        int[] weg3_duration = dauer(daten.get(var).getFeatures().get(2).getProperties().getSummary().getDuration());
         if (weg3_duration[0] == 0) {  // Unterscheidung, wenn Zeit kürzer einer Stunde
             tvWeg3Duration.setText(weg3_duration[1] + " min");
         }
@@ -159,11 +161,11 @@ public class WegActivity extends AppCompatActivity {
             tvWeg3Duration.setText(weg3_duration[0] + " h " + weg3_duration[1] + " min");
         }
         // Liste mit Waypoints erstellen
-        Integer weg3_WayPoints_First_number = daten.getFeatures().get(2).getProperties().getWayPoints().get(1);
+        Integer weg3_WayPoints_First_number = daten.get(var).getFeatures().get(2).getProperties().getWayPoints().get(1);
         List<GeoPoint> weg3_WayPoints =new ArrayList<GeoPoint>();
         for (int i = 0; i < weg3_WayPoints_First_number + 1;i++)
         {
-            weg3_WayPoints.add(new GeoPoint (daten.getFeatures().get(2).getGeometry().getCoordinates().get(i).get(1),daten.getFeatures().get(2).getGeometry().getCoordinates().get(i).get(0)));
+            weg3_WayPoints.add(new GeoPoint (daten.get(var).getFeatures().get(2).getGeometry().getCoordinates().get(i).get(1),daten.get(var).getFeatures().get(2).getGeometry().getCoordinates().get(i).get(0)));
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,8 +175,10 @@ public class WegActivity extends AppCompatActivity {
         btnWeg1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Navigation();
                 Intent intent = new Intent(WegActivity.this, NaviActivity.class);
-                intent.putExtra("daten", (Serializable) daten);
+                intent.putExtra("daten", daten);
+                intent.putExtra("variante", var);
                 startActivity(intent);
             }
         });
@@ -205,6 +209,7 @@ public class WegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WegActivity.this, VarianteActivity.class);
+                intent.putExtra("datenbike", daten);
                 startActivity(intent);
             }
         });
@@ -279,25 +284,25 @@ public class WegActivity extends AppCompatActivity {
         map.getOverlays().add(startMarker);*/
 
         //Polygon mit Array anzeigen lassen
-        ////////////////////CAR///////////////////////
-        Polyline line_car = new Polyline(mapView);
-        line_car.setWidth(4f);
-        line_car.setColor(Color.RED);
-
-        line_car.setPoints(weg1_WayPoints);
-        line_car.setGeodesic(true);
-        mapView.getOverlayManager().add(line_car);
-        mapView.setVisibility(View.GONE);
-        mapView.setVisibility(View.VISIBLE);
-
         ////////////////////BIKE///////////////////////
         Polyline line_bike = new Polyline(mapView);
         line_bike.setWidth(4f);
         line_bike.setColor(Color.CYAN);
 
-        line_bike.setPoints(weg2_WayPoints);
+        line_bike.setPoints(weg1_WayPoints);
         line_bike.setGeodesic(true);
         mapView.getOverlayManager().add(line_bike);
+        mapView.setVisibility(View.GONE);
+        mapView.setVisibility(View.VISIBLE);
+
+        ////////////////////CAR///////////////////////
+        Polyline line_car = new Polyline(mapView);
+        line_car.setWidth(4f);
+        line_car.setColor(Color.RED);
+
+        line_car.setPoints(weg2_WayPoints);
+        line_car.setGeodesic(true);
+        mapView.getOverlayManager().add(line_car);
         mapView.setVisibility(View.GONE);
         mapView.setVisibility(View.VISIBLE);
 
@@ -380,10 +385,14 @@ public class WegActivity extends AppCompatActivity {
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Mit Navigation fortfahren?")
-                .setMessage("Geht leider nicht. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
-                .setPositiveButton("coolcoolcool und zurück", new DialogInterface.OnClickListener() {
+                .setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                .setPositiveButton("coolcoolcool und weiter", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(WegActivity.this, NaviActivity.class);
+                        intent.putExtra("daten", daten);
+                        intent.putExtra("variante", var);
+                        startActivity(intent);
                     }
                 })
                 .setNeutralButton("Zur Eingabe", new DialogInterface.OnClickListener() {

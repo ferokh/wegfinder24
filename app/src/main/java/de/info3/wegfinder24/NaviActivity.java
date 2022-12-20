@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
 
 public class NaviActivity extends AppCompatActivity {
@@ -20,12 +22,13 @@ public class NaviActivity extends AppCompatActivity {
         Button btnWeiter =this.findViewById(R.id.btnWeiter);
 
         Intent WAintent = this.getIntent();
-        Anfrage daten = (Anfrage) WAintent.getSerializableExtra("daten");
+        ArrayList<Anfrage> daten = (ArrayList<Anfrage>) WAintent.getSerializableExtra("daten");
+        Integer var = (Integer) WAintent.getSerializableExtra("variante");
 
 
         TextView tvAnweisung = this.findViewById(R.id.tvAnweisung); //TextView für die Entfernung - Auto
-        Double Strecke = daten.getFeatures().get(0).getProperties().getSegments().get(0).getSteps().get(0).getDistance();
-        String Anweisung = daten.getFeatures().get(0).getProperties().getSegments().get(0).getSteps().get(0).getInstruction();
+        Double Strecke = daten.get(var).getFeatures().get(0).getProperties().getSegments().get(0).getSteps().get(0).getDistance();
+        String Anweisung = daten.get(var).getFeatures().get(0).getProperties().getSegments().get(0).getSteps().get(0).getInstruction();
         tvAnweisung.setText("Nach " + round(Strecke, 0) + "m\n" + Anweisung);
 
 
