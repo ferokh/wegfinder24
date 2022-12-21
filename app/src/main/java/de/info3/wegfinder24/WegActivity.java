@@ -48,6 +48,7 @@ public class WegActivity extends AppCompatActivity {
 
     ArrayList<Anfrage> daten;
     Integer var = 0;
+    Integer weg = 0;
 
     private MyLocationNewOverlay locationOverlay;
 
@@ -176,10 +177,7 @@ public class WegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Navigation();
-                Intent intent = new Intent(WegActivity.this, NaviActivity.class);
-                intent.putExtra("daten", daten);
-                intent.putExtra("variante", var);
-                startActivity(intent);
+                weg = 0;
             }
         });
 
@@ -187,6 +185,7 @@ public class WegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Navigation();
+                weg = 1;
             }
         });
 
@@ -194,6 +193,7 @@ public class WegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Navigation();
+                weg = 2;
             }
         });
 
@@ -392,6 +392,7 @@ public class WegActivity extends AppCompatActivity {
                         Intent intent = new Intent(WegActivity.this, NaviActivity.class);
                         intent.putExtra("daten", daten);
                         intent.putExtra("variante", var);
+                        intent.putExtra("weg", weg);
                         startActivity(intent);
                     }
                 })
