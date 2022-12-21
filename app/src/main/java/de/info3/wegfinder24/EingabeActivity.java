@@ -49,7 +49,8 @@ public class EingabeActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
 
-
+    GeoPoint startPoint;
+    GeoPoint endPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,12 +123,17 @@ public class EingabeActivity extends AppCompatActivity {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 //Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
-                GeoPoint startPoint=  p;
-
-                //Marker anzeigen Start Point
+                startPoint =  p;
+                Double latitude = p.getLatitude();
+                latitude = round(latitude,6);
+                Double longitude = p.getLongitude();
+                longitude = round(longitude,6);
+                edtStartMessagelat.setText(Double.toString(latitude));
+                edtStartMessagelong.setText(Double.toString(longitude));
                 IMapController mapController = map.getController();
                 //mapController.setZoom(9);
                 //mapController.setCenter(startPoint);
+
                 Marker startMarker=new Marker(map);
                 startMarker.setId("String");
                 startMarker.setPosition(startPoint);
@@ -167,6 +173,8 @@ public class EingabeActivity extends AppCompatActivity {
 
 
        //Standort anzeigen lassen
+        // Knopf die 2. GPS
+
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
         locationOverlay = new MyLocationNewOverlay(provider, mapView);
@@ -301,5 +309,11 @@ public class EingabeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         this.mapView.onPause();
+    }
+
+    private double round (double value, int decimalPoints)
+    {
+        double d = Math.pow(10,decimalPoints);
+        return Math.round(value * d)/d;
     }
 }
