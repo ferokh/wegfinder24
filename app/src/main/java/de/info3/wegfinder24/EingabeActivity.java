@@ -65,11 +65,11 @@ public class EingabeActivity extends AppCompatActivity {
                 /*double Startlat = 8.681495;
                 double Startlong = 49.41461;
                 double Ziellat = 8.687872;
-                double Ziellong = 49.420318;*/
+                double Ziellong = 49.420318;
         double[] Startlat = {Double.parseDouble(edtStartMessagelat.getText().toString())};
         double[] Startlong = {Double.parseDouble(edtStartMessagelong.getText().toString())};
         double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
-        double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
+        double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());*/
 
 
         //Permission def.
@@ -118,10 +118,11 @@ public class EingabeActivity extends AppCompatActivity {
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
                 GeoPoint startPoint=  p;
+
+                //Marker anzeigen Start Point
                 IMapController mapController = map.getController();
                 //mapController.setZoom(9);
                 //mapController.setCenter(startPoint);
-
                 Marker startMarker=new Marker(map);
                 startMarker.setPosition(startPoint);
                 startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
