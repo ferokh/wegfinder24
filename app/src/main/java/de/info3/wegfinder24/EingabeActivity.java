@@ -285,4 +285,3 @@ public class EingabeActivity extends AppCompatActivity {
         return Math.round(value * d)/d;
     }
 }
-
