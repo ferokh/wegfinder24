@@ -71,10 +71,10 @@ public class WegActivity extends AppCompatActivity {
         daten = (ArrayList<Anfrage>) VAintent.getSerializableExtra("daten");
         var = (Integer) VAintent.getSerializableExtra("variante");
         
-        Double BA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(1);
-        Double LA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(0);
-        Double BE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(1);
-        Double LE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(0);
+        Double BA = daten.get(var).getMetadata().getQuery().getCoordinates().get(0).get(1);
+        Double LA = daten.get(var).getMetadata().getQuery().getCoordinates().get(0).get(0);
+        Double BE = daten.get(var).getMetadata().getQuery().getCoordinates().get(1).get(1);
+        Double LE = daten.get(var).getMetadata().getQuery().getCoordinates().get(1).get(0);
 
         TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationWeg);
         tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
@@ -169,9 +169,11 @@ public class WegActivity extends AppCompatActivity {
             weg3_WayPoints.add(new GeoPoint (daten.get(var).getFeatures().get(2).getGeometry().getCoordinates().get(i).get(1),daten.get(var).getFeatures().get(2).getGeometry().getCoordinates().get(i).get(0)));
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////Buttons//////////////////////////////////////////////////////////
 
-
+        // die Weg-Variable wird zur nächsten Activity übergeben
+        // und kann dann direkt in der Datenstruktur verwendet werden
+        // um auf die richtige Option zuzugreifen
 
         btnWeg1.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -210,6 +212,8 @@ public class WegActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(WegActivity.this, VarianteActivity.class);
                 intent.putExtra("datenbike", daten);
+                // die Daten werden wieder Übergeben, da die Variante-Activity beim Aufrufen Daten erwartet
+                // glaube ich zumindest, weil das Programm sonst abstützt, wenn man nichts übergibt
                 startActivity(intent);
             }
         });
@@ -381,7 +385,6 @@ public class WegActivity extends AppCompatActivity {
     }
 
     private void Navigation(){
-        Intent fehler = new Intent(WegActivity.this, EingabeActivity.class);
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Mit Navigation fortfahren?")
@@ -399,6 +402,7 @@ public class WegActivity extends AppCompatActivity {
                 .setNeutralButton("Zur Eingabe", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent fehler = new Intent(WegActivity.this, EingabeActivity.class);
                         startActivity(fehler);
                     }
                 })
