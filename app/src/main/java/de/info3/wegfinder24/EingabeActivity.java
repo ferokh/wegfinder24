@@ -14,6 +14,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -24,8 +25,12 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
@@ -116,7 +121,7 @@ public class EingabeActivity extends AppCompatActivity {
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
-                Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
                 GeoPoint startPoint=  p;
 
                 //Marker anzeigen Start Point
@@ -124,6 +129,22 @@ public class EingabeActivity extends AppCompatActivity {
                 //mapController.setZoom(9);
                 //mapController.setCenter(startPoint);
                 Marker startMarker=new Marker(map);
+                startMarker.setId("String");
+                startMarker.setPosition(startPoint);
+                startMarker.setTitle("Start");
+                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(startMarker);
+
+                mapView.getOverlays().remove(startMarker);
+                mapView.invalidate();
+
+                for(int i=0;i<map.getOverlays().size();i++){
+                    Overlay overlay=map.getOverlays().get(i);
+                    if(overlay instanceof Marker&&((Marker) overlay).getId().equals("String")){
+                        map.getOverlays().remove(overlay);
+
+                    }
+                }
                 startMarker.setPosition(startPoint);
                 startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(startMarker);
@@ -144,9 +165,8 @@ public class EingabeActivity extends AppCompatActivity {
         compassOverlay.enableCompass();
         mapView.getOverlays().add(compassOverlay);
 
-       //Standort anzeigen lassen
-        // Knopf die 2. GPS
 
+       //Standort anzeigen lassen
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
         locationOverlay = new MyLocationNewOverlay(provider, mapView);
