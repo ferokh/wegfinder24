@@ -1,6 +1,9 @@
 package de.info3.wegfinder24;
 
 
+import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.views.overlay.FolderOverlay;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class EingabeActivity extends AppCompatActivity {
@@ -39,6 +43,7 @@ public class EingabeActivity extends AppCompatActivity {
     private MapView mapView;
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
+
 
 
     @Override
@@ -56,31 +61,18 @@ public class EingabeActivity extends AppCompatActivity {
         EditText edtZielMessagelat = this.findViewById(R.id.edtZielEnter);
         EditText edtZielMessagelong = this.findViewById(R.id.edtZielEnterLong);
 
-        //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
-        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
-        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
 
                 /*double Startlat = 8.681495;
                 double Startlong = 49.41461;
                 double Ziellat = 8.687872;
                 double Ziellong = 49.420318;*/
-                double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
-                double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
-                double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
-                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
+        double[] Startlat = {Double.parseDouble(edtStartMessagelat.getText().toString())};
+        double[] Startlong = {Double.parseDouble(edtStartMessagelong.getText().toString())};
+        double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
+        double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
 
-                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                intent.putExtra("Startlat",Startlat);
-                intent.putExtra("Startlong",Startlong);
-                intent.putExtra("Ziellat",Ziellat);
-                intent.putExtra("Ziellong",Ziellong);
-                startActivity(intent);
-            }
-        });
 
-        //Kartenserver von Herr Knopf
+        //Permission def.
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -112,6 +104,7 @@ public class EingabeActivity extends AppCompatActivity {
             }
         });
 
+
         //Map anzeigen
         map = (MapView) findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -119,12 +112,40 @@ public class EingabeActivity extends AppCompatActivity {
         mapView = map;
 
 
+        //Click on Map
+        MapEventsReceiver mReceive = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
+                GeoPoint startPoint=  p;
+                IMapController mapController = map.getController();
+                //mapController.setZoom(9);
+                //mapController.setCenter(startPoint);
+
+                Marker startMarker=new Marker(map);
+                startMarker.setPosition(startPoint);
+                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(startMarker);
+
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        };
+        MapEventsOverlay OverlayEvents = new MapEventsOverlay(getBaseContext(), mReceive);
+        map.getOverlays().add(OverlayEvents);
+
         //Kompass
         CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
         compassOverlay.enableCompass();
         mapView.getOverlays().add(compassOverlay);
 
        //Standort anzeigen lassen
+        // Knopf die 2. GPS
+
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
         locationOverlay = new MyLocationNewOverlay(provider, mapView);
@@ -136,7 +157,10 @@ public class EingabeActivity extends AppCompatActivity {
         });
         mapView.getOverlayManager().add(locationOverlay);
 
-       /* //Marker setzen
+
+
+
+       /* //Marker setzen an bestimmtem Punkt
         GeoPoint startPoint=new GeoPoint(48.13,-1.63);
         IMapController mapController = map.getController();
         mapController.setZoom(9);
@@ -166,12 +190,44 @@ public class EingabeActivity extends AppCompatActivity {
         mapView.setVisibility(View.GONE);
         mapView.setVisibility(View.VISIBLE);*/
 
+        //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
+        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
+        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+
+
+                /*double Startlat = 8.681495;
+                double Startlong = 49.41461;
+                double Ziellat = 8.687872;
+                double Ziellong = 49.420318;
+                double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
+                double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
+                double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
+                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());*/
+
+
+                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+                intent.putExtra("Startlat", Startlat[0]);
+                intent.putExtra("Startlong", Startlong[0]);
+                intent.putExtra("Ziellat",Ziellat);
+                intent.putExtra("Ziellong",Ziellong);
+                startActivity(intent);
+            }
+        });
+
     }
+
+
+
     @SuppressLint("MissingPermission")
     private void setupMapView()
     {
         //Abfrage GPS - Koordinaten des Handys
         LocationListener locationListener = new LocationListener() {
+
+
             @Override
             public void onLocationChanged(android.location.Location location) {
                 double latitude = location.getLatitude();
