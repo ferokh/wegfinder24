@@ -44,7 +44,8 @@ public class EingabeActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
 
-
+    GeoPoint startPoint;
+    GeoPoint endPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +61,6 @@ public class EingabeActivity extends AppCompatActivity {
         EditText edtStartMessagelong = this.findViewById(R.id.edtStartEnterLong);
         EditText edtZielMessagelat = this.findViewById(R.id.edtZielEnter);
         EditText edtZielMessagelong = this.findViewById(R.id.edtZielEnterLong);
-
-
-                /*double Startlat = 8.681495;
-                double Startlong = 49.41461;
-                double Ziellat = 8.687872;
-                double Ziellong = 49.420318;*/
-        double[] Startlat = {Double.parseDouble(edtStartMessagelat.getText().toString())};
-        double[] Startlong = {Double.parseDouble(edtStartMessagelong.getText().toString())};
-        double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
-        double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
 
 
         //Permission def.
@@ -116,8 +107,14 @@ public class EingabeActivity extends AppCompatActivity {
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
-                Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
-                GeoPoint startPoint=  p;
+                //Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
+                startPoint =  p;
+                Double latitude = p.getLatitude();
+                latitude = round(latitude,6);
+                Double longitude = p.getLongitude();
+                longitude = round(longitude,6);
+                edtStartMessagelat.setText(Double.toString(latitude));
+                edtStartMessagelong.setText(Double.toString(longitude));
                 IMapController mapController = map.getController();
                 //mapController.setZoom(9);
                 //mapController.setCenter(startPoint);
@@ -281,4 +278,11 @@ public class EingabeActivity extends AppCompatActivity {
         super.onDestroy();
         this.mapView.onPause();
     }
+
+    private double round (double value, int decimalPoints)
+    {
+        double d = Math.pow(10,decimalPoints);
+        return Math.round(value * d)/d;
+    }
 }
+
