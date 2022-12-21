@@ -84,7 +84,7 @@ public class EingabeActivity extends AppCompatActivity {
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+
         };
 
         Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen

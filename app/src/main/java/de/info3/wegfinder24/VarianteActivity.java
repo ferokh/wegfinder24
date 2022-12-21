@@ -21,10 +21,12 @@ import android.widget.TextView;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.info3.wegfinder24.newtwork.JSON_Anfrage.Anfrage;
+import de.info3.wegfinder24.newtwork.OpenRouteServiceWalk;
 
 public class VarianteActivity extends AppCompatActivity {
 
@@ -46,6 +49,12 @@ public class VarianteActivity extends AppCompatActivity {
     private MapView mapView;
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
+
+    private double BA;
+    private double LA;
+    private double BE;
+    private double LE;
+
 
     //private LocationManager locationManager;
 
@@ -66,10 +75,13 @@ public class VarianteActivity extends AppCompatActivity {
         Intent WBAintent = this.getIntent();
         ArrayList<Anfrage> daten = (ArrayList<Anfrage>) WBAintent.getSerializableExtra("daten");
 
-        Double BA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(1);
-        Double LA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(0);
-        Double BE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(1);
-        Double LE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(0);
+         BA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(1);
+         LA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(0);
+         BE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(1);
+         LE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(0);
+
+
+
 
         TextView tvStartDestVar = this.findViewById(R.id.tvStartDestinationVar);
         tvStartDestVar.setText("Start: " + BA + ", " + LA+"\n"+"Ziel: " + BE + ", " + LE);
@@ -161,6 +173,7 @@ public class VarianteActivity extends AppCompatActivity {
             walk_WayPoints.add(new GeoPoint (daten.get(2).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),daten.get(2).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
 
+
         ////////////////////////////////////////////////////////////////////////////////////////////
         //WegActivity Starten von BikeKnopf
         btnBike.setOnClickListener(new View.OnClickListener(){
@@ -207,7 +220,7 @@ public class VarianteActivity extends AppCompatActivity {
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+
         };
 
         Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen
@@ -319,8 +332,11 @@ public class VarianteActivity extends AppCompatActivity {
 
                 GeoPoint startPoint = new GeoPoint(latitude, longitude);
 
+
+
                 IMapController mapController = mapView.getController();
-                mapController.setCenter(startPoint);
+                //mapController.setCenter(startPoint);
+               //mapView.zoomToBoundingBox(new BoundingBox(BA,LA,BE,LE),true,100);
                 mapController.setZoom(15);
             }
 
