@@ -16,8 +16,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import org.osmdroid.api.IMapController;
@@ -46,6 +49,7 @@ public class EingabeActivity extends AppCompatActivity {
 
     GeoPoint startPoint;
     GeoPoint endPoint;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +65,14 @@ public class EingabeActivity extends AppCompatActivity {
         EditText edtStartMessagelong = this.findViewById(R.id.edtStartEnterLong);
         EditText edtZielMessagelat = this.findViewById(R.id.edtZielEnter);
         EditText edtZielMessagelong = this.findViewById(R.id.edtZielEnterLong);
-
+        ImageButton btnGPSstart = this.findViewById(R.id.btnGPSstart);
+        ImageButton btnGPSZiel = this.findViewById(R.id.btnGPSziel);
 
         //Permission def.
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE
         };
-
         Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen
             @Override
             public void onGranted() {//wenn alles okay ist wird die Karte angezeigt
@@ -95,7 +98,6 @@ public class EingabeActivity extends AppCompatActivity {
             }
         });
 
-
         //Map anzeigen
         map = (MapView) findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -103,24 +105,109 @@ public class EingabeActivity extends AppCompatActivity {
         mapView = map;
 
 
+        btnGPSZiel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //btnStartAuswahl.setActivated(true);
+                //btnZielAuswahl.setActivated(false);
+                /*btnZielAuswahl.setEnabled(false);
+                btnStartAuswahl.setEnabled(true);
+                btnZielAuswahl.setVisibility(View.GONE);
+                btnStartAuswahl.setVisibility(View.VISIBLE);*/
+
+                index = 1;
+
+                /*edtStartMessagelat.setTextColor(getResources().getColor(R.color.primary));
+                edtStartMessagelong.setTextColor(getResources().getColor(R.color.primary));
+                edtZielMessagelat.setTextColor(getResources().getColor(R.color.black));
+                edtZielMessagelong.setTextColor(getResources().getColor(R.color.black));
+                edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.primary));
+                edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.primary));
+                edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.black));
+                edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.black));*/
+            }
+        });
+        btnGPSstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //btnZielAuswahl.setActivated(true);
+                //btnStartAuswahl.setActivated(false);
+                /*btnZielAuswahl.setEnabled(true);
+                btnStartAuswahl.setEnabled(false);
+                btnZielAuswahl.setVisibility(View.VISIBLE);
+                btnStartAuswahl.setVisibility(View.GONE);*/
+
+                index = 0;
+                /*edtStartMessagelat.setTextColor(getResources().getColor(R.color.black));
+                edtStartMessagelong.setTextColor(getResources().getColor(R.color.black));
+                edtZielMessagelat.setTextColor(getResources().getColor(R.color.grey));
+                edtZielMessagelong.setTextColor(getResources().getColor(R.color.grey));
+                edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.black));
+                edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.black));
+                edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.grey));
+                edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.grey));*/
+            }
+        });
+
+        if (index == 0)
+        {
+            btnGPSZiel.setEnabled(true);
+            btnGPSstart.setEnabled(false);
+            btnGPSZiel.setVisibility(View.VISIBLE);
+            btnGPSstart.setVisibility(View.GONE);
+
+            edtStartMessagelat.setTextColor(getResources().getColor(R.color.black));
+            edtStartMessagelong.setTextColor(getResources().getColor(R.color.black));
+            edtZielMessagelat.setTextColor(getResources().getColor(R.color.grey));
+            edtZielMessagelong.setTextColor(getResources().getColor(R.color.grey));
+            edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.black));
+            edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.black));
+            edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.grey));
+            edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.grey));
+        }
+
+
+        if (index == 1)
+        {
+            btnGPSZiel.setEnabled(false);
+            btnGPSstart.setEnabled(true);
+            btnGPSZiel.setVisibility(View.GONE);
+            btnGPSstart.setVisibility(View.VISIBLE);
+
+            edtStartMessagelat.setTextColor(getResources().getColor(R.color.primary));
+            edtStartMessagelong.setTextColor(getResources().getColor(R.color.primary));
+            edtZielMessagelat.setTextColor(getResources().getColor(R.color.black));
+            edtZielMessagelong.setTextColor(getResources().getColor(R.color.black));
+            edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.primary));
+            edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.primary));
+            edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.black));
+            edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.black));
+        }
         //Click on Map
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 //Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
-                startPoint =  p;
                 Double latitude = p.getLatitude();
                 latitude = round(latitude,6);
                 Double longitude = p.getLongitude();
                 longitude = round(longitude,6);
-                edtStartMessagelat.setText(Double.toString(latitude));
-                edtStartMessagelong.setText(Double.toString(longitude));
+                if (index == 0)
+                {
+                    edtStartMessagelat.setText(Double.toString(latitude));
+                    edtStartMessagelong.setText(Double.toString(longitude));
+                }
+                else if (index == 1)
+                {
+                    edtZielMessagelat.setText(Double.toString(latitude));
+                    edtZielMessagelong.setText(Double.toString(longitude));
+                }
                 IMapController mapController = map.getController();
                 //mapController.setZoom(9);
                 //mapController.setCenter(startPoint);
 
                 Marker startMarker=new Marker(map);
-                startMarker.setPosition(startPoint);
+                startMarker.setPosition(p);
                 startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(startMarker);
 
@@ -132,9 +219,9 @@ public class EingabeActivity extends AppCompatActivity {
                 return false;
             }
         };
+
         MapEventsOverlay OverlayEvents = new MapEventsOverlay(getBaseContext(), mReceive);
         map.getOverlays().add(OverlayEvents);
-
         //Kompass
         CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
         compassOverlay.enableCompass();
@@ -153,39 +240,6 @@ public class EingabeActivity extends AppCompatActivity {
             }
         });
         mapView.getOverlayManager().add(locationOverlay);
-
-
-
-
-       /* //Marker setzen an bestimmtem Punkt
-        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
-        IMapController mapController = map.getController();
-        mapController.setZoom(9);
-        mapController.setCenter(startPoint);
-
-        Marker startMarker=new Marker(map);
-        startMarker.setPosition(startPoint);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(startMarker);*/
-
-
-        //Polygon mit Array anzeigen lassen
-        /*Polyline line = new Polyline(mapView);
-        line.setWidth(4f);
-        line.setColor(Color.BLUE);
-
-        List<GeoPoint> coordlist =new ArrayList<GeoPoint>();
-
-        coordlist.add( new GeoPoint(49.1,1));
-        coordlist.add(new GeoPoint(48.13,-1.63));
-        coordlist.add(new GeoPoint(50.1,2));
-        coordlist.add(new GeoPoint(51.1,3));
-
-        line.setPoints(coordlist);
-        line.setGeodesic(true);
-        mapView.getOverlayManager().add(line);
-        mapView.setVisibility(View.GONE);
-        mapView.setVisibility(View.VISIBLE);*/
 
         //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
         ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);

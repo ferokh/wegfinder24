@@ -14,110 +14,132 @@
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="470dp" />
+        android:layout_height="470dp"
+        android:layout_marginBottom="5dp"/>
    <!--<EditText
         android:id="@+id/edtStartEnter"
         android:layout_height="570dp"
         android:clickable="true"
         android:focusable="true"/>-->
 
-   <EditText
-        android:id="@+id/edtStartEnter"
-        android:layout_below="@id/mapView"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/white"
-        android:text="49.012607"
-        android:hint="Start\nBreitengrad"
-        android:textColorHint="@color/grey"
-        android:textColor="@color/black"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="20dp"
-        android:numeric="decimal"
-        tools:ignore="Deprecated"
-       android:clickable="true"
-       android:focusable="true"/>
-    <EditText
-        android:id="@+id/edtStartEnterLong"
-        android:layout_below="@id/mapView"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_toRightOf="@+id/edtStartEnter"
-        android:layout_margin="5dp"
-        android:background="@color/white"
-        android:textColor="@color/black"
-        android:text="8.385613"
-        android:hint="Start\nLängengrad"
-        android:textColorHint="@color/grey"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="20dp"
-        android:numeric="decimal"
-        tools:ignore="Deprecated"/>
-
     <ImageButton
-        android:id="@+id/btnGPS"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:id="@+id/btnGPSstart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@id/mapView"
-        android:layout_toRightOf="@id/edtStartEnterLong"
-        android:layout_margin="5dp"
+        android:layout_marginRight="5dp"
         android:background="@color/alternative"
         android:src="@drawable/ic_baseline_gps_fixed_40"
         tools:ignore="SpeakableTextPresentCheck" />
 
+   <EditText
+        android:id="@+id/edtStartEnter"
+        android:layout_below="@id/mapView"
+       android:layout_toRightOf="@id/btnGPSstart"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
+        android:hint="Start\nBreitengrad"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="12dp"
+        android:numeric="decimal"
+        tools:ignore="Deprecated"
+       android:clickable="true"
+       android:focusable="true"/>
+    <!--android:text="49.012607"-->
+    <EditText
+        android:id="@+id/edtStartEnterLong"
+        android:layout_below="@id/mapView"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/edtStartEnter"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/white"
+        android:hint="Start\nLängengrad"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="12dp"
+        android:numeric="decimal"
+        tools:ignore="Deprecated"/>
+    <!--        android:text="8.385613"-->
+
+    <Button
+        android:id="@+id/btnStartAuswahl"
+        android:layout_width="265dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/mapView"
+        android:layout_toRightOf="@id/btnGPSstart"
+        android:background="@color/Transparent"
+        />
+
+    <ImageButton
+        android:id="@+id/btnGPSziel"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btnGPSstart"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/alternative"
+        android:src="@drawable/ic_baseline_gps_fixed_40"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/btnZielAuswahl"
+        android:layout_width="265dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/btnStartAuswahl"
+        android:layout_toRightOf="@id/btnGPSstart"
+        android:background="@color/Transparent"
+        />
+
     <EditText
         android:id="@+id/edtZielEnter"
         android:layout_below="@id/edtStartEnter"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/btnGPSziel"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
         android:background="@color/white"
-        android:textColor="@color/black"
-        android:text="49.004462"
         android:hint="Ziel\nBreitengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20dp"
+        android:textSize="12dp"
         android:numeric="decimal"
         tools:ignore="Deprecated"/>
+    <!--        android:text="49.004462"-->
 
     <EditText
         android:id="@+id/edtZielEnterLong"
         android:layout_below="@id/edtStartEnterLong"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
         android:layout_toRightOf="@+id/edtStartEnter"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
         android:background="@color/white"
-        android:textColor="@color/black"
-        android:text="8.441755"
         android:hint="Ziel\nLängengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20dp"
+        android:textSize="12dp"
         android:numeric="decimal"
         tools:ignore="Deprecated"/>
+    <!--android:text="8.441755"-->
 
     <ImageButton
         android:id="@+id/btnArrow"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@id/edtStartEnter"
         android:layout_toRightOf="@id/edtZielEnterLong"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
         android:background="@color/alternative"
         android:src="@drawable/ic_baseline_arrow_forward_40"
         tools:ignore="SpeakableTextPresentCheck" />
-
 
 </RelativeLayout>
