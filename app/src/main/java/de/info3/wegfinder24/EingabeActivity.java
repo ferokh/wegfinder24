@@ -196,21 +196,19 @@ public class EingabeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
                 /*double Startlat = 8.681495;
                 double Startlong = 49.41461;
                 double Ziellat = 8.687872;
-                double Ziellong = 49.420318;
+                double Ziellong = 49.420318;*/
                 double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
                 double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
                 double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
-                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());*/
+                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
 
 
                 Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                intent.putExtra("Startlat", Startlat[0]);
-                intent.putExtra("Startlong", Startlong[0]);
+                intent.putExtra("Startlat", Startlat);
+                intent.putExtra("Startlong", Startlong);
                 intent.putExtra("Ziellat",Ziellat);
                 intent.putExtra("Ziellong",Ziellong);
                 startActivity(intent);
