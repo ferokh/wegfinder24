@@ -193,7 +193,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:text="Start Adresse \n Ziel Adresse"
@@ -211,7 +211,7 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/Transparent"></Button>
 
 
