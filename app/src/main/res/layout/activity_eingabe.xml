@@ -47,8 +47,7 @@
         android:textSize="12dp"
         android:numeric="decimal"
         tools:ignore="Deprecated"
-       android:clickable="true"
-       android:focusable="true"/>
+       android:textColor="@color/black"/>
     <!--android:text="49.012607"-->
     <EditText
         android:id="@+id/edtStartEnterLong"
@@ -65,7 +64,8 @@
         android:paddingLeft="10dp"
         android:textSize="12dp"
         android:numeric="decimal"
-        tools:ignore="Deprecated"/>
+        tools:ignore="Deprecated"
+        android:textColor="@color/black"/>
     <!--        android:text="8.385613"-->
 
     <Button
@@ -111,7 +111,8 @@
         android:paddingLeft="10dp"
         android:textSize="12dp"
         android:numeric="decimal"
-        tools:ignore="Deprecated"/>
+        tools:ignore="Deprecated"
+        android:textColor="@color/black"/>
     <!--        android:text="49.004462"-->
 
     <EditText
@@ -128,7 +129,8 @@
         android:paddingLeft="10dp"
         android:textSize="12dp"
         android:numeric="decimal"
-        tools:ignore="Deprecated"/>
+        tools:ignore="Deprecated"
+        android:textColor="@color/black"/>
     <!--android:text="8.441755"-->
 
     <ImageButton

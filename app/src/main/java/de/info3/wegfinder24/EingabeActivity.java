@@ -47,6 +47,9 @@ public class EingabeActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
 
+    double Latitude;// = 49.000000;
+    double Longitude;// = 8.000000;
+
     GeoPoint startPoint;
     GeoPoint endPoint;
     int index = 0;
@@ -104,85 +107,30 @@ public class EingabeActivity extends AppCompatActivity {
         map.setMultiTouchControls(true);
         mapView = map;
 
-
-        btnGPSZiel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //btnStartAuswahl.setActivated(true);
-                //btnZielAuswahl.setActivated(false);
-                /*btnZielAuswahl.setEnabled(false);
-                btnStartAuswahl.setEnabled(true);
-                btnZielAuswahl.setVisibility(View.GONE);
-                btnStartAuswahl.setVisibility(View.VISIBLE);*/
-
-                index = 1;
-
-                /*edtStartMessagelat.setTextColor(getResources().getColor(R.color.primary));
-                edtStartMessagelong.setTextColor(getResources().getColor(R.color.primary));
-                edtZielMessagelat.setTextColor(getResources().getColor(R.color.black));
-                edtZielMessagelong.setTextColor(getResources().getColor(R.color.black));
-                edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.primary));
-                edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.primary));
-                edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.black));
-                edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.black));*/
-            }
-        });
         btnGPSstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //btnZielAuswahl.setActivated(true);
-                //btnStartAuswahl.setActivated(false);
-                /*btnZielAuswahl.setEnabled(true);
-                btnStartAuswahl.setEnabled(false);
-                btnZielAuswahl.setVisibility(View.VISIBLE);
-                btnStartAuswahl.setVisibility(View.GONE);*/
-
                 index = 0;
-                /*edtStartMessagelat.setTextColor(getResources().getColor(R.color.black));
-                edtStartMessagelong.setTextColor(getResources().getColor(R.color.black));
-                edtZielMessagelat.setTextColor(getResources().getColor(R.color.grey));
-                edtZielMessagelong.setTextColor(getResources().getColor(R.color.grey));
-                edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.black));
-                edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.black));
-                edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.grey));
-                edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.grey));*/
+                //Double latitude = round(Latitude,6);
+                //Double longitude = round(Longitude,6);
+                //edtStartMessagelat.setText(Double.toString(latitude));
+                //edtStartMessagelong.setText(Double.toString(longitude));
             }
         });
 
-        if (index == 0)
-        {
-            btnGPSZiel.setEnabled(true);
-            btnGPSstart.setEnabled(false);
-            btnGPSZiel.setVisibility(View.VISIBLE);
-            btnGPSstart.setVisibility(View.GONE);
-
-            edtStartMessagelat.setTextColor(getResources().getColor(R.color.black));
-            edtStartMessagelong.setTextColor(getResources().getColor(R.color.black));
-            edtZielMessagelat.setTextColor(getResources().getColor(R.color.grey));
-            edtZielMessagelong.setTextColor(getResources().getColor(R.color.grey));
-            edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.black));
-            edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.black));
-            edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.grey));
-            edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.grey));
-        }
+        btnGPSZiel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                index = 1 ;
+                //Double latitude = round(Latitude,6);
+                //Double longitude = round(Longitude,6);
+                //edtZielMessagelat.setText(Double.toString(latitude));
+                //edtZielMessagelong.setText(Double.toString(longitude));
+            }
+        });
 
 
-        if (index == 1)
-        {
-            btnGPSZiel.setEnabled(false);
-            btnGPSstart.setEnabled(true);
-            btnGPSZiel.setVisibility(View.GONE);
-            btnGPSstart.setVisibility(View.VISIBLE);
 
-            edtStartMessagelat.setTextColor(getResources().getColor(R.color.primary));
-            edtStartMessagelong.setTextColor(getResources().getColor(R.color.primary));
-            edtZielMessagelat.setTextColor(getResources().getColor(R.color.black));
-            edtZielMessagelong.setTextColor(getResources().getColor(R.color.black));
-            edtStartMessagelat.setHintTextColor(getResources().getColor(R.color.primary));
-            edtStartMessagelong.setHintTextColor(getResources().getColor(R.color.primary));
-            edtZielMessagelat.setHintTextColor(getResources().getColor(R.color.black));
-            edtZielMessagelong.setHintTextColor(getResources().getColor(R.color.black));
-        }
         //Click on Map
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
@@ -196,11 +144,13 @@ public class EingabeActivity extends AppCompatActivity {
                 {
                     edtStartMessagelat.setText(Double.toString(latitude));
                     edtStartMessagelong.setText(Double.toString(longitude));
+                    index = 1;
                 }
                 else if (index == 1)
                 {
                     edtZielMessagelat.setText(Double.toString(latitude));
                     edtZielMessagelong.setText(Double.toString(longitude));
+                    index = 0;
                 }
                 IMapController mapController = map.getController();
                 //mapController.setZoom(9);
@@ -279,10 +229,10 @@ public class EingabeActivity extends AppCompatActivity {
 
             @Override
             public void onLocationChanged(android.location.Location location) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
+                Latitude = location.getLatitude();
+                Longitude = location.getLongitude();
 
-                GeoPoint startPoint = new GeoPoint(latitude, longitude);
+                GeoPoint startPoint = new GeoPoint(Latitude, Longitude);
 
                 IMapController mapController = mapView.getController();
                 mapController.setCenter(startPoint);
