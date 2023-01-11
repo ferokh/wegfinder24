@@ -34,13 +34,8 @@ import java.util.ArrayList;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.widget.EditText;
-
-
 public class EingabeActivity extends AppCompatActivity {
-
-
     MapView map = null;
-
     private MapView mapView;
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
@@ -74,6 +69,31 @@ public class EingabeActivity extends AppCompatActivity {
         Drawable edtwhite= ResourcesCompat.getDrawable(res, R.drawable.edt_shape, getTheme());
         int grey = ResourcesCompat.getColor(res, R.color.grey, getTheme());
         int black = ResourcesCompat.getColor(res, R.color.black, getTheme());
+
+        //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
+        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
+        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                /*double Startlat = 8.681495;
+                double Startlong = 49.41461;
+                double Ziellat = 8.687872;
+                double Ziellong = 49.420318;*/
+                double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
+                double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
+                double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
+                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
+
+
+                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+                intent.putExtra("Startlat", Startlat);
+                intent.putExtra("Startlong", Startlong);
+                intent.putExtra("Ziellat",Ziellat);
+                intent.putExtra("Ziellong",Ziellong);
+                startActivity(intent);
+            }
+        });
         //Permission def.
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -211,32 +231,6 @@ public class EingabeActivity extends AppCompatActivity {
             }
         });
         mapView.getOverlayManager().add(locationOverlay);
-
-        //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
-        ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
-        btnOpenVariante.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                /*double Startlat = 8.681495;
-                double Startlong = 49.41461;
-                double Ziellat = 8.687872;
-                double Ziellong = 49.420318;*/
-                double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
-                double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
-                double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
-                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
-
-
-                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                intent.putExtra("Startlat", Startlat);
-                intent.putExtra("Startlong", Startlong);
-                intent.putExtra("Ziellat",Ziellat);
-                intent.putExtra("Ziellong",Ziellong);
-                startActivity(intent);
-            }
-        });
-
     }
 
 
