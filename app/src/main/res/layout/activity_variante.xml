@@ -18,33 +18,37 @@
     <!--Fahrrad-->
     <TextView
         android:id="@+id/tvBike"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:textColor="@color/black"
-        android:background="@color/bike"
-        android:text="Fahrrad"
-        android:textSize="25dp">
+        android:background="@drawable/btn_var_bike">
     </TextView>
+    <ImageView
+        android:layout_width="125dp"
+        android:layout_height="24dp"
+        android:layout_below="@+id/mapView"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_baseline_directions_bike_24">
+    </ImageView>
+
     <TextView
         android:id="@+id/tvBikeDuration"
-        android:layout_width="115dp"
+        android:layout_width="125dp"
         android:layout_height="15dp"
         android:layout_below="@+id/mapView"
         android:layout_marginTop="35dp"
-        android:layout_marginLeft="5dp"
         android:textColor="@color/black"
         android:gravity="center_horizontal"
         android:textSize="12dp">
     </TextView>
     <TextView
         android:id="@+id/tvBikeDistance"
-        android:layout_width="115dp"
+        android:layout_width="125dp"
         android:layout_height="15dp"
         android:layout_below="@+id/mapView"
-        android:layout_marginLeft="5dp"
         android:layout_marginTop="50dp"
         android:textColor="@color/black"
         android:gravity="center_horizontal"
@@ -52,7 +56,7 @@
     </TextView>
     <Button
         android:id="@+id/btnBike"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
         android:layout_marginTop="5dp"
@@ -62,36 +66,50 @@
     <!--Auto-->
     <TextView
         android:id="@+id/tvCar"
-        android:layout_width="130dp"
+        android:layout_width="125dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
-        android:layout_margin="5dp"
+
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+
         android:layout_toRightOf="@id/tvBike"
-        android:background="@color/car"
-        android:gravity="center_horizontal"
-        android:text="Auto"
-        android:textColor="@color/black"
-        android:textSize="25dp">
+        android:background="@drawable/btn_var_car"
+        android:gravity="center_horizontal">
     </TextView>
+    <ImageView
+        android:layout_width="125dp"
+        android:layout_height="24dp"
+        android:layout_below="@+id/mapView"
+        android:layout_toRightOf="@id/tvBike"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/ic_baseline_directions_car_24">
+    </ImageView>
+
     <TextView
         android:id="@+id/tvCarDuration"
-        android:layout_width="130dp"
+        android:layout_width="125dp"
         android:layout_height="15dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvBike"
         android:layout_marginTop="35dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="4dp"
         android:textColor="@color/black"
         android:gravity="center_horizontal"
         android:textSize="12dp">
     </TextView>
     <TextView
         android:id="@+id/tvCarDistance"
-        android:layout_width="130dp"
+        android:layout_width="125dp"
         android:layout_height="15dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvBike"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="50dp"
         android:textColor="@color/black"
         android:gravity="center_horizontal"
@@ -103,27 +121,34 @@
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvBike"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="5dp"
         android:background="@color/Transparent">
     </Button>
 
     <!--zuFuß-->
     <TextView
         android:id="@+id/tvWalk"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvCar"
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:textColor="@color/black"
-        android:background="@color/walk"
-        android:text="zu Fuß"
-        android:textSize="25dp">
+        android:background="@drawable/btn_var_walk">
     </TextView>
+    <ImageView
+        android:layout_width="125dp"
+        android:layout_height="24dp"
+        android:layout_below="@+id/mapView"
+        android:layout_toRightOf="@id/tvCar"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_baseline_directions_walk_24">
+    </ImageView>
     <TextView
         android:id="@+id/tvWalkDuration"
-        android:layout_width="115dp"
+        android:layout_width="125dp"
         android:layout_height="15dp"
         android:layout_below="@+id/mapView"
         android:layout_marginTop="35dp"
@@ -134,7 +159,7 @@
     </TextView>
     <TextView
         android:id="@+id/tvWalkDistance"
-        android:layout_width="115dp"
+        android:layout_width="125dp"
         android:layout_height="15dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@+id/tvCar"
@@ -145,7 +170,7 @@
     </TextView>
     <Button
         android:id="@+id/btnWalk"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
         android:layout_height="60dp"
         android:layout_below="@+id/mapView"
         android:layout_toRightOf="@id/tvCar"
@@ -158,13 +183,14 @@
         android:id="@+id/tvStartDestinationVar"
         android:layout_width="400dp"
         android:layout_height="60dp"
-        android:text="Start Adresse \n Ziel Adresse"
+        android:text="Start Adresse \nZiel Adresse"
         android:layout_below="@id/tvBike"
         android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
         android:gravity="center_vertical"
-        android:background="@color/white"
-        android:textColor="@color/black"
-        android:textSize="25dp">
+        android:background="@drawable/txt_long_rectangle"
+        android:textColor="@color/grey"
+        android:textSize="20dp">
     </TextView>
 
     <Button

@@ -28,26 +28,34 @@
         android:layout_height="40dp"
         android:layout_below="@id/mapView"
         android:layout_marginRight="5dp"
-        android:background="@color/alternative"
-        android:src="@drawable/ic_baseline_gps_fixed_40"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:background="@drawable/btn_round"
+        android:src="@drawable/ic_baseline_gps_fixed_24"/>
+
+    <!--<ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/btn_shape_gradient"
+        android:padding="8dp"
+        android:scaleType="center"
+        android:src="@drawable/btn_drawable_selector" />-->
 
    <EditText
         android:id="@+id/edtStartEnter"
         android:layout_below="@id/mapView"
-       android:layout_toRightOf="@id/btnGPSstart"
+        android:layout_toRightOf="@id/btnGPSstart"
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/white"
+       android:background="@drawable/edt_shape"
         android:hint="Start\nBreitengrad"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="12dp"
         android:numeric="decimal"
         tools:ignore="Deprecated"
-       android:textColor="@color/black"/>
+        android:textColor="@color/black" />
     <!--android:text="49.012607"-->
     <EditText
         android:id="@+id/edtStartEnterLong"
@@ -57,9 +65,9 @@
         android:layout_toRightOf="@+id/edtStartEnter"
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/white"
+        android:background="@drawable/edt_shape"
         android:hint="Start\nLängengrad"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="12dp"
@@ -84,9 +92,8 @@
         android:layout_below="@id/btnGPSstart"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
-        android:background="@color/alternative"
-        android:src="@drawable/ic_baseline_gps_fixed_40"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:background="@drawable/btn_round"
+        android:src="@drawable/ic_baseline_gps_fixed_24"/>
 
     <Button
         android:id="@+id/btnZielAuswahl"
@@ -104,7 +111,6 @@
         android:layout_toRightOf="@id/btnGPSziel"
         android:layout_width="130dp"
         android:layout_height="40dp"
-        android:background="@color/white"
         android:hint="Ziel\nBreitengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
@@ -112,7 +118,8 @@
         android:textSize="12dp"
         android:numeric="decimal"
         tools:ignore="Deprecated"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:background="@drawable/edt_shape"/>
     <!--        android:text="49.004462"-->
 
     <EditText
@@ -122,7 +129,6 @@
         android:layout_height="40dp"
         android:layout_toRightOf="@+id/edtStartEnter"
         android:layout_marginLeft="5dp"
-        android:background="@color/white"
         android:hint="Ziel\nLängengrad"
         android:textColorHint="@color/grey"
         android:gravity="center_vertical"
@@ -130,7 +136,8 @@
         android:textSize="12dp"
         android:numeric="decimal"
         tools:ignore="Deprecated"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:background="@drawable/edt_shape"/>
     <!--android:text="8.441755"-->
 
     <ImageButton
@@ -140,8 +147,7 @@
         android:layout_below="@id/edtStartEnter"
         android:layout_toRightOf="@id/edtZielEnterLong"
         android:layout_marginLeft="5dp"
-        android:background="@color/alternative"
-        android:src="@drawable/ic_baseline_arrow_forward_40"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:src="@drawable/ic_baseline_start_30"
+        android:background="@drawable/btn_round"/>
 
 </RelativeLayout>

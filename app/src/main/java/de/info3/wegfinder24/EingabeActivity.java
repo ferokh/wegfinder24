@@ -2,24 +2,24 @@ package de.info3.wegfinder24;
 
 
 import org.osmdroid.events.MapEventsReceiver;
-import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
@@ -27,15 +27,13 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
-import java.util.List;
+
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class EingabeActivity extends AppCompatActivity {
@@ -71,6 +69,11 @@ public class EingabeActivity extends AppCompatActivity {
         ImageButton btnGPSstart = this.findViewById(R.id.btnGPSstart);
         ImageButton btnGPSZiel = this.findViewById(R.id.btnGPSziel);
 
+        Resources res = getResources();
+        Drawable edtgrey= ResourcesCompat.getDrawable(res, R.drawable.edt_shape_grey, getTheme());
+        Drawable edtwhite= ResourcesCompat.getDrawable(res, R.drawable.edt_shape, getTheme());
+        int grey = ResourcesCompat.getColor(res, R.color.grey, getTheme());
+        int black = ResourcesCompat.getColor(res, R.color.black, getTheme());
         //Permission def.
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -111,10 +114,19 @@ public class EingabeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 index = 0;
-                //Double latitude = round(Latitude,6);
-                //Double longitude = round(Longitude,6);
-                //edtStartMessagelat.setText(Double.toString(latitude));
-                //edtStartMessagelong.setText(Double.toString(longitude));
+                //edtStartMessagelat.setBackground(edtwhite);
+                //edtStartMessagelong.setBackground(edtwhite);
+                edtStartMessagelat.setHintTextColor(black);
+                edtStartMessagelong.setHintTextColor(black);
+                edtStartMessagelat.setTextColor(black);
+                edtStartMessagelong.setTextColor(black);
+
+                //edtZielMessagelat.setBackground(edtgrey);
+                //edtZielMessagelong.setBackground(edtgrey);
+                edtZielMessagelat.setHintTextColor(grey);
+                edtZielMessagelong.setHintTextColor(grey);
+                edtZielMessagelat.setTextColor(grey);
+                edtZielMessagelong.setTextColor(grey);
             }
         });
 
@@ -122,10 +134,19 @@ public class EingabeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 index = 1 ;
-                //Double latitude = round(Latitude,6);
-                //Double longitude = round(Longitude,6);
-                //edtZielMessagelat.setText(Double.toString(latitude));
-                //edtZielMessagelong.setText(Double.toString(longitude));
+                //edtStartMessagelat.setBackground(edtgrey);
+                //edtStartMessagelong.setBackground(edtgrey);
+                edtStartMessagelat.setHintTextColor(grey);
+                edtStartMessagelong.setHintTextColor(grey);
+                edtStartMessagelat.setTextColor(grey);
+                edtStartMessagelong.setTextColor(grey);
+
+                //edtZielMessagelat.setBackground(edtwhite);
+                //edtZielMessagelong.setBackground(edtwhite);
+                edtZielMessagelat.setHintTextColor(black);
+                edtZielMessagelong.setHintTextColor(black);
+                edtZielMessagelat.setTextColor(black);
+                edtZielMessagelong.setTextColor(black);
             }
         });
 
