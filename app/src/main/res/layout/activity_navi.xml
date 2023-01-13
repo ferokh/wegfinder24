@@ -7,57 +7,67 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:background="@color/black"
+    android:background="@color/white"
     tools:context=".NaviActivity">
 
-    <TextView
-        android:id="@+id/tvAnweisung"
-        android:layout_width="258dp"
-        android:layout_height="191dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="90dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="260dp" />
+  <TextView
+      android:id="@+id/tvAnweisung"
+      android:layout_width="match_parent"
+      android:layout_height="100dp"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentEnd="true"
+      android:layout_marginStart="30dp"
+      android:layout_marginTop="100dp"
+      android:layout_marginEnd="30dp"
+      android:text="TextView"
+      android:textColor="@color/black"
+      android:gravity="center"
+      tools:layout_editor_absoluteX="70dp"
+      tools:layout_editor_absoluteY="260dp">
+  </TextView>
 
-    <Button
-        android:id="@+id/btnZurück"
-        android:layout_width="91dp"
-        android:layout_height="46dp"
-        android:layout_below="@+id/tvAnweisung"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginBottom="180dp"
-        android:background="@color/bike"
-        android:gravity="center_horizontal"
-        android:text="Zurück zu Auswahl"
-        android:textColor="@color/black"
-        android:textSize="10dp"></Button>
+  <Button
+      android:id="@+id/btnZurück"
+      android:layout_width="100dp"
+      android:layout_height="45dp"
+      android:layout_below="@+id/tvAnweisung"
+      android:layout_alignParentStart="true"
+      android:layout_marginStart="60dp"
+      android:layout_marginTop="10dp"
+      android:layout_marginBottom="300dp"
+      android:background="@drawable/btn_var_bike"
+      android:gravity="center"
+      android:text="Zurück zu Auswahl"
+      android:textColor="@color/white"
+      android:textSize="10dp">
+  </Button>
 
-    <Button
-        android:id="@+id/btnWeiter"
-        android:layout_width="99dp"
-        android:layout_height="49dp"
-        android:layout_below="@+id/tvAnweisung"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="107dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="180dp"
-        android:layout_toEndOf="@+id/btnZurück"
-        android:layout_toRightOf="@id/btnZurück"
-        android:background="@color/bike"
-        android:text="Nächste"
-        android:textColor="@color/black"
-        android:textSize="10dp"></Button>
+  <Button
+      android:id="@+id/btnWeiter"
+      android:layout_width="100dp"
+      android:layout_height="45dp"
+      android:layout_below="@+id/tvAnweisung"
+      android:layout_alignParentEnd="true"
+      android:layout_marginStart="60dp"
+      android:layout_marginTop="10dp"
+      android:layout_marginEnd="60dp"
+      android:layout_toEndOf="@+id/btnZurück"
+      android:layout_toRightOf="@id/btnZurück"
+      android:background="@drawable/btn_var_bike"
+      android:text="Nächste"
+      android:textColor="@color/white"
+      android:textSize="10dp"
+      android:gravity="center">
+  </Button>
+
+  <ListView
+      android:id="@+id/ListView"
+      android:layout_width="match_parent"
+      android:layout_height="400dp"
+      android:layout_alignParentBottom="true"
+      android:layout_marginBottom="10dp"
+      />
 
 
 </RelativeLayout>

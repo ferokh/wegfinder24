@@ -75,10 +75,10 @@ public class VarianteActivity extends AppCompatActivity {
         Intent WBAintent = this.getIntent();
         ArrayList<Anfrage> daten = (ArrayList<Anfrage>) WBAintent.getSerializableExtra("daten");
 
-         BA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(1);
-         LA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(0);
-         BE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(1);
-         LE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(0);
+        BA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(1);
+        LA = daten.get(1).getMetadata().getQuery().getCoordinates().get(0).get(0);
+        BE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(1);
+        LE = daten.get(1).getMetadata().getQuery().getCoordinates().get(1).get(0);
 
 
 
@@ -114,7 +114,7 @@ public class VarianteActivity extends AppCompatActivity {
         {
             bike_WayPoints.add(new GeoPoint (daten.get(0).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),daten.get(0).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
-        
+
         //////////////////////////////////////////////CAR///////////////////////////////////////////////////
         // Strecke anzeigen
         TextView tvCarDistance = this.findViewById(R.id.tvCarDistance); //TextView für die Entfernung - Auto
@@ -143,7 +143,7 @@ public class VarianteActivity extends AppCompatActivity {
         {
             car_WayPoints.add(new GeoPoint (daten.get(1).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(1),daten.get(1).getFeatures().get(0).getGeometry().getCoordinates().get(i).get(0)));
         }
-        
+
         //////////////////////////////////////////////WALK///////////////////////////////////////////////////
         // Strecke anzeigen
         TextView tvWalkDistance = this.findViewById(R.id.tvWalkDistance); //TextView für die Entfernung - zu Fuß
@@ -336,7 +336,7 @@ public class VarianteActivity extends AppCompatActivity {
 
                 IMapController mapController = mapView.getController();
                 //mapController.setCenter(startPoint);
-               //mapView.zoomToBoundingBox(new BoundingBox(BA,LA,BE,LE),true,100);
+                //mapView.zoomToBoundingBox(new BoundingBox(BA,LA,BE,LE),true,100);
                 mapController.setZoom(15);
             }
 
@@ -421,3 +421,4 @@ public class VarianteActivity extends AppCompatActivity {
 
     }
 }
+

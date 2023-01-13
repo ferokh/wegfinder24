@@ -70,7 +70,7 @@ public class WegActivity extends AppCompatActivity {
         Intent VAintent = this.getIntent();
         daten = (ArrayList<Anfrage>) VAintent.getSerializableExtra("daten");
         var = (Integer) VAintent.getSerializableExtra("variante");
-        
+
         Double BA = daten.get(var).getMetadata().getQuery().getCoordinates().get(0).get(1);
         Double LA = daten.get(var).getMetadata().getQuery().getCoordinates().get(0).get(0);
         Double BE = daten.get(var).getMetadata().getQuery().getCoordinates().get(1).get(1);
@@ -281,7 +281,6 @@ public class WegActivity extends AppCompatActivity {
         IMapController mapController = map.getController();
         mapController.setZoom(9);
         mapController.setCenter(startPoint);
-
         Marker startMarker=new Marker(map);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
@@ -387,8 +386,10 @@ public class WegActivity extends AppCompatActivity {
     private void Navigation(){
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Mit Navigation fortfahren?")
-                .setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                //.setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                .setMessage("Hier erhalten Sie eine detaillierte Schritt für Schritt Navigation.\nDas Handy bitte an Beifahrer abgeben.\nHandy weg am Steuer!")
                 .setPositiveButton("coolcoolcool und weiter", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

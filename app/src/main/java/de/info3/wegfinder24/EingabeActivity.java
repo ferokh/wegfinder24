@@ -1,12 +1,15 @@
 package de.info3.wegfinder24;
 
 
+import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,32 +17,36 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
-import java.util.List;
+
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.widget.EditText;
-
-
 public class EingabeActivity extends AppCompatActivity {
-
-
     MapView map = null;
-
     private MapView mapView;
     private LocationManager locationManager;
     private MyLocationNewOverlay locationOverlay;
 
+    double Latitude;// = 49.000000;
+    double Longitude;// = 8.000000;
+
+    GeoPoint startPoint;
+    GeoPoint endPoint;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,16 @@ public class EingabeActivity extends AppCompatActivity {
         EditText edtStartMessagelong = this.findViewById(R.id.edtStartEnterLong);
         EditText edtZielMessagelat = this.findViewById(R.id.edtZielEnter);
         EditText edtZielMessagelong = this.findViewById(R.id.edtZielEnterLong);
+        ImageButton btnGPSstart = this.findViewById(R.id.btnGPSstart);
+        ImageButton btnGPSZiel = this.findViewById(R.id.btnGPSziel);
+
+        Resources res = getResources();
+        Drawable edtgrey= ResourcesCompat.getDrawable(res, R.drawable.edt_shape_grey, getTheme());
+        Drawable edtwhite= ResourcesCompat.getDrawable(res, R.drawable.edt_shape, getTheme());
+        Drawable btnprimary= ResourcesCompat.getDrawable(res, R.drawable.btn_round, getTheme());
+        Drawable btnprimary_grey= ResourcesCompat.getDrawable(res, R.drawable.btn_round_grey, getTheme());
+        int grey = ResourcesCompat.getColor(res, R.color.grey, getTheme());
+        int black = ResourcesCompat.getColor(res, R.color.black, getTheme());
 
         //wenn man auf den Pfeil drückt wird die nächste Activity gestartet und die Eingabe übergeben
         ImageButton btnOpenVariante =this.findViewById(R.id.btnArrow);
@@ -71,22 +88,20 @@ public class EingabeActivity extends AppCompatActivity {
                 double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
                 double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
 
+
                 Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                intent.putExtra("Startlat",Startlat);
-                intent.putExtra("Startlong",Startlong);
+                intent.putExtra("Startlat", Startlat);
+                intent.putExtra("Startlong", Startlong);
                 intent.putExtra("Ziellat",Ziellat);
                 intent.putExtra("Ziellong",Ziellong);
                 startActivity(intent);
             }
         });
-
-        //Kartenserver von Herr Knopf
+        //Permission def.
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-
         };
-
         Permissions.check(this, permissions, null, null, new PermissionHandler() {  //Kontrolle der Berechtigungen
             @Override
             public void onGranted() {//wenn alles okay ist wird die Karte angezeigt
@@ -118,13 +133,143 @@ public class EingabeActivity extends AppCompatActivity {
         map.setMultiTouchControls(true);
         mapView = map;
 
+        btnGPSstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                index = 0;
+                //edtStartMessagelat.setBackground(edtwhite);
+                //edtStartMessagelong.setBackground(edtwhite);
+                edtStartMessagelat.setHintTextColor(black);
+                edtStartMessagelong.setHintTextColor(black);
+                edtStartMessagelat.setTextColor(black);
+                edtStartMessagelong.setTextColor(black);
 
+                //edtZielMessagelat.setBackground(edtgrey);
+                //edtZielMessagelong.setBackground(edtgrey);
+                edtZielMessagelat.setHintTextColor(grey);
+                edtZielMessagelong.setHintTextColor(grey);
+                edtZielMessagelat.setTextColor(grey);
+                edtZielMessagelong.setTextColor(grey);
+
+                btnGPSstart.setBackground(btnprimary);
+                btnGPSZiel.setBackground(btnprimary_grey);
+
+            }
+        });
+
+        btnGPSZiel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                index = 1 ;
+                //edtStartMessagelat.setBackground(edtgrey);
+                //edtStartMessagelong.setBackground(edtgrey);
+                edtStartMessagelat.setHintTextColor(grey);
+                edtStartMessagelong.setHintTextColor(grey);
+                edtStartMessagelat.setTextColor(grey);
+                edtStartMessagelong.setTextColor(grey);
+
+                //edtZielMessagelat.setBackground(edtwhite);
+                //edtZielMessagelong.setBackground(edtwhite);
+                edtZielMessagelat.setHintTextColor(black);
+                edtZielMessagelong.setHintTextColor(black);
+                edtZielMessagelat.setTextColor(black);
+                edtZielMessagelong.setTextColor(black);
+
+                btnGPSstart.setBackground(btnprimary_grey);
+                btnGPSZiel.setBackground(btnprimary);
+            }
+        });
+
+
+
+        //Click on Map
+        MapEventsReceiver mReceive = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+
+                if (index == 0) {
+                    Double latitude = p.getLatitude();
+                    latitude = round(latitude, 6);
+                    Double longitude = p.getLongitude();
+                    longitude = round(longitude, 6);
+
+                    edtStartMessagelat.setText(Double.toString(latitude));
+                    edtStartMessagelong.setText(Double.toString(longitude));
+                    index = 1;
+
+                    Marker startMarker = new Marker(map);
+                    startMarker.setId("Start1");
+                    startMarker.setPosition(p);
+                    startMarker.setTitle("Start");
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(startMarker);
+
+                    mapView.getOverlays().remove(startMarker);
+                    mapView.invalidate();
+
+                    for (int i = 0; i < map.getOverlays().size(); i++) {
+                        Overlay overlay = map.getOverlays().get(i);
+                        if (overlay instanceof Marker && ((Marker) overlay).getId().equals("Start1")) {
+                            map.getOverlays().remove(overlay);
+
+                        }
+                    }
+                    startMarker.setPosition(p);
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(startMarker);
+
+                } else if (index == 1) {
+                    Double latitude = p.getLatitude();
+                    latitude = round(latitude, 6);
+                    Double longitude = p.getLongitude();
+                    longitude = round(longitude, 6);
+
+                    edtZielMessagelat.setText(Double.toString(latitude));
+                    edtZielMessagelong.setText(Double.toString(longitude));
+                    index = 0;
+
+                    Marker endMarker = new Marker(map);
+                    endMarker.setId("End");
+                    endMarker.setPosition(p);
+                    endMarker.setTitle("Start");
+                    endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(endMarker);
+
+                    mapView.getOverlays().remove(endMarker);
+                    mapView.invalidate();
+
+                    for (int i = 0; i < map.getOverlays().size(); i++) {
+                        Overlay overlay = map.getOverlays().get(i);
+                        if (overlay instanceof Marker && ((Marker) overlay).getId().equals("End")) {
+                            map.getOverlays().remove(overlay);
+
+                        }
+                    }
+                    endMarker.setPosition(p);
+                    endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(endMarker);
+
+
+                }
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        };
+
+        MapEventsOverlay OverlayEvents = new MapEventsOverlay(getBaseContext(), mReceive);
+        map.getOverlays().add(OverlayEvents);
         //Kompass
         CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
         compassOverlay.enableCompass();
         mapView.getOverlays().add(compassOverlay);
 
        //Standort anzeigen lassen
+        // Knopf die 2. GPS
+
         GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
         provider.addLocationSource(LocationManager.NETWORK_PROVIDER);
         locationOverlay = new MyLocationNewOverlay(provider, mapView);
@@ -136,48 +281,23 @@ public class EingabeActivity extends AppCompatActivity {
         });
         mapView.getOverlayManager().add(locationOverlay);
 
-       /* //Marker setzen
-        GeoPoint startPoint=new GeoPoint(48.13,-1.63);
-        IMapController mapController = map.getController();
-        mapController.setZoom(9);
-        mapController.setCenter(startPoint);
-
-        Marker startMarker=new Marker(map);
-        startMarker.setPosition(startPoint);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(startMarker);*/
-
-
-        //Polygon mit Array anzeigen lassen
-        /*Polyline line = new Polyline(mapView);
-        line.setWidth(4f);
-        line.setColor(Color.BLUE);
-
-        List<GeoPoint> coordlist =new ArrayList<GeoPoint>();
-
-        coordlist.add( new GeoPoint(49.1,1));
-        coordlist.add(new GeoPoint(48.13,-1.63));
-        coordlist.add(new GeoPoint(50.1,2));
-        coordlist.add(new GeoPoint(51.1,3));
-
-        line.setPoints(coordlist);
-        line.setGeodesic(true);
-        mapView.getOverlayManager().add(line);
-        mapView.setVisibility(View.GONE);
-        mapView.setVisibility(View.VISIBLE);*/
-
     }
+
+
+
     @SuppressLint("MissingPermission")
     private void setupMapView()
     {
         //Abfrage GPS - Koordinaten des Handys
         LocationListener locationListener = new LocationListener() {
+
+
             @Override
             public void onLocationChanged(android.location.Location location) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
+                Latitude = location.getLatitude();
+                Longitude = location.getLongitude();
 
-                GeoPoint startPoint = new GeoPoint(latitude, longitude);
+                GeoPoint startPoint = new GeoPoint(Latitude, Longitude);
 
                 IMapController mapController = mapView.getController();
                 mapController.setCenter(startPoint);
@@ -226,5 +346,11 @@ public class EingabeActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         this.mapView.onPause();
+    }
+
+    private double round (double value, int decimalPoints)
+    {
+        double d = Math.pow(10,decimalPoints);
+        return Math.round(value * d)/d;
     }
 }
