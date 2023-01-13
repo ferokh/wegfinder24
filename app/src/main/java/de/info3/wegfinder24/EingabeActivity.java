@@ -280,6 +280,7 @@ public class EingabeActivity extends AppCompatActivity {
             }
         });
         mapView.getOverlayManager().add(locationOverlay);
+
     }
 
 

@@ -386,8 +386,10 @@ public class WegActivity extends AppCompatActivity {
     private void Navigation(){
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Mit Navigation fortfahren?")
-                .setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                //.setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                .setMessage("Hier erhalten Sie eine detaillierte Schritt für Schritt Navigation.\nDas Handy bitte an Beifahrer abgeben.\nHandy weg am Steuer!")
                 .setPositiveButton("coolcoolcool und weiter", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

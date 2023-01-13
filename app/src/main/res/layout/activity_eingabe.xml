@@ -46,15 +46,17 @@
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_marginBottom="5dp"
-       android:background="@drawable/edt_shape"
+        android:background="@drawable/edt_shape"
         android:hint="Start\nBreitengrad"
         android:textColorHint="@color/black"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="12dp"
+        android:clickable="true"
+        android:focusable="true"
         android:numeric="decimal"
         tools:ignore="Deprecated"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"/>
     <!--android:text="49.012607"-->
     <EditText
         android:id="@+id/edtStartEnterLong"
@@ -70,6 +72,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="12dp"
+        android:clickable="true"
+        android:focusable="true"
         android:numeric="decimal"
         tools:ignore="Deprecated"
         android:textColor="@color/black"/>
@@ -115,6 +119,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="12dp"
+        android:clickable="true"
+        android:focusable="true"
         android:numeric="decimal"
         tools:ignore="Deprecated"
         android:textColor="@color/black"
@@ -133,6 +139,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="12dp"
+        android:clickable="true"
+        android:focusable="true"
         android:numeric="decimal"
         tools:ignore="Deprecated"
         android:textColor="@color/black"
@@ -149,4 +157,22 @@
         android:src="@drawable/ic_baseline_start_30"
         android:background="@drawable/btn_round"/>
 
+    <!--<EditText
+        android:id="@+id/edtTest"
+        android:layout_below="@id/edtZielEnterLong"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:hint="Test"
+        android:textColorHint="@color/grey"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:numeric="decimal"
+        tools:ignore="Deprecated"
+        android:textColor="@color/black"
+        android:background="@drawable/edt_shape"/>
+-->
 </RelativeLayout>

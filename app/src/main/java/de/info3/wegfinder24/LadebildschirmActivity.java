@@ -9,7 +9,7 @@ import android.os.Handler;
 
 
 public class LadebildschirmActivity extends AppCompatActivity {
-    public final int LOAD_TIME = 1500; //wie lange soll der Startbildschirm angezeigt werden
+    public final int LOAD_TIME = 1800; //wie lange soll der Startbildschirm angezeigt werden
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
