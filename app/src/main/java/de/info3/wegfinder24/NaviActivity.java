@@ -2,11 +2,14 @@ package de.info3.wegfinder24;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,11 +22,12 @@ public class NaviActivity extends AppCompatActivity {
     Double Strecke;
     String Anweisung;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi);
-
+        ListView ListView;
         Button btnZuruck = this.findViewById(R.id.btnZurück);
         Button btnWeiter = this.findViewById(R.id.btnWeiter);
 
@@ -62,6 +66,24 @@ public class NaviActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //ListView = (ListView)findViewById(R.id.ListView);
+        //ArrayList<String> arrayList=new ArrayList<>();
+
+        /*for (int k = 0; k<11;k++) {
+            Integer j = 0;
+            Strecke = daten.get(var).getFeatures().get(weg).getProperties().getSegments().get(0).getSteps().get(j - 1).getDistance();
+            Anweisung = daten.get(var).getFeatures().get(weg).getProperties().getSegments().get(0).getSteps().get(j).getInstruction();
+            Strecke = round(Strecke, 0);
+            String strecke = Double.toString(Strecke);
+            arrayList.add("Nach " + strecke + "m\n" + Anweisung);
+            j++;
+
+            ArrayAdapter arrayAdapter1 = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, arrayList);
+            ListView.setAdapter(arrayAdapter1);
+        }*/
+        //arrayList2.add(result.getDepartureList().get(i).getDateTime().getHour()+result.getDepartureList().get(i).getDateTime().getMinute());
+
+
     }
 
     private double round(double value, int decimalPoints) {

@@ -28,8 +28,7 @@
         android:layout_height="40dp"
         android:layout_below="@id/mapView"
         android:layout_marginRight="5dp"
-        android:background="@drawable/btn_round"
-        android:src="@drawable/ic_baseline_gps_fixed_24"/>
+        android:background="@drawable/btn_round"/>
 
     <!--<ImageButton
         android:layout_width="wrap_content"
@@ -92,8 +91,8 @@
         android:layout_below="@id/btnGPSstart"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/btn_round"
-        android:src="@drawable/ic_baseline_gps_fixed_24"/>
+        android:background="@drawable/btn_round_grey"
+        />
 
     <Button
         android:id="@+id/btnZielAuswahl"

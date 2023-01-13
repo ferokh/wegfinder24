@@ -67,6 +67,8 @@ public class EingabeActivity extends AppCompatActivity {
         Resources res = getResources();
         Drawable edtgrey= ResourcesCompat.getDrawable(res, R.drawable.edt_shape_grey, getTheme());
         Drawable edtwhite= ResourcesCompat.getDrawable(res, R.drawable.edt_shape, getTheme());
+        Drawable btnprimary= ResourcesCompat.getDrawable(res, R.drawable.btn_round, getTheme());
+        Drawable btnprimary_grey= ResourcesCompat.getDrawable(res, R.drawable.btn_round_grey, getTheme());
         int grey = ResourcesCompat.getColor(res, R.color.grey, getTheme());
         int black = ResourcesCompat.getColor(res, R.color.black, getTheme());
 
@@ -147,6 +149,10 @@ public class EingabeActivity extends AppCompatActivity {
                 edtZielMessagelong.setHintTextColor(grey);
                 edtZielMessagelat.setTextColor(grey);
                 edtZielMessagelong.setTextColor(grey);
+
+                btnGPSstart.setBackground(btnprimary);
+                btnGPSZiel.setBackground(btnprimary_grey);
+
             }
         });
 
@@ -167,6 +173,9 @@ public class EingabeActivity extends AppCompatActivity {
                 edtZielMessagelong.setHintTextColor(black);
                 edtZielMessagelat.setTextColor(black);
                 edtZielMessagelong.setTextColor(black);
+
+                btnGPSstart.setBackground(btnprimary_grey);
+                btnGPSZiel.setBackground(btnprimary);
             }
         });
 
