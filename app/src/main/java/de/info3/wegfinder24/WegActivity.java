@@ -395,7 +395,7 @@ public class WegActivity extends AppCompatActivity {
                         intent.putExtra("daten", daten);
                         intent.putExtra("variante", var);
                         intent.putExtra("weg", weg);
-                        startActivity(intent);
+                        startActivity(intent); //TODO: at de.info3.wegfinder24.WegActivity$10.onClick(WegActivity.java:398) er startet die NaviActivity nicht...
                     }
                 })
                 .setNeutralButton("Zur Eingabe", new DialogInterface.OnClickListener() {
