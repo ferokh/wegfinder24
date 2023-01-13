@@ -79,14 +79,7 @@
         android:textColor="@color/black"/>
     <!--        android:text="8.385613"-->
 
-    <Button
-        android:id="@+id/btnStartAuswahl"
-        android:layout_width="265dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/mapView"
-        android:layout_toRightOf="@id/btnGPSstart"
-        android:background="@color/Transparent"
-        />
+
 
     <ImageButton
         android:id="@+id/btnGPSziel"
@@ -98,15 +91,7 @@
         android:background="@drawable/btn_round_grey"
         />
 
-    <Button
-        android:id="@+id/btnZielAuswahl"
-        android:layout_width="265dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/btnStartAuswahl"
-        android:layout_toRightOf="@id/btnGPSstart"
-        android:background="@color/Transparent"
-        />
+
 
     <EditText
         android:id="@+id/edtZielEnter"
