@@ -27,6 +27,7 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -175,38 +176,135 @@ public class EingabeActivity extends AppCompatActivity {
         //Click on Map
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
-            public boolean singleTapConfirmedHelper(GeoPoint p) {
+            public boolean singleTapConfirmedHelper(GeoPoint startPoint) {
                 //Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
-                Double latitude = p.getLatitude();
+                /*Double latitude = p.getLatitude();
                 latitude = round(latitude,6);
                 Double longitude = p.getLongitude();
-                longitude = round(longitude,6);
-                if (index == 0)
-                {
+                longitude = round(longitude,6);*/
+                if (index == 0) {
+                    Double latitude = startPoint.getLatitude();
+                    latitude = round(latitude, 6);
+                    Double longitude = startPoint.getLongitude();
+                    longitude = round(longitude, 6);
+
                     edtStartMessagelat.setText(Double.toString(latitude));
                     edtStartMessagelong.setText(Double.toString(longitude));
                     index = 1;
-                }
-                else if (index == 1)
-                {
+
+                    Marker startMarker = new Marker(map);
+                    startMarker.setId("Start");
+                    startMarker.setPosition(startPoint);
+                    startMarker.setTitle("Start");
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(startMarker);
+
+                    mapView.getOverlays().remove(startMarker);
+                    mapView.invalidate();
+
+                    for (int i = 0; i < map.getOverlays().size(); i++) {
+                        Overlay overlay = map.getOverlays().get(i);
+                        if (overlay instanceof Marker && ((Marker) overlay).getId().equals("Start")) {
+                            map.getOverlays().remove(overlay);
+
+                        }
+                    }
+                    startMarker.setPosition(startPoint);
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(startMarker);
+                } else if (index == 1) {
+                    Double latitude = endPoint.getLatitude();
+                    latitude = round(latitude, 6);
+                    Double longitude = endPoint.getLongitude();
+                    longitude = round(longitude, 6);
+
                     edtZielMessagelat.setText(Double.toString(latitude));
                     edtZielMessagelong.setText(Double.toString(longitude));
                     index = 0;
+
+                    Marker endMarker = new Marker(map);
+                    endMarker.setId("End");
+                    endMarker.setPosition(endPoint);
+                    endMarker.setTitle("Start");
+                    endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(endMarker);
+
+                    mapView.getOverlays().remove(endMarker);
+                    mapView.invalidate();
+
+                    for (int i = 0; i < map.getOverlays().size(); i++) {
+                        Overlay overlay = map.getOverlays().get(i);
+                        if (overlay instanceof Marker && ((Marker) overlay).getId().equals("End")) {
+                            map.getOverlays().remove(overlay);
+
+                        }
+                    }
+                    endMarker.setPosition(endPoint);
+                    endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(endMarker);
+
+
                 }
-                IMapController mapController = map.getController();
+                return false;
+            }
+                /*IMapController mapController = map.getController();
                 //mapController.setZoom(9);
                 //mapController.setCenter(startPoint);
 
+
                 Marker startMarker=new Marker(map);
-                startMarker.setPosition(p);
+                startMarker.setId("Start");
+                startMarker.setPosition(startPoint);
+                startMarker.setTitle("Start");
                 startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(startMarker);
 
+                Marker endMarker=new Marker(map);
+                endMarker.setId("End");
+                endMarker.setPosition(endPoint);
+                endMarker.setTitle("Start");
+                endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(endMarker);
+
+                mapView.getOverlays().remove(startMarker);
+                mapView.invalidate();
+
+                mapView.getOverlays().remove(endMarker);
+                mapView.invalidate();
+
+                for(int i=0;i<map.getOverlays().size();i++){
+                    Overlay overlay=map.getOverlays().get(i);
+                    if(overlay instanceof Marker&&((Marker) overlay).getId().equals("Start")){
+                        map.getOverlays().remove(overlay);
+
+                    }
+                }
+
+                for(int i=0;i<map.getOverlays().size();i++){
+                    Overlay overlay=map.getOverlays().get(i);
+                    if(overlay instanceof Marker&&((Marker) overlay).getId().equals("End")){
+                        map.getOverlays().remove(overlay);
+
+                    }
+                }
+
+                startMarker.setPosition(startPoint);
+                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(startMarker);
+
+                endMarker.setPosition(endPoint);
+                endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(startMarker);
+
+
+
                 return false;
-            }
+            }*/
+
+
 
             @Override
-            public boolean longPressHelper(GeoPoint p) {
+            public boolean longPressHelper(GeoPoint startPoint) {
                 return false;
             }
         };
