@@ -176,16 +176,12 @@ public class EingabeActivity extends AppCompatActivity {
         //Click on Map
         MapEventsReceiver mReceive = new MapEventsReceiver() {
             @Override
-            public boolean singleTapConfirmedHelper(GeoPoint startPoint) {
-                //Toast.makeText(getBaseContext(),p.getLatitude() + " - "+p.getLongitude(),Toast.LENGTH_LONG).show();
-                /*Double latitude = p.getLatitude();
-                latitude = round(latitude,6);
-                Double longitude = p.getLongitude();
-                longitude = round(longitude,6);*/
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+
                 if (index == 0) {
-                    Double latitude = startPoint.getLatitude();
+                    Double latitude = p.getLatitude();
                     latitude = round(latitude, 6);
-                    Double longitude = startPoint.getLongitude();
+                    Double longitude = p.getLongitude();
                     longitude = round(longitude, 6);
 
                     edtStartMessagelat.setText(Double.toString(latitude));
@@ -193,8 +189,8 @@ public class EingabeActivity extends AppCompatActivity {
                     index = 1;
 
                     Marker startMarker = new Marker(map);
-                    startMarker.setId("Start");
-                    startMarker.setPosition(startPoint);
+                    startMarker.setId("Start1");
+                    startMarker.setPosition(p);
                     startMarker.setTitle("Start");
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                     map.getOverlays().add(startMarker);
@@ -204,18 +200,19 @@ public class EingabeActivity extends AppCompatActivity {
 
                     for (int i = 0; i < map.getOverlays().size(); i++) {
                         Overlay overlay = map.getOverlays().get(i);
-                        if (overlay instanceof Marker && ((Marker) overlay).getId().equals("Start")) {
+                        if (overlay instanceof Marker && ((Marker) overlay).getId().equals("Start1")) {
                             map.getOverlays().remove(overlay);
 
                         }
                     }
-                    startMarker.setPosition(startPoint);
+                    startMarker.setPosition(p);
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                     map.getOverlays().add(startMarker);
+
                 } else if (index == 1) {
-                    Double latitude = endPoint.getLatitude();
+                    Double latitude = p.getLatitude();
                     latitude = round(latitude, 6);
-                    Double longitude = endPoint.getLongitude();
+                    Double longitude = p.getLongitude();
                     longitude = round(longitude, 6);
 
                     edtZielMessagelat.setText(Double.toString(latitude));
@@ -224,7 +221,7 @@ public class EingabeActivity extends AppCompatActivity {
 
                     Marker endMarker = new Marker(map);
                     endMarker.setId("End");
-                    endMarker.setPosition(endPoint);
+                    endMarker.setPosition(p);
                     endMarker.setTitle("Start");
                     endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                     map.getOverlays().add(endMarker);
@@ -239,7 +236,7 @@ public class EingabeActivity extends AppCompatActivity {
 
                         }
                     }
-                    endMarker.setPosition(endPoint);
+                    endMarker.setPosition(p);
                     endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                     map.getOverlays().add(endMarker);
 
@@ -247,64 +244,9 @@ public class EingabeActivity extends AppCompatActivity {
                 }
                 return false;
             }
-                /*IMapController mapController = map.getController();
-                //mapController.setZoom(9);
-                //mapController.setCenter(startPoint);
-
-
-                Marker startMarker=new Marker(map);
-                startMarker.setId("Start");
-                startMarker.setPosition(startPoint);
-                startMarker.setTitle("Start");
-                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                map.getOverlays().add(startMarker);
-
-                Marker endMarker=new Marker(map);
-                endMarker.setId("End");
-                endMarker.setPosition(endPoint);
-                endMarker.setTitle("Start");
-                endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                map.getOverlays().add(endMarker);
-
-                mapView.getOverlays().remove(startMarker);
-                mapView.invalidate();
-
-                mapView.getOverlays().remove(endMarker);
-                mapView.invalidate();
-
-                for(int i=0;i<map.getOverlays().size();i++){
-                    Overlay overlay=map.getOverlays().get(i);
-                    if(overlay instanceof Marker&&((Marker) overlay).getId().equals("Start")){
-                        map.getOverlays().remove(overlay);
-
-                    }
-                }
-
-                for(int i=0;i<map.getOverlays().size();i++){
-                    Overlay overlay=map.getOverlays().get(i);
-                    if(overlay instanceof Marker&&((Marker) overlay).getId().equals("End")){
-                        map.getOverlays().remove(overlay);
-
-                    }
-                }
-
-                startMarker.setPosition(startPoint);
-                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                map.getOverlays().add(startMarker);
-
-                endMarker.setPosition(endPoint);
-                endMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                map.getOverlays().add(startMarker);
-
-
-
-                return false;
-            }*/
-
-
 
             @Override
-            public boolean longPressHelper(GeoPoint startPoint) {
+            public boolean longPressHelper(GeoPoint p) {
                 return false;
             }
         };
