@@ -11,24 +11,11 @@
     tools:context=".EingabeActivity">
 
 
-    <org.osmdroid.views.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="470dp"
-        android:layout_marginBottom="5dp"/>
-   <!--<EditText
+    <!--<EditText
         android:id="@+id/edtStartEnter"
         android:layout_height="570dp"
         android:clickable="true"
         android:focusable="true"/>-->
-
-    <ImageButton
-        android:id="@+id/btnGPSstart"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/mapView"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/btn_round"/>
 
     <!--<ImageButton
         android:layout_width="wrap_content"
@@ -39,108 +26,134 @@
         android:scaleType="center"
         android:src="@drawable/btn_drawable_selector" />-->
 
-   <EditText
-        android:id="@+id/edtStartEnter"
-        android:layout_below="@id/mapView"
-        android:layout_toRightOf="@id/btnGPSstart"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/edt_shape"
-        android:hint="Start\nBreitengrad"
-        android:textColorHint="@color/black"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="12dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:numeric="decimal"
-        tools:ignore="Deprecated"
-        android:textColor="@color/black"/>
     <!--android:text="49.012607"-->
+
     <EditText
-        android:id="@+id/edtStartEnterLong"
-        android:layout_below="@id/mapView"
+        android:id="@+id/edtStartEnter"
         android:layout_width="130dp"
         android:layout_height="40dp"
-        android:layout_toRightOf="@+id/edtStartEnter"
-        android:layout_marginLeft="5dp"
+        android:layout_above="@+id/edtZielEnter"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/btnGPSstart"
+        android:layout_toRightOf="@id/btnGPSstart"
         android:background="@drawable/edt_shape"
-        android:hint="Start\nLängengrad"
-        android:textColorHint="@color/black"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="12dp"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="Start\nBreitengrad"
         android:numeric="decimal"
-        tools:ignore="Deprecated"
-        android:textColor="@color/black"/>
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="12dp"
+        tools:ignore="Deprecated" />
+
     <!--        android:text="8.385613"-->
 
 
+    <ImageButton
+        android:id="@+id/btnGPSstart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/btnGPSziel"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/btn_round" />
+
+    <EditText
+        android:id="@+id/edtStartEnterLong"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/edtZielEnterLong"
+        android:layout_marginStart="5dp"
+
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/edtStartEnter"
+        android:layout_toRightOf="@+id/edtStartEnter"
+        android:background="@drawable/edt_shape"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="Start\nLängengrad"
+        android:numeric="decimal"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="12dp"
+        tools:ignore="Deprecated" />
 
     <ImageButton
         android:id="@+id/btnGPSziel"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_below="@id/btnGPSstart"
-        android:layout_marginTop="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/btn_round_grey"
-        />
-
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_round_grey" />
 
 
     <EditText
         android:id="@+id/edtZielEnter"
-        android:layout_below="@id/edtStartEnter"
-        android:layout_toRightOf="@id/btnGPSziel"
         android:layout_width="130dp"
         android:layout_height="40dp"
-        android:hint="Ziel\nBreitengrad"
-        android:textColorHint="@color/grey"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/btnGPSziel"
+        android:layout_toRightOf="@id/btnGPSziel"
+        android:background="@drawable/edt_shape"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="Ziel\nBreitengrad"
         android:numeric="decimal"
-        tools:ignore="Deprecated"
+        android:paddingLeft="10dp"
         android:textColor="@color/black"
-        android:background="@drawable/edt_shape"/>
+        android:textColorHint="@color/grey"
+        android:textSize="12dp"
+        tools:ignore="Deprecated" />
     <!--        android:text="49.004462"-->
+
+    <!--android:text="8.441755"-->
 
     <EditText
         android:id="@+id/edtZielEnterLong"
-        android:layout_below="@id/edtStartEnterLong"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/edtZielEnter"
         android:layout_toRightOf="@+id/edtStartEnter"
-        android:layout_marginLeft="5dp"
-        android:hint="Ziel\nLängengrad"
-        android:textColorHint="@color/grey"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:textSize="12dp"
+        android:background="@drawable/edt_shape"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="Ziel\nLängengrad"
         android:numeric="decimal"
-        tools:ignore="Deprecated"
+        android:paddingLeft="10dp"
         android:textColor="@color/black"
-        android:background="@drawable/edt_shape"/>
-    <!--android:text="8.441755"-->
+        android:textColorHint="@color/grey"
+        android:textSize="12dp"
+        tools:ignore="Deprecated" />
 
     <ImageButton
         android:id="@+id/btnArrow"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_below="@id/edtStartEnter"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/edtZielEnterLong"
         android:layout_toRightOf="@id/edtZielEnterLong"
-        android:layout_marginLeft="5dp"
-        android:src="@drawable/ic_baseline_start_30"
-        android:background="@drawable/btn_round"/>
+        android:background="@drawable/btn_round"
+        android:src="@drawable/ic_baseline_start_30" />
 
     <!--<EditText
         android:id="@+id/edtTest"
