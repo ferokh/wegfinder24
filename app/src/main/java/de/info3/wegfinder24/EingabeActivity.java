@@ -1,12 +1,15 @@
 package de.info3.wegfinder24;
 
 
+import static java.lang.Math.sqrt;
+
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -18,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -43,6 +47,11 @@ public class EingabeActivity extends AppCompatActivity {
 
     double Latitude;// = 49.000000;
     double Longitude;// = 8.000000;
+
+    double Startlat=9999;
+    double Startlong=9999;
+    double Ziellat=9999;
+    double Ziellong=9999;
 
     GeoPoint startPoint;
     GeoPoint endPoint;
@@ -83,18 +92,30 @@ public class EingabeActivity extends AppCompatActivity {
                 double Startlong = 49.41461;
                 double Ziellat = 8.687872;
                 double Ziellong = 49.420318;*/
-                double Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
-                double Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
-                double Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
-                double Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
+                Startlat = Double.parseDouble(edtStartMessagelat.getText().toString());
+                Startlong = Double.parseDouble(edtStartMessagelong.getText().toString());
+                Ziellat = Double.parseDouble(edtZielMessagelat.getText().toString());
+                Ziellong = Double.parseDouble(edtZielMessagelong.getText().toString());
+                if (Startlat == 9999 || Startlong==9999 || Ziellat == 9999 || Ziellong == 9999)
+                {
+                    Dialogshort();
+                }
+                else {
+                    double dx = 71.5 * (Startlong - Ziellong);
+                    double dy = 111.3 * (Startlat - Ziellat);
+                    double distance = sqrt((dx * dx) + (dy * dy)); //Entfernung in km
 
-
-                Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
-                intent.putExtra("Startlat", Startlat);
-                intent.putExtra("Startlong", Startlong);
-                intent.putExtra("Ziellat",Ziellat);
-                intent.putExtra("Ziellong",Ziellong);
-                startActivity(intent);
+                    if (distance > 200) {
+                        Dialoglong();
+                    } else {
+                        Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+                        intent.putExtra("Startlat", Startlat);
+                        intent.putExtra("Startlong", Startlong);
+                        intent.putExtra("Ziellat", Ziellat);
+                        intent.putExtra("Ziellong", Ziellong);
+                        startActivity(intent);
+                    }
+                }
             }
         });
         //Permission def.
@@ -352,5 +373,50 @@ public class EingabeActivity extends AppCompatActivity {
     {
         double d = Math.pow(10,decimalPoints);
         return Math.round(value * d)/d;
+    }
+    private void Dialoglong(){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+
+
+        builder.setTitle("Distanz Fehler")
+                //.setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                .setMessage("Die gesetzten Punkte sind zu weit auseinander.\nEine adäquate Routenführung ist daher leider nicht möglich.\nWenn Sie fortfahren gibt es eine Fehlermeldung!\n\nDas Entwicklerteam")
+                .setPositiveButton("trotzdem fortfahren", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(EingabeActivity.this, WartebildschirmActivity.class);
+                        intent.putExtra("Startlat", Startlat);
+                        intent.putExtra("Startlong", Startlong);
+                        intent.putExtra("Ziellat", Ziellat);
+                        intent.putExtra("Ziellong", Ziellong);
+                        startActivity(intent);
+                    }
+                })
+                .setNeutralButton("neue Eingabe", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(EingabeActivity.this, EingabeActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
+    }
+    private void Dialogshort(){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+
+
+        builder.setTitle("Du Schlingel")
+                //.setMessage("Anständige Navigation ist noch nicht verfügbar. Zahlen Sie einen Kaffee an den Entwickler um die App fertigzustellen.")
+                .setMessage("Mindest eine Koordinate hat den Wert 0 und liegt damit in in Deutschland.\nBitte Eingabe überprüfen!\n\nDas Entwicklerteam")
+                .setNeutralButton("neue Eingabe", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(EingabeActivity.this, EingabeActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .show();
     }
 }

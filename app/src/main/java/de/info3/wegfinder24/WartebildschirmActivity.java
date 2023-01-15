@@ -239,7 +239,7 @@ public class WartebildschirmActivity extends AppCompatActivity {
         Intent fehler = new Intent(WartebildschirmActivity.this, EingabeActivity.class);
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
-        builder.setTitle("Fehler")
+        builder.setTitle("Fehler - wir haben es gesagt")
                 .setMessage("Es konnte keine Daten vom Navigationsdienst empfangen werden.\n" +
                         "Überprüfe, ob die Start- und Endpunkte korrekt in den Eingabefeldern eingegeben wurden, oder wende dich an die Entwickler.\n" +
                         "RP-Auto: " + RP_car + "\nRP-Gehen: " + RP_walk + "\nRP-Fahrrad: " + RP_bike)
