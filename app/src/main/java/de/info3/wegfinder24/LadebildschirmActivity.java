@@ -20,6 +20,7 @@ public class LadebildschirmActivity extends AppCompatActivity {
             public void run() {
                 Intent intent = new Intent(LadebildschirmActivity.this, EingabeActivity.class); //nach der oben angegebenen Zeit wird die Activity EingabeActivity gestartet
                 startActivity(intent);
+                finish();
             }
         }, LOAD_TIME);
     }

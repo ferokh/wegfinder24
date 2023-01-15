@@ -384,6 +384,13 @@ public class VarianteActivity extends AppCompatActivity {
         this.mapView.onPause();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+      Intent intent = new Intent(VarianteActivity.this, EingabeActivity.class);
+      startActivity(intent);
+
+    }
     private double round (double value, int decimalPoints)
     {
         double d = Math.pow(10,decimalPoints);
