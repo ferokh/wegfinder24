@@ -12,56 +12,69 @@
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
-        android:layout_width="380dp"
-        android:layout_height="570dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/Weg2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="10dp" />
     <!--Weg1-->
     <RelativeLayout
         android:id="@+id/Weg1"
         android:layout_width="125dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/mapView">
+        android:layout_above="@+id/StartDestinationWeg"
+
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp">
+
         <TextView
             android:id="@+id/tvWeg1"
             android:layout_width="125dp"
             android:layout_height="60dp"
+            android:background="@drawable/btn_var_bike"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:background="@drawable/btn_var_bike">
-        </TextView>
+            android:textColor="@color/black"></TextView>
+
         <LinearLayout
             android:id="@+id/lWeg1"
             android:layout_width="125dp"
             android:layout_height="60dp"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_baseline_navigation_24">
-            </ImageView>
+                android:src="@drawable/ic_baseline_navigation_24"></ImageView>
+
             <TextView
                 android:id="@+id/tvWeg1Duration"
                 android:layout_width="115dp"
                 android:layout_height="15dp"
-                android:textColor="@color/black"
                 android:gravity="center_horizontal"
-                android:textSize="12dp">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
+
             <TextView
                 android:id="@+id/tvWeg1Distance"
                 android:layout_width="115dp"
                 android:layout_height="15dp"
-                android:textColor="@color/black"
                 android:gravity="center_horizontal"
-                android:textSize="12dp">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
         </LinearLayout>
+
         <Button
             android:id="@+id/btnWeg1"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:background="@color/Transparent">
-        </Button>
+            android:background="@color/Transparent"></Button>
     </RelativeLayout>
 
     <!--Weg2-->
@@ -69,51 +82,53 @@
         android:id="@+id/Weg2"
         android:layout_width="125dp"
         android:layout_height="60dp"
+        android:layout_above="@+id/StartDestinationWeg"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_below="@+id/mapView"
+        android:layout_marginBottom="5dp"
         android:layout_toRightOf="@id/Weg1">
+
         <TextView
             android:id="@+id/tvWeg2"
             android:layout_width="130dp"
             android:layout_height="60dp"
             android:background="@drawable/btn_var_car"
-            android:gravity="center_horizontal">
-        </TextView>
+            android:gravity="center_horizontal"></TextView>
+
         <LinearLayout
             android:id="@+id/lWeg2"
             android:layout_width="125dp"
             android:layout_height="60dp"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="130dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_baseline_navigation_24">
-            </ImageView>
+                android:src="@drawable/ic_baseline_navigation_24"></ImageView>
+
             <TextView
                 android:id="@+id/tvWeg2Duration"
                 android:layout_width="130dp"
                 android:layout_height="15dp"
-                android:textColor="@color/black"
                 android:gravity="center_horizontal"
-                android:textSize="12dp">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
+
             <TextView
                 android:id="@+id/tvWeg2Distance"
                 android:layout_width="130dp"
                 android:layout_height="15dp"
-                android:textColor="@color/black"
                 android:gravity="center_horizontal"
-                android:textSize="12dp">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
         </LinearLayout>
+
         <Button
             android:id="@+id/btnWeg2"
             android:layout_width="125dp"
             android:layout_height="60dp"
-            android:background="@color/Transparent">
-        </Button>
+            android:background="@color/Transparent"></Button>
     </RelativeLayout>
 
     <!--Weg3-->
@@ -121,50 +136,54 @@
         android:id="@+id/Weg3"
         android:layout_width="125dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/mapView"
+        android:layout_alignBottom="@+id/Weg2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+
         android:layout_toRightOf="@id/Weg2">
+
         <TextView
             android:id="@+id/tvWeg3"
             android:layout_width="120dp"
             android:layout_height="60dp"
+            android:background="@drawable/btn_var_walk"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:background="@drawable/btn_var_walk">
-        </TextView>
+            android:textColor="@color/black"></TextView>
+
         <LinearLayout
             android:id="@+id/lWeg3"
             android:layout_width="125dp"
             android:layout_height="60dp"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="130dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_baseline_navigation_24">
-            </ImageView>
+                android:src="@drawable/ic_baseline_navigation_24"></ImageView>
+
             <TextView
                 android:id="@+id/tvWeg3Duration"
                 android:layout_width="115dp"
                 android:layout_height="15dp"
-                android:textColor="@color/black"
                 android:gravity="center_horizontal"
-                android:textSize="12dp">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
+
             <TextView
                 android:id="@+id/tvWeg3Distance"
                 android:layout_width="115dp"
                 android:layout_height="15dp"
-                android:textColor="@color/black"
                 android:gravity="center_horizontal"
-                android:textSize="12dp">
-            </TextView>
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
         </LinearLayout>
+
         <Button
             android:id="@+id/btnWeg3"
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:background="@color/Transparent">
-        </Button>
+            android:background="@color/Transparent"></Button>
     </RelativeLayout>
 
     <!-- Start und Ziel Anzeige -->
@@ -172,34 +191,36 @@
         android:id="@+id/StartDestinationWeg"
         android:layout_width="400dp"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/Weg1">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp">
+
         <TextView
             android:id="@+id/tvStartDestinationWeg"
             android:layout_width="320dp"
             android:layout_height="60dp"
-            android:text="Start Adresse \nZiel Adresse"
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical"
             android:background="@drawable/txt_long_rectangle"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Start Adresse \nZiel Adresse"
             android:textColor="@color/grey"
-            android:textSize="20dp">
-        </TextView>
+            android:textSize="20dp"></TextView>
 
         <Button
             android:id="@+id/btnbacktoEingabe"
             android:layout_width="320dp"
             android:layout_height="60dp"
-            android:background="@color/Transparent">
-        </Button>
+            android:background="@color/Transparent"></Button>
 
         <ImageButton
             android:id="@+id/ibtnbacktoVariante"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_toRightOf="@id/tvStartDestinationWeg"
-            android:src="@drawable/ic_baseline_arrow_back_40"
-            android:background="@drawable/btn_round_grey">
-        </ImageButton>
+            android:background="@drawable/btn_round_grey"
+            android:src="@drawable/ic_baseline_arrow_back_40"></ImageButton>
     </RelativeLayout>
 </RelativeLayout>
