@@ -7,6 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+
     android:background="@color/white"
     tools:context=".NaviActivity">
 
@@ -39,7 +40,7 @@
       android:background="@drawable/btn_var_bike"
       android:gravity="center"
       android:text="Zurück zu Auswahl"
-      android:textColor="@color/white"
+      android:textColor="@color/black"
       android:textSize="10dp">
   </Button>
 
@@ -56,7 +57,7 @@
       android:layout_toRightOf="@id/btnZurück"
       android:background="@drawable/btn_var_bike"
       android:text="Nächste"
-      android:textColor="@color/white"
+      android:textColor="@color/black"
       android:textSize="10dp"
       android:gravity="center">
   </Button>
