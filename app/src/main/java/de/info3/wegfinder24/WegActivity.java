@@ -211,7 +211,7 @@ public class WegActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WegActivity.this, VarianteActivity.class);
-                intent.putExtra("datenbike", daten);
+                intent.putExtra("daten", daten);
                 // die Daten werden wieder Übergeben, da die Variante-Activity beim Aufrufen Daten erwartet
                 // glaube ich zumindest, weil das Programm sonst abstützt, wenn man nichts übergibt
                 startActivity(intent);

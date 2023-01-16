@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -14,14 +14,12 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/edtStartEnter"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginEnd="0dp" />
 
     <!--<EditText
         android:id="@+id/edtStartEnter"
@@ -39,6 +37,15 @@
         android:src="@drawable/btn_drawable_selector" />-->
 
     <!--android:text="49.012607"-->
+    <ImageButton
+        android:id="@+id/btnGPSstart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/btnGPSziel"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/btn_round" />
 
     <EditText
         android:id="@+id/edtStartEnter"
@@ -46,10 +53,8 @@
         android:layout_height="40dp"
         android:layout_above="@+id/edtZielEnter"
         android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/btnGPSstart"
-        android:layout_toRightOf="@id/btnGPSstart"
         android:background="@drawable/edt_shape"
         android:clickable="true"
         android:focusable="true"
@@ -61,19 +66,6 @@
         android:textColorHint="@color/black"
         android:textSize="12dp"
         tools:ignore="Deprecated" />
-
-    <!--        android:text="8.385613"-->
-
-
-    <ImageButton
-        android:id="@+id/btnGPSstart"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/btnGPSziel"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/btn_round" />
 
     <EditText
         android:id="@+id/edtStartEnterLong"
@@ -104,10 +96,10 @@
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="26dp"
 
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="26dp"
         android:background="@drawable/btn_round_grey" />
 
 
@@ -117,7 +109,7 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="26dp"
         android:layout_toEndOf="@+id/btnGPSziel"
         android:layout_toRightOf="@id/btnGPSziel"
         android:background="@drawable/edt_shape"
@@ -140,7 +132,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="26dp"
         android:layout_toEndOf="@+id/edtZielEnter"
         android:layout_toRightOf="@+id/edtStartEnter"
         android:background="@drawable/edt_shape"
@@ -162,7 +154,7 @@
         android:layout_height="41dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="26dp"
         android:layout_toEndOf="@+id/edtZielEnterLong"
         android:layout_toRightOf="@id/edtZielEnterLong"
         android:background="@drawable/btn_round"

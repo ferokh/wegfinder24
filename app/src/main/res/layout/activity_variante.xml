@@ -190,7 +190,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/tvStartDestinationVar"
